@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Dark-by-design lock (same approach as the launch newsletter) -->
+    <!-- Lock to dark: this email is dark-by-design (#111 bg, warm-white text). -->
     <meta name="color-scheme" content="dark">
     <meta name="supported-color-schemes" content="dark">
     <!-- ✏️ SLOT: email title -->
-    <title>Forma Rosa Creative — Wave Exhibit</title>
+    <title>Forma Rosa Creative - Wave Exhibit</title>
     <!--
     ═══════════════════════════════════════════════════════════════
-    PROJECT NEWSLETTER TEMPLATE — mirrors the frc-project web page.
-    To reuse: duplicate this file and edit only the ✏️ SLOT parts
-    (title, preview text, kicker, hero image, chapters, quote).
-    Chapters are self-contained <tr> blocks — copy/delete whole rows.
-    Email constraints: JetBrains Mono can't load in most clients, so
-    the mono stack falls back to Consolas/Menlo. The web grid
-    background is approximated with a hairline-framed container.
+    PROJECT NEWSLETTER TEMPLATE — based on the launch newsletter's
+    design system, with a small grid background added.
+    To reuse for a new project: duplicate, then edit the ✏️ SLOT
+    blocks. Grid note: the background grid renders in Apple Mail,
+    iOS Mail and most of Gmail; Outlook desktop falls back to
+    solid #111.
     ═══════════════════════════════════════════════════════════════
     -->
+    <!-- Gmail strips custom font loading; we use only system fonts below. -->
     <!--[if mso]>
     <style type="text/css">
         body, table, td {font-family: Arial, sans-serif !important;}
@@ -28,27 +28,39 @@
     <style type="text/css">
         :root      { color-scheme: dark; supported-color-schemes: dark; }
         body, html { color-scheme: dark; supported-color-schemes: dark; }
+        /* Reset */
         body, table, td, p, a, li, blockquote {
             -webkit-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
         }
-        table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
         img {
             -ms-interpolation-mode: bicubic;
-            border: 0; height: auto; line-height: 100%;
-            outline: none; text-decoration: none;
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
         }
+
+        /* Mobile Styles */
         @media only screen and (max-width: 620px) {
             .email-container { width: 100% !important; max-width: 100% !important; }
             .fluid { width: 100% !important; max-width: 100% !important; height: auto !important; }
             .padding-mobile { padding-left: 22px !important; padding-right: 22px !important; }
-            .hero-title { font-size: 38px !important; line-height: 1.08 !important; }
-            .lead-text { font-size: 18px !important; line-height: 1.5 !important; }
-            .body-text { font-size: 14px !important; line-height: 1.8 !important; }
-            .meta-cell { display: block !important; width: 100% !important; padding: 8px 0 !important; }
+            .hero-title { font-size: 40px !important; line-height: 1.08 !important; }
+            .section-title { font-size: 27px !important; }
+            .body-text { font-size: 15px !important; line-height: 1.75 !important; }
+            .lead-text { font-size: 21px !important; line-height: 1.4 !important; }
+            .spec-cell { display: block !important; width: 100% !important; padding: 14px 0 !important; border-right: 0 !important; }
+            .btn { display: block !important; width: 100% !important; max-width: 300px !important; margin: 0 auto !important; }
+            .spacer-mobile { height: 30px !important; }
         }
         @media only screen and (max-width: 400px) {
-            .hero-title { font-size: 32px !important; }
+            .hero-title { font-size: 34px !important; }
         }
     </style>
 </head>
@@ -56,130 +68,196 @@
 
     <!-- ✏️ SLOT: preview text (hidden preheader) -->
     <div style="display: none; font-size: 1px; color: #0a0a0a; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
-        Wave Exhibit — off a Soho street, the ground turns to pasture. An immersive environment by Forma Rosa Creative.
+        Wave Exhibit - off a Soho street, the ground turns to pasture. An immersive environment by Forma Rosa Creative.
     </div>
 
-    <!-- Main background -->
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#111111" style="background: #111111;">
+    <!-- Main Background — small grid over #111 (falls back to solid where unsupported) -->
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#111111" style="background-color: #111111; background-image: linear-gradient(#1d1b19 1px, transparent 1px), linear-gradient(90deg, #1d1b19 1px, transparent 1px); background-size: 28px 28px;">
         <tr>
             <td align="center" style="padding: 30px 15px;">
 
-                <!-- ═══ EMAIL CONTAINER (hairline frame ≈ grid feel) ═══ -->
-                <table role="presentation" class="email-container" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width: 600px; width: 100%; background: #111111; border: 1px solid #262220;">
+                <!-- ============================ EMAIL CONTAINER ============================ -->
+                <table role="presentation" class="email-container" width="600" cellspacing="0" cellpadding="0" border="0" style="max-width: 600px; width: 100%; background: transparent;">
 
                     <!-- BRAND BAR -->
                     <tr>
-                        <td align="center" style="padding: 34px 30px 26px 30px; border-bottom: 1px solid #262220;">
-                            <p style="margin: 0 0 8px 0; font-size: 13px; color: #f5f1ec; letter-spacing: 3px; text-transform: uppercase;">Forma Rosa Creative</p>
-                            <p style="margin: 0; font-size: 10px; letter-spacing: 3px; color: #8e8578; text-transform: uppercase;">Monuments to Nature</p>
+                        <td align="center" style="padding: 34px 30px 26px 30px;">
+                            <p style="margin: 0 0 8px 0; font-family: Georgia, 'Times New Roman', serif; font-size: 15px; color: #f5f1ec; letter-spacing: 3px; text-transform: uppercase;">Forma Rosa Creative</p>
+                            <p style="margin: 0; font-size: 10px; letter-spacing: 3px; color: #999999; text-transform: uppercase;">Monuments to Nature</p>
                         </td>
                     </tr>
 
-                    <!-- ═══ INTRO ═══ -->
+                    <!-- HERO IMAGE -->
+                    <!-- ✏️ SLOT: hero image -->
                     <tr>
-                        <td class="padding-mobile" style="padding: 52px 44px 0 44px;">
-                            <!-- ✏️ SLOT: kicker -->
-                            <p style="margin: 0 0 20px 0; font-size: 10px; letter-spacing: 3px; color: #8e8578; text-transform: uppercase;">Practice — 01</p>
-                            <!-- ✏️ SLOT: title -->
-                            <h1 class="hero-title" style="margin: 0 0 30px 0; font-size: 46px; font-weight: 400; color: #d4c4b5; line-height: 1.05; letter-spacing: 1px;">WAVE<br>EXHIBIT</h1>
+                        <td bgcolor="#1a1a1a" style="background: #1a1a1a;">
+                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-01a.png" width="600" class="fluid" style="display: block; width: 100%; max-width: 600px; height: auto;" alt="Wave Exhibit - immersive gallery environment built around the Wave Column">
                         </td>
                     </tr>
 
-                    <!-- ✏️ SLOT: meta strip -->
+                    <!-- TITLE BLOCK -->
+                    <!-- ✏️ SLOT: kicker + title -->
                     <tr>
-                        <td class="padding-mobile" style="padding: 0 44px 40px 44px;">
-                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="border-top: 1px solid #33302c; border-bottom: 1px solid #33302c;">
+                        <td class="padding-mobile" style="padding: 52px 44px 8px 44px;" align="center">
+                            <p style="margin: 0 0 10px 0; font-size: 11px; letter-spacing: 4px; color: #d4c4b5; text-transform: uppercase;">Practice — 01</p>
+                            <h2 class="hero-title" style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 46px; font-weight: 400; font-style: italic; color: #f5f1ec; line-height: 1.05;">Wave Exhibit</h2>
+                        </td>
+                    </tr>
+
+                    <!-- PROJECT SPEC -->
+                    <!-- ✏️ SLOT: spec strip -->
+                    <tr>
+                        <td class="padding-mobile" style="padding: 30px 44px 8px 44px;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <tr>
-                                    <td class="meta-cell" width="50%" style="padding: 16px 10px 16px 0; vertical-align: top;">
-                                        <p style="margin: 0 0 2px 0; font-size: 9px; letter-spacing: 2px; color: #8e8578; text-transform: uppercase;">Location</p>
-                                        <p style="margin: 0; font-size: 13px; color: #e8e0d8;">Soho, New York</p>
+                                    <td class="spec-cell" width="25%" valign="top" style="padding: 4px 14px; border-right: 1px solid #2a2a2a; text-align: center;">
+                                        <p style="margin: 0 0 6px 0; font-size: 9px; letter-spacing: 2.5px; color: #999999; text-transform: uppercase;">Project</p>
+                                        <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 15px; color: #f5f1ec;">Wave Exhibit</p>
                                     </td>
-                                    <td class="meta-cell" width="50%" style="padding: 16px 0 16px 0; vertical-align: top;">
-                                        <p style="margin: 0 0 2px 0; font-size: 9px; letter-spacing: 2px; color: #8e8578; text-transform: uppercase;">Fixture</p>
-                                        <p style="margin: 0; font-size: 13px; color: #e8e0d8;">Wave Column — Forma Rosa Studio</p>
+                                    <td class="spec-cell" width="25%" valign="top" style="padding: 4px 14px; border-right: 1px solid #2a2a2a; text-align: center;">
+                                        <p style="margin: 0 0 6px 0; font-size: 9px; letter-spacing: 2.5px; color: #999999; text-transform: uppercase;">Client</p>
+                                        <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 15px; color: #f5f1ec;">Private Proposal</p>
+                                    </td>
+                                    <td class="spec-cell" width="25%" valign="top" style="padding: 4px 14px; border-right: 1px solid #2a2a2a; text-align: center;">
+                                        <p style="margin: 0 0 6px 0; font-size: 9px; letter-spacing: 2.5px; color: #999999; text-transform: uppercase;">Year</p>
+                                        <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 15px; color: #f5f1ec;">2026</p>
+                                    </td>
+                                    <td class="spec-cell" width="25%" valign="top" style="padding: 4px 14px; text-align: center;">
+                                        <p style="margin: 0 0 6px 0; font-size: 9px; letter-spacing: 2.5px; color: #999999; text-transform: uppercase;">Location</p>
+                                        <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 15px; color: #f5f1ec;">Soho, New York</p>
                                     </td>
                                 </tr>
                             </table>
                         </td>
                     </tr>
 
-                    <!-- ✏️ SLOT: lead line -->
+                    <!-- INFORMATION -->
+                    <!-- ✏️ SLOT: lead + body copy -->
                     <tr>
-                        <td class="padding-mobile" style="padding: 0 44px 48px 44px;">
-                            <p class="lead-text" style="margin: 0; font-size: 21px; line-height: 1.5; color: #e8e0d8;">
+                        <td class="padding-mobile" style="padding: 40px 50px 10px 50px;">
+                            <p style="margin: 0 0 22px 0; font-size: 11px; letter-spacing: 4px; color: #d4c4b5; text-transform: uppercase; text-align: center;">Information</p>
+                            <p class="lead-text" style="margin: 0 0 26px 0; font-family: Georgia, 'Times New Roman', serif; font-size: 24px; font-style: italic; font-weight: 400; color: #d4c4b5; line-height: 1.42; text-align: center;">
                                 Off a Soho street, the ground turns to pasture — green underfoot, a horizon at eye level.
                             </p>
+                            <p class="body-text" style="margin: 0 0 20px 0; font-size: 15px; color: #999999; line-height: 1.9;">
+                                Wave Exhibit by Forma Rosa Creative is an immersive environment designed to host the Wave Column in its many variations, a ceramic fixture by Forma Rosa Studio.
+                            </p>
+                            <p class="body-text" style="margin: 0 0 20px 0; font-size: 15px; color: #999999; line-height: 1.9;">
+                                The spatial concept is a nod to the <a href="https://www.tate.org.uk/art/art-terms/picturesque" target="_blank" rel="noopener" style="color: #d4c4b5; text-decoration: underline;">picturesque movement</a> at gallery scale — an antithesis to the contemporary technological reform, and a return to our pastoral heritage. Meditative and gritty, both beautiful yet sublime, real dirt installed in the window display pulls you in with an added sense, and ceramic sculptures that read as both artifact and organism, stand tall like tree trunks and glow as if alive.
+                            </p>
+                            <p class="body-text" style="margin: 0 0 20px 0; font-size: 15px; color: #999999; line-height: 1.9;">
+                                A continuous podium wraps the room's perimeter, and the backing undulates in a wave form echoing the column's own feminine silhouette. The hand-applied tadelakt, pigmented from deep green into sandy beige then into dark blue, runs from the ground all the way up, covering the podiums, walls and ceilings — signaling pasture, dry earth, dusk sky, and centering your view to the horizon.
+                            </p>
                         </td>
                     </tr>
 
-                    <!-- ═══ HERO IMAGE ═══ -->
-                    <!-- ✏️ SLOT: hero image -->
+                    <!-- FULL-SPREAD IMAGE -->
+                    <!-- ✏️ SLOT: image + caption -->
+                    <tr><td class="spacer-mobile" style="height: 30px; font-size: 0; line-height: 0;">&nbsp;</td></tr>
                     <tr>
                         <td bgcolor="#1a1a1a" style="background: #1a1a1a;">
-                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-01a.png" width="598" class="fluid" style="display: block; width: 100%; max-width: 598px; height: auto;" alt="Wave Exhibit — immersive gallery environment built around the Wave Column">
+                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-03.jpg" width="600" class="fluid" style="display: block; width: 100%; max-width: 600px; height: auto;" alt="Wave Exhibit - the room interior with podium and plaster wall">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 12px 44px 0 44px;">
+                            <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 13px; font-style: italic; color: #999999; line-height: 1.5;">Window display design</p>
                         </td>
                     </tr>
 
-                    <!-- ═══ CHAPTER 01 ═══ ✏️ SLOT: chapter (repeatable row pair) -->
                     <tr>
-                        <td class="padding-mobile" style="padding: 56px 44px 0 44px;">
-                            <p style="margin: 0 0 18px 0; font-size: 10px; letter-spacing: 3px; color: #8e8578; text-transform: uppercase;">01 — Concept</p>
-                            <p class="body-text" style="margin: 0 0 16px 0; font-size: 15px; color: #b9b0a4; line-height: 1.85;">
-                                Wave Exhibit is an immersive environment designed to host the Wave Column in its many variations, a ceramic fixture by Forma Rosa Studio.
+                        <td class="padding-mobile" style="padding: 28px 50px 10px 50px;">
+                            <p class="body-text" style="margin: 0; font-size: 15px; color: #999999; line-height: 1.9;">
+                                Mirrored walls kaleidoscope, expanding your view into what Jay Appleton calls prospect: an unbroken sightline deep into the distance.
                             </p>
-                            <p class="body-text" style="margin: 0 0 40px 0; font-size: 15px; color: #b9b0a4; line-height: 1.85;">
-                                The spatial concept is a nod to the picturesque movement at gallery scale — a return to our pastoral heritage. Meditative and gritty: real dirt in the window display pulls you in with an added sense, and ceramic sculptures that read as both artifact and organism stand tall like tree trunks and glow as if alive.
-                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- FULL-SPREAD IMAGE -->
+                    <!-- ✏️ SLOT: image + caption -->
+                    <tr><td class="spacer-mobile" style="height: 30px; font-size: 0; line-height: 0;">&nbsp;</td></tr>
+                    <tr>
+                        <td bgcolor="#1a1a1a" style="background: #1a1a1a;">
+                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-06.jpg" width="600" class="fluid" style="display: block; width: 100%; max-width: 600px; height: auto;" alt="Wave Exhibit - the Wave Column in modular configuration">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 12px 44px 0 44px;">
+                            <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 13px; font-style: italic; color: #999999; line-height: 1.5;">natures gradient, green pastures as dusk</p>
+                        </td>
+                    </tr>
+
+                    <!-- IN CONFIGURATION / THE WAVE COLUMN -->
+                    <!-- ✏️ SLOT: section title + image + caption + copy -->
+                    <tr><td class="spacer-mobile" style="height: 30px; font-size: 0; line-height: 0;">&nbsp;</td></tr>
+                    <tr>
+                        <td class="padding-mobile" style="padding: 0 44px 18px 44px;" align="center">
+                            <p style="margin: 0 0 6px 0; font-size: 11px; letter-spacing: 4px; color: #999999; text-transform: uppercase;">In Configuration</p>
+                            <h3 class="section-title" style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 30px; font-weight: 400; color: #f5f1ec; letter-spacing: 1px;">The Wave Column</h3>
                         </td>
                     </tr>
                     <tr>
                         <td bgcolor="#1a1a1a" style="background: #1a1a1a;">
-                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-03.jpg" width="598" class="fluid" style="display: block; width: 100%; max-width: 598px; height: auto;" alt="Wave Exhibit — gallery interior with tadelakt podium and Wave Columns">
+                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-04.png" width="600" class="fluid" style="display: block; width: 100%; max-width: 600px; height: auto;" alt="Wave Exhibit - pendants and standing lamp from the same ceramic module">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" style="padding: 12px 44px 0 44px;">
+                            <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 13px; font-style: italic; color: #999999; line-height: 1.5;">3D diagram showing spatial layout</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="padding-mobile" style="padding: 26px 50px 0 50px;" align="center">
+                            <p style="margin: 0 auto; color: #999999; line-height: 1.8; max-width: 460px; font-style: italic; font-family: Georgia, 'Times New Roman', serif; font-size: 17px;">
+                                Three Wave Columns in various modular configurations anchor the gallery, while three more pull visitors in from the window display. Pendants and a standing lamp showcase the different functions of the collection, built around a ceramic module.
+                            </p>
                         </td>
                     </tr>
 
-                    <!-- ═══ CHAPTER 02 ═══ ✏️ SLOT: chapter (repeatable row pair) -->
-                    <tr>
-                        <td class="padding-mobile" style="padding: 56px 44px 0 44px;">
-                            <p style="margin: 0 0 18px 0; font-size: 10px; letter-spacing: 3px; color: #8e8578; text-transform: uppercase;">02 — The Room</p>
-                            <p class="body-text" style="margin: 0 0 16px 0; font-size: 15px; color: #b9b0a4; line-height: 1.85;">
-                                A continuous podium wraps the room's perimeter, and the backing undulates in a wave form echoing the column's own feminine silhouette. Hand-applied tadelakt, pigmented from deep green into sandy beige then into dark blue, runs from the ground all the way up — signaling pasture, dry earth, dusk sky, and centering your view to the horizon.
-                            </p>
-                            <p class="body-text" style="margin: 0 0 40px 0; font-size: 15px; color: #b9b0a4; line-height: 1.85;">
-                                Mirrored walls kaleidoscope, expanding your view into an unbroken sightline deep into the distance.
-                            </p>
-                        </td>
-                    </tr>
+                    <!-- WINDOW DISPLAY -->
+                    <!-- ✏️ SLOT: image + caption + copy -->
+                    <tr><td class="spacer-mobile" style="height: 36px; font-size: 0; line-height: 0;">&nbsp;</td></tr>
                     <tr>
                         <td bgcolor="#1a1a1a" style="background: #1a1a1a;">
-                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-04.png" width="598" class="fluid" style="display: block; width: 100%; max-width: 598px; height: auto;" alt="Wave Exhibit — pigmented tadelakt from pasture green to dusk blue">
+                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-07c.jpg" width="600" class="fluid" style="display: block; width: 100%; max-width: 600px; height: auto;" alt="Wave Exhibit - tadelakt benches and a scattering of spotlight minis at dusk">
                         </td>
                     </tr>
-
-                    <!-- ═══ CHAPTER 03 ═══ ✏️ SLOT: chapter (repeatable row pair) -->
                     <tr>
-                        <td class="padding-mobile" style="padding: 56px 44px 0 44px;">
-                            <p style="margin: 0 0 18px 0; font-size: 10px; letter-spacing: 3px; color: #8e8578; text-transform: uppercase;">03 — The Window</p>
-                            <p class="body-text" style="margin: 0 0 40px 0; font-size: 15px; color: #b9b0a4; line-height: 1.85;">
-                                Real dirt mixed with fall leaves — the scent of a walk in the park in the fall — is held in a plexiglass case at the window, as if the landscape has been sliced and we can see the layers just beneath our feet. A scattering of spotlight minis brings another dimension to the evening display: a memory of stars at dusk over a campsite in the San Juan Islands, carried indoors.
+                        <td align="center" style="padding: 12px 44px 0 44px;">
+                            <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 13px; font-style: italic; color: #999999; line-height: 1.5;">window display, wave column configuration</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="padding-mobile" style="padding: 28px 50px 0 50px;">
+                            <p class="body-text" style="margin: 0 0 20px 0; font-size: 15px; color: #999999; line-height: 1.9;">
+                                Real dirt mixed with fall leaves, the scent of a walk in the park in the fall, is held in a plexiglass case at the window, as if the landscape has been sliced, and we can see the layers just beneath our feet. Tadelakt is hand-applied to plywood, all the corners sanded smooth, giving a rich and full texture for the window display set, and interior scenography.
+                            </p>
+                            <p class="body-text" style="margin: 0; font-size: 15px; color: #999999; line-height: 1.9;">
+                                A scattering of spotlight minis brings another dimension to the evening window display: a memory of stars at dusk over a campsite in the San Juan Islands, carried indoors.
                             </p>
                         </td>
                     </tr>
+
+                    <!-- FULL-SPREAD CLOSING IMAGE -->
+                    <!-- ✏️ SLOT: closing image -->
+                    <tr><td class="spacer-mobile" style="height: 36px; font-size: 0; line-height: 0;">&nbsp;</td></tr>
                     <tr>
                         <td bgcolor="#1a1a1a" style="background: #1a1a1a;">
-                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/Wave-exhibit-07a.jpg" width="598" class="fluid" style="display: block; width: 100%; max-width: 598px; height: auto;" alt="Wave Exhibit — evening window display, wave column configuration">
+                            <img src="https://formarosastudio.com/wp-content/uploads/2026/06/Wave-exhibit-07a.jpg" width="600" class="fluid" style="display: block; width: 100%; max-width: 600px; height: auto;" alt="Wave Exhibit - closing view at dusk">
                         </td>
                     </tr>
 
-                    <!-- ═══ PULL QUOTE ═══ ✏️ SLOT: quote -->
+                    <!-- CTA PANEL (pigmented-plaster gradient frame, dark interior) -->
+                    <tr><td class="spacer-mobile" style="height: 50px; font-size: 0; line-height: 0;">&nbsp;</td></tr>
                     <tr>
-                        <td class="padding-mobile" style="padding: 56px 44px 56px 44px;">
-                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <td bgcolor="#4a5a45" style="background: linear-gradient(180deg, #3d4a5c 0%, #c9bba4 52%, #4a5a45 100%); padding: 3px;">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" bgcolor="#111111" style="background: #111111;">
                                 <tr>
-                                    <td width="1" bgcolor="#5c5248" style="background: #5c5248;">&nbsp;</td>
-                                    <td style="padding: 6px 0 6px 26px;">
-                                        <p style="margin: 0; font-size: 17px; font-style: italic; color: #d4c4b5; line-height: 1.65;">
-                                            The space acts as a portal — I want visitors to feel as if they are remembering a moment from their childhood: nostalgia, but also alienation, as you might feel walking a new trail by yourself in the late fall.
+                                    <td align="center" class="padding-mobile" style="padding: 52px 44px;">
+                                        <p style="margin: 0 0 28px 0; font-size: 11px; letter-spacing: 3px; color: #d4c4b5; text-transform: uppercase;">We would love to hear from you</p>
+                                        <a href="https://formarosacreative.com/collab" class="btn" style="display: inline-block; padding: 16px 42px; background: #d4c4b5; color: #0a0a0a; text-decoration: none; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; border-radius: 2px;">Begin a conversation</a>
+                                        <p style="margin: 26px 0 0 0; font-size: 13px; color: #999999; letter-spacing: 0.5px;">
+                                            <a href="mailto:creative@formarosastudio.com" style="color: #f5f1ec; text-decoration: none;">creative@formarosastudio.com</a>
                                         </p>
                                     </td>
                                 </tr>
@@ -187,37 +265,26 @@
                         </td>
                     </tr>
 
-                    <!-- ═══ CTA ═══ -->
-                    <tr>
-                        <td align="center" class="padding-mobile" style="padding: 0 44px 56px 44px; border-bottom: 1px solid #262220;">
-                            <p style="margin: 0 0 16px 0; font-size: 10px; letter-spacing: 3px; color: #8e8578; text-transform: uppercase;">Begin a conversation</p>
-                            <p style="margin: 0 0 24px 0;">
-                                <a href="mailto:creative@formarosastudio.com" style="font-size: 17px; color: #e8e0d8; text-decoration: underline;">creative@formarosastudio.com</a>
-                            </p>
-                            <p style="margin: 0;">
-                                <a href="https://formarosacreative.com" target="_blank" rel="noopener" style="font-size: 11px; letter-spacing: 2px; color: #8e8578; text-decoration: none; text-transform: uppercase;">View all projects &rarr;</a>
-                            </p>
-                        </td>
-                    </tr>
-
                     <!-- FOOTER -->
                     <tr>
-                        <td align="center" style="padding: 34px 30px 38px 30px;">
-                            <p style="margin: 0 0 6px 0; font-size: 12px; color: #f5f1ec; letter-spacing: 3px; text-transform: uppercase;">Forma Rosa Creative</p>
-                            <p style="margin: 0 0 4px 0; font-size: 10px; letter-spacing: 2px; color: #8e8578; text-transform: uppercase;">Monuments to Nature</p>
-                            <p style="margin: 0 0 18px 0; font-size: 10px; letter-spacing: 2px; color: #8e8578; text-transform: uppercase;">A Brooklyn design atelier</p>
-                            <p style="margin: 0; font-size: 11px; letter-spacing: 1px;">
-                                <a href="https://formarosacreative.com" target="_blank" rel="noopener" style="color: #d4c4b5; text-decoration: underline;">Website</a>
-                                <span style="color: #8e8578;">&nbsp;&middot;&nbsp;</span>
-                                <a href="https://instagram.com/formarosacreative" target="_blank" rel="noopener" style="color: #d4c4b5; text-decoration: underline;">Instagram</a>
-                                <span style="color: #8e8578;">&nbsp;&middot;&nbsp;</span>
-                                <a href="mailto:creative@formarosastudio.com" style="color: #d4c4b5; text-decoration: underline;">Email</a>
-                            </p>
+                        <td align="center" style="padding: 34px 30px 38px 30px; border-top: 1px solid #2a2a2a;">
+                            <p style="margin: 0 0 8px 0; font-family: Georgia, 'Times New Roman', serif; font-size: 15px; color: #f5f1ec; letter-spacing: 3px; text-transform: uppercase;">Forma Rosa Creative</p>
+                            <p style="margin: 0 0 14px 0; font-size: 10px; letter-spacing: 3px; color: #999999; text-transform: uppercase;">Monuments to Nature</p>
+                            <p style="margin: 0 0 18px 0; font-size: 12px; color: #999999; line-height: 1.7;">A Brooklyn design atelier</p>
+                            <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin: 0 auto;">
+                                <tr>
+                                    <td style="padding: 0 12px;"><a href="https://formarosacreative.com" style="font-size: 11px; color: #999999; text-decoration: none; letter-spacing: 1px;">Website</a></td>
+                                    <td style="color: #2a2a2a;">&middot;</td>
+                                    <td style="padding: 0 12px;"><a href="https://instagram.com/formarosacreative" style="font-size: 11px; color: #999999; text-decoration: none; letter-spacing: 1px;">Instagram</a></td>
+                                    <td style="color: #2a2a2a;">&middot;</td>
+                                    <td style="padding: 0 12px;"><a href="mailto:creative@formarosastudio.com" style="font-size: 11px; color: #999999; text-decoration: none; letter-spacing: 1px;">Email</a></td>
+                                </tr>
+                            </table>
                         </td>
                     </tr>
 
                 </table>
-                <!-- ═══ /EMAIL CONTAINER ═══ -->
+                <!-- ============================ /EMAIL CONTAINER ============================ -->
 
             </td>
         </tr>
