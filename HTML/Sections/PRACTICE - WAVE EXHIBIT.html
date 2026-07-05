@@ -1,24 +1,26 @@
 <!-- ============================================================
-     Section: PRACTICE PAGE — Wave Exhibit (Substack-style article)
+     Section: PRACTICE PAGE - Wave Exhibit (Substack-style article)
      Class:   frc-practice
      Notes:   Elementor section settings:
                 - Template: Elementor Canvas (globals off)
                 - Layout: Full Width, Stretch section: ON
                 - Section padding: 0, Column padding: 0
-                - This page is standalone chrome — no frc-header
+                - This page is standalone chrome - no frc-header
                   needed; the left rail carries logo + links.
               Do NOT apply transform/filter/will-change to the
               parent section (breaks the fixed rail).
 
-     Layout: article lives in a framed card (close ✕ top-left)
-             over a full-page grid background. Fixed left rail:
-             logo (→ home) · progress dial · COLLAB · IG · CONTACT.
+     Layout: article lives in a framed card (close x top-left,
+             soft shadow) over a full-page grid background.
+             Far-left fixed rail: logo (-> home), COLLAB, IG,
+             CONTACT. Progress ticks sit just left of the frame
+             and light up top-down as you scroll.
              On mobile the rail becomes a top bar with a thin
              progress line.
 
-     ── HOW TO REUSE FOR A NEW PROJECT ──────────────────────────
+     -- HOW TO REUSE FOR A NEW PROJECT --------------------------
      Duplicate this file, rename (PRACTICE - <NAME>.html), edit
-     only the ✏️ SLOT parts. Copy is pulled verbatim from the
+     only the [EDIT] SLOT parts. Copy is pulled verbatim from the
      project masterfile in DATA/<Category> - <Name>/.
      ============================================================ -->
 
@@ -28,48 +30,57 @@
 
 <div class="frc-practice" data-frc-practice>
 
-  <!-- ─── Fixed left rail ─────────────────────────────────── -->
+  <!-- --- Fixed far-left rail -------------------------------- -->
   <aside class="frc-practice__rail" aria-label="Site navigation">
-    <a class="frc-practice__rail-logo" href="https://formarosacreative.com" aria-label="Forma Rosa Creative — home">
+    <a class="frc-practice__rail-logo" href="https://formarosacreative.com" aria-label="Forma Rosa Creative - home">
       <img src="https://formarosastudio.com/wp-content/uploads/2025/08/WHITE-SHAPE-LOGO.png" alt="Forma Rosa mark" width="34" height="34">
     </a>
 
-    <!-- reading-progress dial -->
-    <div class="frc-practice__dial" aria-hidden="true">
-      <svg viewBox="0 0 40 40" width="40" height="40">
-        <circle class="frc-practice__dial-track" cx="20" cy="20" r="16" fill="none" stroke-width="2"></circle>
-        <circle class="frc-practice__dial-fill" cx="20" cy="20" r="16" fill="none" stroke-width="2"
-                stroke-dasharray="100.53" stroke-dashoffset="100.53"
-                transform="rotate(-90 20 20)" data-frc-dial></circle>
-      </svg>
-    </div>
-
     <nav class="frc-practice__rail-links" aria-label="Quick links">
-      <a href="https://formarosacreative.com/collab">COLLAB</a>
-      <a href="https://instagram.com/formarosacreative" target="_blank" rel="noopener">IG</a>
-      <a href="mailto:creative@formarosastudio.com">CONTACT</a>
+      <a href="https://formarosacreative.com/collab" aria-label="Collaborate with us" title="Collab">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="9" cy="12" r="5"></circle>
+          <circle cx="15" cy="12" r="5"></circle>
+        </svg>
+      </a>
+      <a href="https://instagram.com/formarosacreative" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="4" y="4" width="16" height="16" rx="4.5"></rect>
+          <circle cx="12" cy="12" r="3.5"></circle>
+          <circle cx="16.6" cy="7.4" r="0.8" fill="currentColor" stroke="none"></circle>
+        </svg>
+      </a>
+      <a href="mailto:creative@formarosastudio.com" aria-label="Contact us by email" title="Contact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect>
+          <path d="M4.5 7.5l7.5 5.5 7.5-5.5"></path>
+        </svg>
+      </a>
     </nav>
   </aside>
+
+  <!-- reading-progress ticks (light up as you scroll) -->
+  <div class="frc-practice__ticks" data-frc-ticks aria-hidden="true"></div>
 
   <!-- mobile progress line -->
   <div class="frc-practice__progress-line" aria-hidden="true"><span data-frc-progress-line></span></div>
 
-  <!-- ─── Framed article ──────────────────────────────────── -->
+  <!-- --- Framed article ------------------------------------ -->
   <div class="frc-practice__frame">
 
     <a class="frc-practice__close" href="https://formarosacreative.com" data-frc-close aria-label="Close and return home">&times;</a>
 
     <article class="frc-practice__article">
 
-      <!-- TITLE BLOCK -->
-      <!-- ✏️ SLOT: kicker + title -->
+      <!-- TITLE BLOCK (left-aligned) -->
+      <!-- [EDIT] SLOT: kicker + title -->
       <header class="frc-practice__head">
-        <p class="frc-practice__kicker">PRACTICE — 01</p>
+        <p class="frc-practice__kicker">PRACTICE - 01</p>
         <h1 class="frc-practice__title">Wave Exhibit</h1>
       </header>
 
       <!-- PROJECT SPEC -->
-      <!-- ✏️ SLOT: spec strip -->
+      <!-- [EDIT] SLOT: spec strip -->
       <dl class="frc-practice__spec">
         <div><dt>PROJECT</dt><dd>Wave Exhibit</dd></div>
         <div><dt>CLIENT</dt><dd>Private Proposal</dd></div>
@@ -78,24 +89,37 @@
       </dl>
 
       <!-- HERO IMAGE -->
-      <!-- ✏️ SLOT: hero image -->
+      <!-- [EDIT] SLOT: hero image -->
       <figure class="frc-practice__media">
         <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-01a.png" alt="Wave Exhibit - immersive gallery environment built around the Wave Column" loading="eager" decoding="async">
       </figure>
 
       <!-- INFORMATION -->
-      <!-- ✏️ SLOT: lead + body copy (verbatim from masterfile) -->
+      <!-- [EDIT] SLOT: lead + body copy (verbatim from masterfile) -->
       <p class="frc-practice__lead">
-        Off a Soho street, the ground turns to pasture — green underfoot, a horizon at eye level.
+        Off a Soho street, the ground turns to pasture - green underfoot, a horizon at eye level.
       </p>
+
+      <!-- SUBSCRIBE -->
+      <!-- [EDIT] SLOT: subscribe line. The form currently falls back
+           to opening an email to you with the subscriber's address.
+           TODO: when you pick a newsletter platform (Mailchimp,
+           Substack, etc.), swap the JS handler for its form action. -->
+      <div class="frc-practice__subscribe">
+        <p class="frc-practice__subscribe-line">SUBSCRIBE FOR NEW PROJECTS</p>
+        <form class="frc-practice__subscribe-form" data-frc-subscribe>
+          <input type="email" name="email" required placeholder="Type your email..." aria-label="Email address">
+          <button type="submit">SUBSCRIBE</button>
+        </form>
+      </div>
 
       <div class="frc-practice__body">
         <p>Wave Exhibit by Forma Rosa Creative is an immersive environment designed to host the Wave Column in its many variations, a ceramic fixture by Forma Rosa Studio.</p>
-        <p>The spatial concept is a nod to the <a href="https://www.tate.org.uk/art/art-terms/picturesque" target="_blank" rel="noopener">picturesque movement</a> at gallery scale — an antithesis to the contemporary technological reform, and a return to our pastoral heritage. Meditative and gritty, both beautiful yet sublime, real dirt installed in the window display pulls you in with an added sense, and ceramic sculptures that read as both artifact and organism, stand tall like tree trunks and glow as if alive.</p>
-        <p>A continuous podium wraps the room's perimeter, and the backing undulates in a wave form echoing the column's own feminine silhouette. The hand-applied tadelakt, pigmented from deep green into sandy beige then into dark blue, runs from the ground all the way up, covering the podiums, walls and ceilings — signaling pasture, dry earth, dusk sky, and centering your view to the horizon.</p>
+        <p>The spatial concept is a nod to the <a href="https://www.tate.org.uk/art/art-terms/picturesque" target="_blank" rel="noopener">picturesque movement</a> at gallery scale - an antithesis to the contemporary technological reform, and a return to our pastoral heritage. Meditative and gritty, both beautiful yet sublime, real dirt installed in the window display pulls you in with an added sense, and ceramic sculptures that read as both artifact and organism, stand tall like tree trunks and glow as if alive.</p>
+        <p>A continuous podium wraps the room's perimeter, and the backing undulates in a wave form echoing the column's own feminine silhouette. The hand-applied tadelakt, pigmented from deep green into sandy beige then into dark blue, runs from the ground all the way up, covering the podiums, walls and ceilings - signaling pasture, dry earth, dusk sky, and centering your view to the horizon.</p>
       </div>
 
-      <!-- ✏️ SLOT: image + caption -->
+      <!-- [EDIT] SLOT: image + caption -->
       <figure class="frc-practice__media">
         <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-03.jpg" alt="Wave Exhibit - the room interior with podium and plaster wall" loading="lazy" decoding="async">
         <figcaption>Window display design</figcaption>
@@ -105,14 +129,14 @@
         <p>Mirrored walls kaleidoscope, expanding your view into what Jay Appleton calls prospect: an unbroken sightline deep into the distance.</p>
       </div>
 
-      <!-- ✏️ SLOT: image + caption -->
+      <!-- [EDIT] SLOT: image + caption -->
       <figure class="frc-practice__media">
         <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-06.jpg" alt="Wave Exhibit - the Wave Column in modular configuration" loading="lazy" decoding="async">
         <figcaption>natures gradient, green pastures as dusk</figcaption>
       </figure>
 
       <!-- IN CONFIGURATION -->
-      <!-- ✏️ SLOT: section title + image + caption + copy -->
+      <!-- [EDIT] SLOT: section title + image + caption + copy -->
       <div class="frc-practice__section-head">
         <p class="frc-practice__kicker frc-practice__kicker--dim">IN CONFIGURATION</p>
         <h2 class="frc-practice__section-title">The Wave Column</h2>
@@ -128,7 +152,7 @@
       </p>
 
       <!-- WINDOW DISPLAY -->
-      <!-- ✏️ SLOT: image + caption + copy -->
+      <!-- [EDIT] SLOT: image + caption + copy -->
       <figure class="frc-practice__media">
         <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-07c.jpg" alt="Wave Exhibit - tadelakt benches and a scattering of spotlight minis at dusk" loading="lazy" decoding="async">
         <figcaption>window display, wave column configuration</figcaption>
@@ -140,20 +164,51 @@
       </div>
 
       <!-- CLOSING IMAGE -->
-      <!-- ✏️ SLOT: closing image -->
+      <!-- [EDIT] SLOT: closing image -->
       <figure class="frc-practice__media">
         <img src="https://formarosastudio.com/wp-content/uploads/2026/06/Wave-exhibit-07a.jpg" alt="Wave Exhibit - closing view at dusk" loading="lazy" decoding="async">
       </figure>
 
-      <!-- CTA PANEL (pigmented-plaster gradient frame) -->
+      <!-- INTERVIEW -->
+      <!-- [EDIT] SLOT: interview Q&A (answers verbatim from the masterfile;
+           questions are editorial and can be reworded freely) -->
+      <div class="frc-practice__section-head">
+        <p class="frc-practice__kicker frc-practice__kicker--dim">INTERVIEW</p>
+        <h2 class="frc-practice__section-title">In Conversation</h2>
+      </div>
+
+      <p class="frc-practice__question">Fast-forward 20 years. The exhibit is no longer new - it has lived. Why does this work still matter?</p>
+      <div class="frc-practice__body">
+        <p>I hope that by bringing natural aesthetics back into contemporary culture one design at a time, we will be reminded as a species where we come from, and that we will place value back into our heritage out on the savannah, we will let time slows down, we will allow ourselves to be more present, and we will continue to listen to the natural environments around us and learn from them, as we have for millennium.</p>
+        <p>The thing about natural aesthetics is that they are the backbone for all design, this is not something that is a trend and will go away, each step of the way we are just slowly progressing towards a unification with our natural environments. Everything we do as a species is rooted in our collective experience in nature. The clothes we wear, the way we interact with architecture, the tools and objects we use in day to day life. Our airplanes are symbols crafted to mimic birds.</p>
+        <p>The complexity of natural phenomena, like the crystal glazework on a Forma Rosa lamp arising from a chemical reaction of minerals when kiln-fired, are not something we try to control, but that we harness and display. As a designer I act as the messenger, bringing visitors into the natural worlds that I have experienced in my memories.</p>
+      </div>
+
+      <p class="frc-practice__question">When does the design stop being a project and become something human?</p>
+      <div class="frc-practice__body">
+        <p>The forms and shapes, the textures and patterns, they feel familiar because they are. They are me, they are you, they are all of us. They are you as a child looking up at the stars for the first time outside of the city. They are the first time you visited a cornfield and saw the dark green stalks, beige tips, and deep blue sky above, and the smell of manure surrounded you. They are that one time you walked through the forest in the Pacific Northwest and 90% of your field of view was deep green - the ferns, the pine trees, the moss growing on absolutely everything, even the lake far in the distance was emerald and not even the sky was showing through the thick canopy.</p>
+        <p>Fast forward 20 years and this might just be a memory of a long lost culture. But I don't think it will be. I think we are heading backwards, I think the isolation from nature in cities, is drawing people back out, and this past will once again become more and more our present. I hope we can share these experiences with those around us, and show how healing these spaces can be.</p>
+      </div>
+
+      <p class="frc-practice__question">Who is the person moving through this space - and what do they feel?</p>
+      <div class="frc-practice__body">
+        <p>While there has been pushback in recent years towards temporary exhibitions and experiential activations, because of sustainability and how wasteful a temporary built environment can be, I really believe environmental design is one of the only architectural scale typologies that can be truly immersive. Because of this, the space acts as a portal, transporting the users into a new world, where they can connect with aesthetics and concepts at a tangible and fully sensory level. I want the users to feel as if they are remembering a moment from their childhood, a moment of nostalgia but also a moment of alienation - as you might feel walking a new trail by yourself in the late fall. I've been scared walking alone in the woods, I've been in awe, I've been cold, I've been out of breath and exhausted, I've also felt at peace and closer to god and the universe; and the most present.</p>
+      </div>
+
+      <!-- SUBSCRIBE (bottom) -->
+      <div class="frc-practice__subscribe frc-practice__subscribe--bottom">
+        <p class="frc-practice__subscribe-line">SUBSCRIBE FOR NEW PROJECTS</p>
+        <form class="frc-practice__subscribe-form" data-frc-subscribe>
+          <input type="email" name="email" required placeholder="Type your email..." aria-label="Email address">
+          <button type="submit">SUBSCRIBE</button>
+        </form>
+      </div>
+
+      <!-- CTA (flat, matches the article style) -->
       <div class="frc-practice__cta-wrap">
-        <div class="frc-practice__cta">
-          <div class="frc-practice__cta-inner">
-            <p class="frc-practice__cta-label">WE WOULD LOVE TO HEAR FROM YOU</p>
-            <a class="frc-practice__cta-btn" href="https://formarosacreative.com/collab">BEGIN A CONVERSATION</a>
-            <a class="frc-practice__cta-mail" href="mailto:creative@formarosastudio.com">creative@formarosastudio.com</a>
-          </div>
-        </div>
+        <p class="frc-practice__cta-label">WE WOULD LOVE TO HEAR FROM YOU</p>
+        <a class="frc-practice__cta-btn" href="https://formarosacreative.com/collab">BEGIN A CONVERSATION</a>
+        <a class="frc-practice__cta-mail" href="mailto:creative@formarosastudio.com">creative@formarosastudio.com</a>
       </div>
 
       <!-- MINI FOOTER -->
@@ -172,7 +227,7 @@
     --bg: #111111;
     --grid-line: rgba(212, 196, 181, 0.05);
     --grid-size: 32px;
-    --card: #151413;
+    --card: #111111;  /* matches the grid background exactly */
     --card-line: #29251f;
     --ink: #f5f1ec;
     --ink-body: #a89f93;
@@ -197,20 +252,21 @@
       linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size: var(--grid-size) var(--grid-size);
 
-    padding: clamp(24px, 5vh, 64px) 16px clamp(48px, 8vh, 96px);
+    /* frame runs nearly edge-to-edge; left side clears the icon rail */
+    padding: 14px 14px 14px 88px;
   }
 
   .frc-practice *,
   .frc-practice *::before,
   .frc-practice *::after { box-sizing: border-box; }
 
-  /* ─── left rail ─────────────────────────────────────────── */
+  /* --- far-left rail ---------------------------------------- */
   .frc-practice__rail {
     position: fixed;
     z-index: 40;
     top: 32px;
-    left: max(18px, calc(50vw - (var(--frame-w) / 2) - 110px));
-    width: 56px;
+    left: 18px;
+    width: 44px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -227,10 +283,6 @@
   .frc-practice__rail-logo:focus-visible { opacity: 1; outline: none; }
   .frc-practice__rail-logo img { width: 34px; height: 34px; object-fit: contain; }
 
-  .frc-practice__dial { line-height: 0; }
-  .frc-practice__dial-track { stroke: #2b2723; }
-  .frc-practice__dial-fill  { stroke: var(--ink-head); }
-
   .frc-practice__rail-links {
     display: flex;
     flex-direction: column;
@@ -238,29 +290,64 @@
     gap: 18px;
   }
   .frc-practice__rail-links a {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
     color: var(--ink-dim);
     text-decoration: none;
-    writing-mode: vertical-rl;
     transition: color 200ms ease;
+  }
+  .frc-practice__rail-links a svg {
+    display: block;
+    width: 36px;
+    height: 36px;
   }
   .frc-practice__rail-links a:hover,
   .frc-practice__rail-links a:focus-visible { color: var(--hover); outline: none; }
 
-  /* ─── mobile progress line (hidden on desktop) ──────────── */
+  /* --- reading-progress ticks --------------------------------
+     A vertical ruler of short lines inside the article frame's
+     left edge, centered vertically. One tick is highlighted at
+     a time, marking how far down the article you are. */
+  .frc-practice__ticks {
+    position: fixed;
+    z-index: 39;
+    top: 50%;
+    left: 106px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    pointer-events: none;
+  }
+  .frc-practice__ticks span {
+    display: block;
+    width: 10px;
+    height: 2px;
+    background: #2e2a25;
+    transition: background 200ms ease, width 200ms ease;
+  }
+  .frc-practice__ticks span.is-lit {
+    width: 18px;
+    background: var(--ink-head);
+  }
+
+  /* --- mobile progress line (hidden on desktop) ------------ */
   .frc-practice__progress-line { display: none; }
 
-  /* ─── framed article ────────────────────────────────────── */
+  /* --- framed article --------------------------------------- */
   .frc-practice__frame {
     position: relative;
-    max-width: var(--frame-w);
+    width: 100%;
+    min-height: calc(100vh - 28px);
     margin: 0 auto;
     background: var(--card);
     border: 1px solid var(--card-line);
     border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 10px 44px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4);
   }
 
   .frc-practice__close {
@@ -293,7 +380,8 @@
     padding: clamp(56px, 8vh, 80px) 0 0;
   }
 
-  /* text blocks share an inner reading measure */
+  /* all content sits in a centered reading column; the frame
+     itself is much wider (Substack-style) */
   .frc-practice__head,
   .frc-practice__spec,
   .frc-practice__lead,
@@ -302,18 +390,21 @@
   .frc-practice__aside-note,
   .frc-practice__cta-wrap,
   .frc-practice__foot {
-    padding-left: clamp(24px, 7%, 56px);
-    padding-right: clamp(24px, 7%, 56px);
+    max-width: var(--frame-w);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(20px, 3vw, 32px);
+    padding-right: clamp(20px, 3vw, 32px);
   }
 
-  /* ─── title block ───────────────────────────────────────── */
-  .frc-practice__head { text-align: center; margin-bottom: clamp(28px, 4vh, 40px); }
+  /* --- title block (left-aligned, Substack-style) ---------- */
+  .frc-practice__head { text-align: left; margin-bottom: clamp(28px, 4vh, 40px); }
 
   .frc-practice__kicker {
-    margin: 0 0 10px;
+    margin: 0 0 14px;
     font-size: 11px;
-    letter-spacing: 0.32em;
-    color: var(--ink-head);
+    letter-spacing: 0.22em;
+    color: var(--ink-dim);
   }
   .frc-practice__kicker--dim { color: var(--ink-dim); }
 
@@ -327,11 +418,11 @@
     color: var(--ink);
   }
 
-  /* ─── spec strip ────────────────────────────────────────── */
+  /* --- spec strip ------------------------------------------- */
   .frc-practice__spec {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    margin: 0 0 clamp(32px, 5vh, 48px);
+    margin: 0 auto clamp(32px, 5vh, 48px);
   }
   .frc-practice__spec > div {
     padding: 4px 14px;
@@ -352,9 +443,10 @@
     color: var(--ink);
   }
 
-  /* ─── media ─────────────────────────────────────────────── */
+  /* --- media (not full width - capped at the reading column) - */
   .frc-practice__media {
-    margin: clamp(28px, 4vh, 44px) 0;
+    max-width: var(--frame-w);
+    margin: clamp(28px, 4vh, 44px) auto;
     background: #1a1a1a;
   }
   .frc-practice__media img {
@@ -363,7 +455,7 @@
     height: auto;
   }
   .frc-practice__media figcaption {
-    padding: 12px clamp(24px, 7%, 56px) 0;
+    padding: 12px clamp(20px, 3vw, 32px) 0;
     font-family: var(--font-serif);
     font-style: italic;
     font-size: 13px;
@@ -373,9 +465,9 @@
     background: var(--card);
   }
 
-  /* ─── copy ──────────────────────────────────────────────── */
+  /* --- copy ------------------------------------------------- */
   .frc-practice__lead {
-    margin: 0 0 clamp(24px, 3vh, 32px);
+    margin: 0 auto clamp(24px, 3vh, 32px);
     font-family: var(--font-serif);
     font-style: italic;
     font-size: clamp(21px, 2.4vw, 25px);
@@ -383,6 +475,61 @@
     color: var(--ink-head);
     text-align: center;
   }
+
+  /* --- subscribe line --------------------------------------- */
+  .frc-practice__subscribe {
+    max-width: var(--frame-w);
+    margin: 0 auto clamp(36px, 5vh, 56px);
+    padding-left: clamp(20px, 3vw, 32px);
+    padding-right: clamp(20px, 3vw, 32px);
+    text-align: center;
+  }
+  .frc-practice__subscribe--bottom {
+    margin-top: clamp(48px, 7vh, 72px);
+    margin-bottom: 0;
+  }
+  .frc-practice__subscribe-line {
+    margin: 0 0 16px;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--ink-head);
+  }
+  .frc-practice__subscribe-form {
+    display: flex;
+    justify-content: center;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .frc-practice__subscribe-form input {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    background: #171614;
+    border: 1px solid var(--card-line);
+    border-right: 0;
+    border-radius: 2px 0 0 2px;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    outline: none;
+  }
+  .frc-practice__subscribe-form input::placeholder { color: var(--ink-dim); }
+  .frc-practice__subscribe-form input:focus { border-color: var(--ink-dim); }
+  .frc-practice__subscribe-form button {
+    padding: 12px 20px;
+    background: var(--ink-head);
+    border: 0;
+    border-radius: 0 2px 2px 0;
+    color: #0a0a0a;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 200ms ease;
+  }
+  .frc-practice__subscribe-form button:hover,
+  .frc-practice__subscribe-form button:focus-visible { background: var(--hover); outline: none; }
 
   .frc-practice__body p {
     margin: 0 0 20px;
@@ -399,7 +546,7 @@
   .frc-practice__body a:focus-visible { color: var(--hover); outline: none; }
 
   .frc-practice__section-head {
-    margin: clamp(40px, 6vh, 64px) 0 18px;
+    margin: clamp(40px, 6vh, 64px) auto 18px;
     text-align: center;
   }
   .frc-practice__section-title {
@@ -409,6 +556,19 @@
     font-size: clamp(26px, 3vw, 30px);
     letter-spacing: 0.03em;
     color: var(--ink);
+  }
+
+  /* interview questions - italic serif, set apart from answers */
+  .frc-practice__question {
+    max-width: var(--frame-w);
+    margin: clamp(36px, 5vh, 56px) auto 18px;
+    padding-left: clamp(20px, 3vw, 32px);
+    padding-right: clamp(20px, 3vw, 32px);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-head);
   }
 
   .frc-practice__aside-note {
@@ -422,18 +582,12 @@
     text-align: center;
   }
 
-  /* ─── CTA panel ─────────────────────────────────────────── */
+  /* --- CTA panel -------------------------------------------- */
   .frc-practice__cta-wrap {
-    margin: clamp(48px, 7vh, 72px) 0 0;
+    margin: clamp(40px, 6vh, 64px) auto 0;
+    padding-top: clamp(40px, 6vh, 56px);
     padding-bottom: clamp(40px, 6vh, 56px);
-  }
-  .frc-practice__cta {
-    padding: 3px;
-    background: linear-gradient(180deg, #3d4a5c 0%, #c9bba4 52%, #4a5a45 100%);
-  }
-  .frc-practice__cta-inner {
-    background: var(--bg);
-    padding: 52px 24px;
+    border-top: 1px solid #2a2a2a;
     text-align: center;
   }
   .frc-practice__cta-label {
@@ -468,7 +622,7 @@
   .frc-practice__cta-mail:hover,
   .frc-practice__cta-mail:focus-visible { color: var(--hover); outline: none; }
 
-  /* ─── footer ────────────────────────────────────────────── */
+  /* --- footer ----------------------------------------------- */
   .frc-practice__foot {
     padding-top: 34px;
     padding-bottom: 38px;
@@ -489,14 +643,14 @@
     color: var(--ink-dim);
   }
 
-  /* ─── reduced motion ────────────────────────────────────── */
+  /* --- reduced motion --------------------------------------- */
   @media (prefers-reduced-motion: reduce) {
     .frc-practice * { transition: none !important; }
   }
 
-  /* ─── mobile / narrow ───────────────────────────────────── */
+  /* --- mobile / narrow -------------------------------------- */
   @media (max-width: 979px) {
-    .frc-practice { padding-top: 76px; }
+    .frc-practice { padding: 76px 12px 12px; }
 
     /* rail becomes a fixed top bar */
     .frc-practice__rail {
@@ -515,12 +669,13 @@
       -webkit-backdrop-filter: blur(6px);
     }
     .frc-practice__rail-logo img { width: 28px; height: 28px; }
-    .frc-practice__dial { display: none; }
     .frc-practice__rail-links {
       flex-direction: row;
-      gap: 22px;
+      gap: 10px;
     }
-    .frc-practice__rail-links a { writing-mode: horizontal-tb; }
+
+    /* ticks are a desktop nicety */
+    .frc-practice__ticks { display: none; }
 
     /* thin progress line under the top bar */
     .frc-practice__progress-line {
@@ -553,15 +708,28 @@
   if (!widget || widget.dataset.initialized === '1') return;
   widget.dataset.initialized = '1';
 
-  var dial = widget.querySelector('[data-frc-dial]');
   var line = widget.querySelector('[data-frc-progress-line]');
-  var CIRC = 100.53; /* 2πr, r=16 */
+
+  /* build the progress ticks */
+  var TICKS = 40;
+  var ticksWrap = widget.querySelector('[data-frc-ticks]');
+  var ticks = [];
+  if (ticksWrap) {
+    for (var i = 0; i < TICKS; i++) {
+      var t = document.createElement('span');
+      ticksWrap.appendChild(t);
+      ticks.push(t);
+    }
+  }
 
   function update() {
     var doc = document.documentElement;
     var max = (doc.scrollHeight - window.innerHeight);
     var p = max > 0 ? Math.min(1, Math.max(0, (window.scrollY || doc.scrollTop) / max)) : 0;
-    if (dial) dial.style.strokeDashoffset = String(CIRC * (1 - p));
+    var idx = Math.round(p * (TICKS - 1));
+    for (var j = 0; j < ticks.length; j++) {
+      ticks[j].classList.toggle('is-lit', j === idx);
+    }
     if (line) line.style.width = (p * 100) + '%';
   }
 
@@ -575,6 +743,18 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   update();
+
+  /* Subscribe forms (top + bottom): mailto fallback until a
+     newsletter platform is wired up */
+  widget.querySelectorAll('[data-frc-subscribe]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = form.querySelector('input[name="email"]').value;
+      window.location.href = 'mailto:creative@formarosastudio.com'
+        + '?subject=' + encodeURIComponent('Newsletter subscription')
+        + '&body=' + encodeURIComponent('Please add me to the newsletter: ' + email);
+    });
+  });
 
   /* Close button: go back if the visitor came from this site, else home */
   var close = widget.querySelector('[data-frc-close]');

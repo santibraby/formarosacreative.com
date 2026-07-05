@@ -559,12 +559,12 @@
             <span class="fr-hero__coord-value" id="coordY">0.000</span>
           </div>
           <div class="fr-hero__coord fr-hero__coord--theta">
-            <span class="fr-hero__coord-label">θ:</span>
-            <span class="fr-hero__coord-value" id="coordTheta">0.00°</span>
+            <span class="fr-hero__coord-label">theta:</span>
+            <span class="fr-hero__coord-value" id="coordTheta">0.00deg</span>
           </div>
           <div class="fr-hero__coord fr-hero__coord--phi">
-            <span class="fr-hero__coord-label">φθ:</span>
-            <span class="fr-hero__coord-value" id="coordPhi">0.00°</span>
+            <span class="fr-hero__coord-label">phitheta:</span>
+            <span class="fr-hero__coord-value" id="coordPhi">0.00deg</span>
           </div>
         </div>
         
@@ -736,8 +736,8 @@
       // Format with consistent width
       coordX.textContent = (normalizedX >= 0 ? ' ' : '') + normalizedX.toFixed(3);
       coordY.textContent = (normalizedY >= 0 ? ' ' : '') + normalizedY.toFixed(3);
-      coordTheta.textContent = thetaDeg.toFixed(1).padStart(5, ' ') + '°';
-      coordPhi.textContent = phiThetaDeg.toFixed(1).padStart(5, ' ') + '°';
+      coordTheta.textContent = thetaDeg.toFixed(1).padStart(5, ' ') + 'deg';
+      coordPhi.textContent = phiThetaDeg.toFixed(1).padStart(5, ' ') + 'deg';
     }
 
     function updateArms(jointPos, tipPos) {

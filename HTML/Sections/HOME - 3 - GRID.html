@@ -1,5 +1,5 @@
 <!-- ============================================================
-     Section: COVERS view — 2-column masonry of all portfolio images
+     Section: COVERS view - 2-column masonry of all portfolio images
      Class:   frc-covers
      Notes:   Elementor section settings:
                 - Template: Elementor Canvas (globals off)
@@ -139,7 +139,7 @@
 
 <style>
   .frc-covers {
-    /* local tokens — do not leak */
+    /* local tokens - do not leak */
     --bg: #111111;
     --ink-head: #d4c4b5;
     --ink-dim: #8e8578;
@@ -153,7 +153,7 @@
     font-family: var(--font-mono);
     box-sizing: border-box;
 
-    /* Top padding clears the fixed header (tagline + bar ≈ 120–150px),
+    /* Top padding clears the fixed header (tagline + bar ~= 120-150px),
        + breathing room. Side padding keeps images off the edge on desktop.
        Bottom padding feels like a portfolio terminus. */
     padding: clamp(140px, 16vh, 200px) clamp(16px, 2.5vw, 40px) clamp(80px, 14vh, 180px);
@@ -163,7 +163,7 @@
   .frc-covers *::before,
   .frc-covers *::after { box-sizing: border-box; }
 
-  /* ── Category filter row ─────────────────────────────────── */
+  /* -- Category filter row ----------------------------------- */
   .frc-covers__filters {
     display: flex;
     flex-wrap: wrap;
@@ -195,11 +195,11 @@
 
   .frc-covers__filter.is-active { color: var(--ink-head); }
 
-  /* [X]/[ ] state marks — matches the header's SCROLL/COVERS notation */
+  /* [X]/[ ] state marks - matches the header's SCROLL/COVERS notation */
   .frc-covers__mark::before { content: "[ ] "; white-space: pre; }
   .frc-covers__filter.is-active .frc-covers__mark::before { content: "[X] "; }
 
-  /* Empty state — shown when the active category has no covers yet */
+  /* Empty state - shown when the active category has no covers yet */
   .frc-covers__empty {
     margin: 0;
     font-family: var(--font-mono);
@@ -208,8 +208,8 @@
     color: var(--ink-dim);
   }
 
-  /* CSS Grid — deterministic row-by-row ordering (1 top-left,
-     2 top-right, 3 second-row-left, 4 second-row-right, …) so the
+  /* CSS Grid - deterministic row-by-row ordering (1 top-left,
+     2 top-right, 3 second-row-left, 4 second-row-right, ...) so the
      curated sequence is respected. align-items: start means each row
      height = max of its two items, with no stretching. */
   .frc-covers__grid {
@@ -239,7 +239,7 @@
     font-size: clamp(12px, 0.9vw, 14px);
     letter-spacing: 0.02em;
     color: var(--ink-head);
-    opacity: 0;                 /* hidden by default — reveal on hover */
+    opacity: 0;                 /* hidden by default - reveal on hover */
     margin-bottom: clamp(10px, 1.2vh, 18px);
     transition: color 260ms ease, opacity 260ms ease;
   }
@@ -274,8 +274,8 @@
     animation-play-state: running;
   }
 
-  /* Ken Burns variants — same scale arc, four pan directions.
-     More dramatic: scale 1 → 1.22 with 5–7% pan distance, so the
+  /* Ken Burns variants - same scale arc, four pan directions.
+     More dramatic: scale 1 -> 1.22 with 5-7% pan distance, so the
      viewer sees real camera-push energy rather than micro-breathing. */
   @keyframes frc-kb-a {
     0%   { transform: scale(1.00) translate(0%, 0%); }
@@ -296,7 +296,7 @@
 
   /* Per-item variety: different keyframe, duration, and negative delay
      so each cover is at a different phase of its own cycle. Durations
-     shortened to 16–24s so the more dramatic motion feels alive but
+     shortened to 16-24s so the more dramatic motion feels alive but
      still editorial, not frantic. */
   .frc-covers__item:nth-child(1)  .frc-covers__img { animation-name: frc-kb-a; animation-duration: 18s; animation-delay: -3s;  }
   .frc-covers__item:nth-child(2)  .frc-covers__img { animation-name: frc-kb-b; animation-duration: 22s; animation-delay: -12s; }
@@ -313,7 +313,7 @@
   .frc-covers__item:nth-child(13) .frc-covers__img { animation-name: frc-kb-c; animation-duration: 19s; animation-delay: -13s; }
   .frc-covers__item:nth-child(14) .frc-covers__img { animation-name: frc-kb-b; animation-duration: 21s; animation-delay: -19s; }
 
-  /* hover — label fades in, image un-desaturates. Animation continues;
+  /* hover - label fades in, image un-desaturates. Animation continues;
      pausing on hover would jitter as it resumes. */
   .frc-covers__item:hover .frc-covers__label,
   .frc-covers__item:focus-within .frc-covers__label { color: var(--hover); opacity: 1; }
@@ -322,7 +322,7 @@
   /* Hide COVERS when SCROLL view is active (header sets this attr) */
   html[data-view="scroll"] .frc-covers { display: none; }
 
-  /* Reduced motion — no Ken Burns, no fade/rise */
+  /* Reduced motion - no Ken Burns, no fade/rise */
   @media (prefers-reduced-motion: reduce) {
     .frc-covers__img {
       opacity: 1 !important;
@@ -334,7 +334,7 @@
     .frc-covers__filter { transition: none !important; }
   }
 
-  /* mobile — single column, tighter spacing */
+  /* mobile - single column, tighter spacing */
   @media (max-width: 719px) {
     .frc-covers {
       padding: clamp(120px, 14vh, 160px) clamp(14px, 4vw, 20px) clamp(64px, 10vh, 100px);
@@ -369,7 +369,7 @@
     }
   });
 
-  // ── Category filter (ALL / PRACTICE / INSPIRATION / CONTEXT) ──
+  // -- Category filter (ALL / PRACTICE / INSPIRATION / CONTEXT) --
   var filterBtns = widget.querySelectorAll('[data-frc-filter]');
   var items = widget.querySelectorAll('.frc-covers__item');
   var emptyMsg = widget.querySelector('.frc-covers__empty');

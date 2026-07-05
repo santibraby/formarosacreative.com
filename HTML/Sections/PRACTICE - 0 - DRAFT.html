@@ -1,26 +1,26 @@
 <!-- ============================================================
-     Section:   Project page — Wave Exhibit (single project view)
+     Section:   Project page - Wave Exhibit (single project view)
      Class:     frc-project-wave
      Reference: https://reisinger.studio/arche/ (structure + restraint)
      Used at:   /creative-projects-wave-exhibit  (WordPress page)
 
      Layout:
-       1. Top meta line — project number + back link
+       1. Top meta line - project number + back link
        2. Title (Cormorant italic, oversized)
        3. Short intro paragraph
        4. Vertical column of full-width images (one per row)
        5. Project info block (PROJECT / CLIENT / YEAR / DETAILS)
        6. Next-project links (2 thumbnails)
 
-     ⚠️  ELEMENTOR SETTINGS for the parent Section:
-       Layout → Content Width:        Full Width
-       Layout → Stretch Section:      OFF (the widget self-pads)
-       Section → Padding:             0
-       Column → Padding:              0
-       Advanced → Margin/Padding:     0
+     [!]  ELEMENTOR SETTINGS for the parent Section:
+       Layout -> Content Width:        Full Width
+       Layout -> Stretch Section:      OFF (the widget self-pads)
+       Section -> Padding:             0
+       Column -> Padding:              0
+       Advanced -> Margin/Padding:     0
        Template (Page Settings):      Elementor Canvas OR Full Width
 
-     ⚠️  DO NOT add the frc-header widget to this project page.
+     [!]  DO NOT add the frc-header widget to this project page.
        The fixed CLOSE button (top-left) handles return navigation
        back to /creative. Adding the frc-header would overlap the
        CLOSE button and clutter the editorial project view.
@@ -37,7 +37,7 @@
 
 <section class="frc-project-wave" data-frc-project>
 
-  <!-- ─── Fixed CLOSE button ────────────────────────────────
+  <!-- --- Fixed CLOSE button --------------------------------
        Hovers over the page at top-left while scrolling. Sits
        above all content via z-index so it stays clickable. -->
   <a class="frc-project-wave__close"
@@ -46,7 +46,7 @@
     [[ CLOSE ]]
   </a>
 
-  <!-- ─── Top meta row ──────────────────────────────────────
+  <!-- --- Top meta row --------------------------------------
        Project number centered, intro paragraph top-right.
        (CLOSE is rendered above as a fixed element so it's not
        part of this row's grid.) All visible em dashes use the
@@ -66,7 +66,7 @@
     </p>
   </div>
 
-  <!-- ─── Brand bar: 1px rule + FORMA ROSA CREATIVE logo ────
+  <!-- --- Brand bar: 1px rule + FORMA ROSA CREATIVE logo ----
        Mirrors the chrome on /creative so the project page feels
        like part of the same site. -->
   <div class="frc-project-wave__rule" aria-hidden="true"></div>
@@ -79,7 +79,7 @@
     </a>
   </div>
 
-  <!-- ─── Image gallery (2-column grid on desktop) ──────────
+  <!-- --- Image gallery (2-column grid on desktop) ----------
        Order: 01a, 01b, 06, 03, 02a, 04, 07a, 07b, 07c, 05.
        First 2 load eager (above the fold), the rest lazy. -->
   <div class="frc-project-wave__gallery">
@@ -156,7 +156,7 @@
 
   </div>
 
-  <!-- ─── Project info block ────────────────────────────────
+  <!-- --- Project info block --------------------------------
        Sits in the right column of a 2-column wrapper (matches
        Reisinger reference). Left column intentionally empty.
        Inside the info block, label and value sit in a 2-col
@@ -196,7 +196,7 @@
     </dl>
   </div>
 
-  <!-- ─── Contact (bottom-left) ─────────────────────────────── -->
+  <!-- --- Contact (bottom-left) ------------------------------- -->
   <address class="frc-project-wave__contact">
     <span class="frc-project-wave__contact-name">Forma Rosa Creative</span>
     <a class="frc-project-wave__contact-email"
@@ -205,7 +205,7 @@
     </a>
   </address>
 
-  <!-- ─── Floating project label (bottom-left, fixed) ────────
+  <!-- --- Floating project label (bottom-left, fixed) --------
        Mirrors the project-label treatment in frc-hero-scroll on
        /creative: small mono number, 1px dash, large italic title.
        Sits fixed at viewport bottom-left so it floats over the
@@ -220,7 +220,7 @@
 
 <style>
 .frc-project-wave {
-  /* ── Tokens — same brand palette as frc-header / frc-hero-scroll ── */
+  /* -- Tokens - same brand palette as frc-header / frc-hero-scroll -- */
   --bg:           #111111;
   --bg-soft:      #1a1a1a;
   --ink:          #e8e0d8;
@@ -274,7 +274,7 @@
   outline: none;
 }
 
-/* ─── Fixed CLOSE button ────────────────────────────────────
+/* --- Fixed CLOSE button ------------------------------------
    Hovers over the page at viewport top-left while scrolling.
    Same mono small-cap voice as the rest of the chrome. Sits
    ABOVE all content via z-index so it remains clickable while
@@ -302,7 +302,7 @@
   outline: none;
 }
 
-/* ─── Top meta row ──────────────────────────────────────────
+/* --- Top meta row ------------------------------------------
    2 columns on desktop:
      [   04. (centered)   ]   [ intro paragraph (top-right) ]
    Stacks on mobile in the order: 04. / intro.
@@ -376,7 +376,7 @@
   }
 }
 
-/* ─── Brand bar (1px rule + FORMA ROSA CREATIVE logo) ──────
+/* --- Brand bar (1px rule + FORMA ROSA CREATIVE logo) ------
    Mirrors the chrome at the top of /creative so the project
    page reads as part of the same site. Rule is the same
    #3a3a3a 1px line used in frc-header.html. */
@@ -416,7 +416,7 @@
   outline: none;
 }
 
-/* ─── Image gallery (2-column on desktop) ───────────────────
+/* --- Image gallery (2-column on desktop) -------------------
    Stretches the full viewport width (minus --pad-x on each side
    from the section). Gap between columns = --pad-x so the rhythm
    reads as a single rule. Single column on mobile, two on
@@ -447,7 +447,7 @@
   max-width: 100%;
   filter: saturate(0.96) contrast(1.02);
   background: var(--bg-soft);   /* dark placeholder while loading */
-  /* ── Ken Burns: slow zoom 1 -> 1.08, runs forever, pingpongs.
+  /* -- Ken Burns: slow zoom 1 -> 1.08, runs forever, pingpongs.
      `alternate` reverses direction each cycle so the image
      gently zooms in, then back out, with no jump cut.
      22s is the same cadence Ken Burns docs use &mdash; slow
@@ -479,7 +479,7 @@
   to   { transform: scale(1.08); }
 }
 
-/* ─── Mobile: Ken Burns disabled ────────────────────────────
+/* --- Mobile: Ken Burns disabled ----------------------------
    iOS Safari + slow infinite transforms = visible micro-jitter
    on small viewports. Earlier attempts to slow / shrink the
    animation didn't fix it cleanly. Static images on mobile
@@ -493,7 +493,7 @@
   }
 }
 
-/* ─── Project info block ────────────────────────────────────
+/* --- Project info block ------------------------------------
    Two-column wrapper places the info in the right column only
    (left intentionally empty), matching the Reisinger reference.
    Inside, label and value sit in their own 2-col sub-grid so
@@ -570,7 +570,7 @@
 }
 .frc-project-wave__info-row--block dd p:last-child { margin-bottom: 0; }
 
-/* ─── Contact (bottom-left footer) ──────────────────────────
+/* --- Contact (bottom-left footer) --------------------------
    Sits at the bottom of the project page, left-aligned, in the
    same mono voice as the top meta line so the chrome reads as a
    single coherent system. The <address> element is semantic for
@@ -604,7 +604,7 @@
   outline: none;
 }
 
-/* ─── Floating project label (bottom-left, fixed) ────────────
+/* --- Floating project label (bottom-left, fixed) ------------
    Identical treatment to .frc-hero-scroll__label on /creative:
    small mono number in peach, 1px horizontal dash, large italic
    title in near-white. Fixed at viewport bottom-left so it floats
@@ -659,13 +659,13 @@
   padding-bottom: calc(var(--pad-bottom) + clamp(72px, 10vh, 120px));
 }
 
-/* ─── Focus rings (visible only on keyboard nav) ──────────── */
+/* --- Focus rings (visible only on keyboard nav) ------------ */
 .frc-project-wave a:focus-visible {
   outline: 1px dotted var(--hover);
   outline-offset: 4px;
 }
 
-/* ─── Reduced motion ───────────────────────────────────────── */
+/* --- Reduced motion ----------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .frc-project-wave *,
   .frc-project-wave *::before,

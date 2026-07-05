@@ -4,23 +4,23 @@
      Purpose:  Reisinger-style fixed chrome (top band + left accordion)
                rendered in FRC dark brand palette. Persists across all views.
 
-     ⚠️  MOBILE CRITICAL — PARENT-SECTION SETTINGS (READ THIS)
-     ──────────────────────────────────────────────────────────────
+     [!]  MOBILE CRITICAL - PARENT-SECTION SETTINGS (READ THIS)
+     --------------------------------------------------------------
      This widget uses `position: fixed`. ANY ancestor with `transform`,
      `filter`, `backdrop-filter`, `perspective`, `will-change: transform`,
-     or `contain: paint` silently breaks it — the header will render
+     or `contain: paint` silently breaks it - the header will render
      inline at the top of the page instead of overlaying the hero.
      That was the reported mobile bug.
 
      On the Section containing this widget, verify in Elementor:
-       1. Advanced → Motion Effects → Sticky         = NONE
-       2. Advanced → Motion Effects → Scrolling Effects = NONE
-       3. Advanced → Entrance Animation              = NONE
-       4. Layout → Stretch Section                   = OFF
+       1. Advanced -> Motion Effects -> Sticky         = NONE
+       2. Advanced -> Motion Effects -> Scrolling Effects = NONE
+       3. Advanced -> Entrance Animation              = NONE
+       4. Layout -> Stretch Section                   = OFF
           (use Full Width layout with Stretch OFF)
-       5. Advanced → CSS: no transform/filter/will-change/perspective
+       5. Advanced -> CSS: no transform/filter/will-change/perspective
        6. Column: Padding = 0
-       7. HTML Widget: Advanced → Margin = 0, Padding = 0
+       7. HTML Widget: Advanced -> Margin = 0, Padding = 0
 
      Also walk UP the DOM in devtools from .frc-header to <html>. If
      any ancestor has the offending properties (common culprits: theme
@@ -34,9 +34,9 @@
        c.perspective!=='none'||/transform|perspective|filter/.test(c.willChange)||
        /paint|layout|strict/.test(c.contain))out.push({node:n,transform:c.transform,
        filter:c.filter,willChange:c.willChange,contain:c.contain});n=n.parentElement}
-       console.table(out);return out.length?'⚠ trap found':'✓ clean';})(document.querySelector('.frc-header'));
+       console.table(out);return out.length?'[!] trap found':'[x] clean';})(document.querySelector('.frc-header'));
 
-     ──────────────────────────────────────────────────────────────
+     --------------------------------------------------------------
 
      SUBSEQUENT SECTIONS should either:
        (a) be `min-height: 100dvh` so the header naturally overlays them, OR
@@ -45,7 +45,7 @@
      GOOGLE FONTS:
        Loaded inline via <link>. If your Elementor theme already loads
        Cormorant Garamond + Inter globally, you may remove the <link> tag
-       below (but it won't hurt to keep — browser dedupes).
+       below (but it won't hurt to keep - browser dedupes).
 
      VIEW TOGGLE:
        Click [ ] COVERS or [X] SCROLL to switch views.
@@ -60,7 +60,7 @@
 
 <div class="frc-header" role="banner" data-frc-header>
 
-  <!-- ─── Fixed top band ─────────────────────────────────────── -->
+  <!-- --- Fixed top band --------------------------------------- -->
   <div class="frc-header__top">
     <p class="frc-header__tagline">
       MONUMENTS TO NATURE
@@ -68,7 +68,7 @@
     <div class="frc-header__rule" aria-hidden="true"></div>
 
     <div class="frc-header__bar">
-      <a href="https://formarosacreative.com" class="frc-header__logo" aria-label="Forma Rosa Creative — home">
+      <a href="https://formarosacreative.com" class="frc-header__logo" aria-label="Forma Rosa Creative - home">
         FORMA ROSA CREATIVE
       </a>
 
@@ -118,7 +118,7 @@
     </div>
   </div>
 
-  <!-- ─── Fixed left sidebar (accordion) ────────────────────── -->
+  <!-- --- Fixed left sidebar (accordion) ---------------------- -->
   <aside class="frc-header__aside" aria-label="Studio info">
 
     <details class="frc-header__acc" open>
@@ -209,7 +209,7 @@
       <div class="frc-header__feature">
         <a class="frc-header__feature-link"
            href="/creative-projects-wave-exhibit"
-           aria-label="Wave Exhibit — featured project">
+           aria-label="Wave Exhibit - featured project">
           <span class="frc-header__feature-frame">
             <img class="frc-header__feature-img"
                  src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wave-column-01.png"
@@ -230,7 +230,7 @@
 
 <style>
 /* ============================================================
-   .frc-header — scoped styles
+   .frc-header - scoped styles
    ============================================================ */
 
 .frc-header {
@@ -255,7 +255,7 @@
      so the FEATURED thumbnail (max-width 480px) can render at
      close to its full 2x size on desktop viewports. */
   --aside-w:   clamp(300px, 28vw, 500px);
-  --ink-body:  #f5f1ec;   /* near-white body copy — pairs with peach --ink-head */
+  --ink-body:  #f5f1ec;   /* near-white body copy - pairs with peach --ink-head */
 
   /* ---- fixed overlay (desktop AND mobile) ----
      !important beats theme/Elementor overrides. If the header still
@@ -277,7 +277,7 @@
 
 .frc-header > * { pointer-events: auto; } /* re-enable on real elements */
 
-/* ─── Neutralize Elementor/theme button & link styles ─────────── */
+/* --- Neutralize Elementor/theme button & link styles ----------- */
 /* Prevent pink/accent hover fills, focus rings, and underlines from
    the active theme bleeding into our chrome. */
 .frc-header a,
@@ -307,7 +307,7 @@
   text-decoration: none !important;
 }
 
-/* ─── Top band ──────────────────────────────────────────────── */
+/* --- Top band ------------------------------------------------ */
 .frc-header__top {
   position: absolute;
   top: 0;
@@ -460,7 +460,7 @@
   outline: none;
 }
 
-/* ─── Hamburger button ─────────────────────────────────────────
+/* --- Hamburger button -----------------------------------------
    Hidden on desktop via `display: none`. The mobile media query
    switches it to `inline-flex`. Three-line icon built from the
    element's background + two pseudo-elements; animates to an X
@@ -518,7 +518,7 @@
   transform: rotate(-45deg);
 }
 
-/* ─── Left sidebar accordion ────────────────────────────────── */
+/* --- Left sidebar accordion ---------------------------------- */
 .frc-header__aside {
   position: absolute;
   top: clamp(96px, 11vh, 128px);  /* starts below the top band */
@@ -548,7 +548,7 @@
 .frc-header__acc > summary::-webkit-details-marker { display: none; }
 .frc-header__acc > summary:hover { color: var(--ink-head); }
 
-/* (Summary-level rule-leader removed — Reisinger only uses them on subheads) */
+/* (Summary-level rule-leader removed - Reisinger only uses them on subheads) */
 
 .frc-header__bracket::before { content: "[+]"; }
 .frc-header__acc[open] .frc-header__bracket::before { content: "[-]"; }
@@ -571,11 +571,11 @@
 .frc-header__list a:hover,
 .frc-header__list a:focus-visible { color: var(--hover); outline: none; }
 
-/* ─── FEATURED thumbnail (4:3 small thumbnail with caption) ───
+/* --- FEATURED thumbnail (4:3 small thumbnail with caption) ---
    Sits inside the accordion when expanded. Image is a link to a
    project page on WordPress. The frame enforces a 4:3 aspect ratio
    so the thumbnail stays consistent regardless of source image
-   dimensions — object-fit: cover crops the source to fit.
+   dimensions - object-fit: cover crops the source to fit.
    Indented to match `.frc-header__list` left margin so the caption
    sits at the same x-position as the CONTACT list items above it. */
 .frc-header__feature {
@@ -657,7 +657,7 @@
   color: var(--ink-body);
   /* Break out of the narrow sidebar so subhead lines extend across the viewport.
      Leave padding on the right so lines don't kiss the screen edge.
-     No 1100px cap — subheads should span the full viewport. Paragraph and
+     No 1100px cap - subheads should span the full viewport. Paragraph and
      list readability is preserved via individual max-width below. */
   width: calc(100vw - var(--aside-w) - 3rem);
   max-width: none;
@@ -750,7 +750,7 @@
   margin-top: 0.8em;
 }
 
-/* Lists inside ABOUT body — match the BIO prose voice (Inter 0.82/1.65)
+/* Lists inside ABOUT body - match the BIO prose voice (Inter 0.82/1.65)
    so PRESS entries, EXHIBITS, and TEAM all read in the same voice as BIO. */
 .frc-header__body-list {
   list-style: none;
@@ -767,13 +767,13 @@
   position: relative;
 }
 .frc-header__body-list li::before {
-  content: "·";
+  content: "-";
   position: absolute;
   left: 0;
   color: var(--ink-dim);
 }
 
-/* PRESS entries — publication name reads as dominant (weight 500 / white),
+/* PRESS entries - publication name reads as dominant (weight 500 / white),
    project context stays same white color but at regular weight, so visual
    hierarchy is conveyed by weight, not color contrast. Scoped to press
    columns so EXHIBITS and TEAM lists keep their normal regular weight. */
@@ -793,7 +793,7 @@
   outline: none;
 }
 
-/* Project-context suffix (e.g. "— Forma Rosa Studio at Alcova Milan 2023").
+/* Project-context suffix (e.g. "- Forma Rosa Studio at Alcova Milan 2023").
    Same near-white color as the pub name, but regular weight for readability
    while keeping hierarchy. */
 .frc-header__press-ctx {
@@ -801,7 +801,7 @@
   font-weight: 400;
 }
 
-/* BIO 2-column layout — stacked on narrow screens, side-by-side on desktop.
+/* BIO 2-column layout - stacked on narrow screens, side-by-side on desktop.
    Uses the ABOUT body's full-viewport breakout width, so columns have
    plenty of room at typical laptop/desktop widths. */
 .frc-header__bio-grid {
@@ -825,7 +825,7 @@
   font-style: italic;
 }
 
-/* ─── Mobile: same fixed-overlay chrome as desktop ─────────────
+/* --- Mobile: same fixed-overlay chrome as desktop -------------
    Mobile uses the SAME fixed-overlay pattern as desktop so the hero
    image sits edge-to-edge behind the top band and the scroll-scale
    effect is unbroken. Adjustments:
@@ -836,13 +836,13 @@
         ABOUT is expanded so it can't push the fixed layout.
 
    Breakpoint is 767px to match Elementor's default mobile breakpoint.
-   All selectors doubled (.frc-header.frc-header …) to win specificity
+   All selectors doubled (.frc-header.frc-header ...) to win specificity
    battles against theme/Elementor rules that target aside/nav/header
    tags globally. !important used as belt-and-braces against any
    higher-specificity global rule.
-   ─────────────────────────────────────────────────────────────── */
+   --------------------------------------------------------------- */
 @media (max-width: 767px) {
-  /* Mobile layout: 2 columns, 1 row — logo + meta (hamburger). The
+  /* Mobile layout: 2 columns, 1 row - logo + meta (hamburger). The
      COVERS/SCROLL view toggle and the left sidebar are hidden. */
   .frc-header.frc-header .frc-header__bar {
     grid-template-columns: 1fr auto !important;
@@ -852,12 +852,12 @@
   .frc-header.frc-header .frc-header__logo { grid-area: logo; }
   .frc-header.frc-header .frc-header__meta { grid-area: meta; justify-self: end; }
 
-  /* ── COVERS/SCROLL view toggle: hidden on mobile.
+  /* -- COVERS/SCROLL view toggle: hidden on mobile.
      Mobile locks to the SCROLL view (see JS). Doubled selector +
      !important beats any theme rule targeting <button> or <nav>. */
   .frc-header.frc-header .frc-header__views { display: none !important; }
 
-  /* ── Left sidebar on mobile ───────────────────────────────────
+  /* -- Left sidebar on mobile -----------------------------------
      The aside is shown on mobile (users asked for CONTACT/ABOUT
      accordion back on phones). Stretch it nearly full-width so
      CONTACT list and ABOUT body have room to breathe, and undo
@@ -879,7 +879,7 @@
     overscroll-behavior: contain;
   }
 
-  /* Kill the desktop breakout math — on mobile the body stays inside
+  /* Kill the desktop breakout math - on mobile the body stays inside
      the aside and fills its padded width. */
   .frc-header.frc-header .frc-header__body {
     width: auto;
@@ -898,7 +898,7 @@
     max-width: 240px;
   }
 
-  /* PRESS two-column → one column on mobile (no horizontal room). */
+  /* PRESS two-column -> one column on mobile (no horizontal room). */
   .frc-header.frc-header .frc-header__press-grid {
     grid-template-columns: 1fr;
     row-gap: 0.8em;
@@ -910,12 +910,12 @@
     row-gap: 0.8em;
   }
 
-  /* ── Hamburger button: visible on mobile. */
+  /* -- Hamburger button: visible on mobile. */
   .frc-header.frc-header .frc-header__menu-btn {
     display: inline-flex !important;
   }
 
-  /* ── Hamburger dropdown (IG, ABOUT, STUDIO) ──
+  /* -- Hamburger dropdown (IG, ABOUT, STUDIO) --
      No background / blur / border &mdash; items just float over the
      hero behind the header. Right-aligned and padding-right: 0 so
      the text is flush with the panel's right edge instead of
@@ -957,14 +957,14 @@
   }
 }
 
-/* ─── Desktop focus states ──────────────────────────────────── */
+/* --- Desktop focus states ------------------------------------ */
 .frc-header button:focus-visible,
 .frc-header summary:focus-visible {
   outline: 1px dotted var(--hover);
   outline-offset: 3px;
 }
 
-/* ─── Reduced motion respect ────────────────────────────────── */
+/* --- Reduced motion respect ---------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .frc-header *,
   .frc-header *::before,
@@ -982,7 +982,7 @@
   if (!widget || widget.dataset.initialized === '1') return;
   widget.dataset.initialized = '1';
 
-  /* ── Containing-block trap self-diagnostic ──────────────────
+  /* -- Containing-block trap self-diagnostic ------------------
      `position: fixed` silently breaks if any ancestor has
      transform/filter/backdrop-filter/perspective/will-change:
      transform/contain: paint. If we detect a trap, log a clear
@@ -1009,10 +1009,10 @@
     }
     if (trouble.length) {
       console.warn(
-        '[frc-header] ⚠ Containing-block trap detected. ' +
+        '[frc-header] [!] Containing-block trap detected. ' +
         'The fixed-position header will not stay pinned until this is fixed.\n' +
         'Offending ancestors:', trouble,
-        '\nFix: remove transform/filter/etc. from these ancestors — most often ' +
+        '\nFix: remove transform/filter/etc. from these ancestors - most often ' +
         'by turning OFF Motion Effects / Entrance Animation / Stretch Section ' +
         'on the parent Elementor section, or disabling the theme mobile-menu ' +
         'drawer transform. See comment block at top of frc-header.html.'
@@ -1020,11 +1020,11 @@
     }
   } catch (e) { /* diagnostic only, never throw */ }
 
-  /* ── Mobile detection ────────────────────────────────────── */
+  /* -- Mobile detection -------------------------------------- */
   var mq = window.matchMedia('(max-width: 767px)');
   function isMobile() { return mq.matches; }
 
-  /* ── View toggle ─────────────────────────────────────────── */
+  /* -- View toggle ------------------------------------------- */
   var toggles = widget.querySelectorAll('[data-frc-view]');
 
   // Initial view: on mobile, always SCROLL (covers toggle is hidden).
@@ -1068,7 +1068,7 @@
   if (mq.addEventListener) mq.addEventListener('change', onMqChange);
   else if (mq.addListener) mq.addListener(onMqChange);
 
-  /* ── Hamburger menu (mobile) ─────────────────────────────── */
+  /* -- Hamburger menu (mobile) ------------------------------- */
   var menuBtn    = widget.querySelector('[data-frc-menu-btn]');
   var menuPanel  = widget.querySelector('[data-frc-menu-panel]');
   var menuWrap   = widget.querySelector('.frc-header__meta');

@@ -9,23 +9,23 @@
 
               Mirrors the chrome of frc-header.html on /creative
               so the brand reads as one site. No sidebar accordion
-              (CONTACT/FEATURED/ABOUT) here — those belong on the
+              (CONTACT/FEATURED/ABOUT) here - those belong on the
               creative portfolio page, not the About page itself.
 
-     ⚠️  MOBILE / PARENT-SECTION SETTINGS
-     ──────────────────────────────────────────────────────────
+     [!]  MOBILE / PARENT-SECTION SETTINGS
+     ----------------------------------------------------------
      This widget uses `position: fixed`. ANY ancestor with
      `transform`, `filter`, `backdrop-filter`, `perspective`,
      `will-change: transform`, or `contain: paint` silently
      breaks it. On the parent Elementor Section:
-       1. Advanced → Motion Effects → Sticky        = NONE
-       2. Advanced → Motion Effects → Scrolling     = NONE
-       3. Advanced → Entrance Animation             = NONE
-       4. Layout → Stretch Section                  = OFF
-       5. Advanced → CSS: no transform/filter/will-change
+       1. Advanced -> Motion Effects -> Sticky        = NONE
+       2. Advanced -> Motion Effects -> Scrolling     = NONE
+       3. Advanced -> Entrance Animation             = NONE
+       4. Layout -> Stretch Section                  = OFF
+       5. Advanced -> CSS: no transform/filter/will-change
        6. Column padding = 0; widget margin/padding = 0
      Recommended page template: Elementor Canvas or Full Width.
-     ──────────────────────────────────────────────────────────
+     ----------------------------------------------------------
 
      SUBSEQUENT SECTIONS should pad their top by at least
      `clamp(96px, 12vh, 140px)` so they clear the header's top
@@ -85,7 +85,7 @@
 
 <style>
 /* ============================================================
-   .frc-about-header — scoped styles, sibling of .frc-header
+   .frc-about-header - scoped styles, sibling of .frc-header
    ============================================================ */
 
 .frc-about-header {
@@ -131,7 +131,7 @@
 .frc-about-header a,
 .frc-about-header button { pointer-events: auto; }
 
-/* ─── Neutralize Elementor/theme button & link styles ───────
+/* --- Neutralize Elementor/theme button & link styles -------
    Prevents pink/accent hover fills, focus rings, and underlines
    from the active theme bleeding into our chrome. */
 .frc-about-header a {
@@ -152,7 +152,7 @@
   text-decoration: none !important;
 }
 
-/* ─── Override Elementor's global img sizing rule ─────────
+/* --- Override Elementor's global img sizing rule ---------
    (Not strictly needed for this widget since it ships no
    images, but kept for parity with frc-header's hardening.) */
 .frc-about-header img {
@@ -160,7 +160,7 @@
   height: auto !important;
 }
 
-/* ─── Top band ───────────────────────────────────────────── */
+/* --- Top band --------------------------------------------- */
 .frc-about-header__top {
   background: transparent;        /* keep page bg visible behind */
   backdrop-filter: none;
@@ -196,7 +196,7 @@
   padding: 0.8rem 0 0.9rem;
 }
 
-/* ─── Logo (left) ───────────────────────────────────────── */
+/* --- Logo (left) ----------------------------------------- */
 .frc-about-header__logo {
   /* !important on font-family beats theme rules that target <a>. */
   font-family: var(--font-display) !important;
@@ -214,7 +214,7 @@
   outline: none;
 }
 
-/* ─── Right-side nav ─────────────────────────────────────── */
+/* --- Right-side nav --------------------------------------- */
 .frc-about-header__meta {
   display: inline-flex;
   align-items: center;
@@ -245,7 +245,7 @@
   outline: none;
 }
 
-/* ─── Hamburger button ─────────────────────────────────────
+/* --- Hamburger button -------------------------------------
    Hidden on desktop via `display: none`. The mobile media
    query switches it to `inline-flex`. Same three-line icon +
    animated X as the /creative header. */
@@ -300,17 +300,17 @@
   transform: rotate(-45deg);
 }
 
-/* ─── Focus ring (keyboard nav only) ────────────────────── */
+/* --- Focus ring (keyboard nav only) ---------------------- */
 .frc-about-header a:focus-visible {
   outline: 1px dotted var(--hover);
   outline-offset: 3px;
 }
 
-/* ─── Mobile ───────────────────────────────────────────────
+/* --- Mobile -----------------------------------------------
    Breakpoint 767px to match Elementor's default. The bar
    collapses to logo (left) + meta (right); the tagline stays
    centered above it.
-   Doubled selectors (.frc-about-header.frc-about-header …)
+   Doubled selectors (.frc-about-header.frc-about-header ...)
    raise specificity to beat theme rules that target <a> or
    <nav> tags globally. */
 @media (max-width: 767px) {
@@ -322,12 +322,12 @@
     gap: 0.75rem !important;
   }
 
-  /* ── Hamburger button visible on mobile. */
+  /* -- Hamburger button visible on mobile. */
   .frc-about-header.frc-about-header .frc-about-header__menu-btn {
     display: inline-flex !important;
   }
 
-  /* ── Hamburger dropdown (just IG on the about page).
+  /* -- Hamburger dropdown (just IG on the about page).
      Same minimal floating treatment as /creative: no background,
      right-aligned, sized to content. */
   .frc-about-header.frc-about-header .frc-about-header__meta-links {
@@ -365,7 +365,7 @@
   }
 }
 
-/* ─── Reduced motion ───────────────────────────────────── */
+/* --- Reduced motion ------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .frc-about-header *,
   .frc-about-header *::before,
@@ -384,7 +384,7 @@
   if (!widget || widget.dataset.initialized === '1') return;
   widget.dataset.initialized = '1';
 
-  /* ── Containing-block trap self-diagnostic ──────────────────
+  /* -- Containing-block trap self-diagnostic ------------------
      `position: fixed` silently breaks if any ancestor has
      transform/filter/backdrop-filter/perspective/will-change:
      transform/contain: paint. Log a clear warning so the issue
@@ -410,7 +410,7 @@
     }
     if (trouble.length) {
       console.warn(
-        '[frc-about-header] ⚠ Containing-block trap detected. ' +
+        '[frc-about-header] [!] Containing-block trap detected. ' +
         'The fixed-position header will not stay pinned until this is fixed.\n' +
         'Offending ancestors:', trouble,
         '\nFix: on the parent Elementor section, turn OFF Motion Effects, ' +
@@ -419,7 +419,7 @@
     }
   } catch (e) { /* diagnostic only, never throw */ }
 
-  /* ── Hamburger menu (mobile) ─────────────────────────────
+  /* -- Hamburger menu (mobile) -----------------------------
      Toggles the `.is-open` state on .frc-about-header__meta
      which fades the dropdown panel in. Mirrors the /creative
      header's behavior so the two pages feel identical. */

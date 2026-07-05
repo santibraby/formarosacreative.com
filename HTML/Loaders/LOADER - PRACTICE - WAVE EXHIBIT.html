@@ -20,7 +20,7 @@
     })
     .then(function (html) {
       m.innerHTML = html;
-      // innerHTML does not execute <script> tags — recreate them so they run
+      // innerHTML does not execute <script> tags - recreate them so they run
       m.querySelectorAll('script').forEach(function (old) {
         var s = document.createElement('script');
         if (old.src) { s.src = old.src; } else { s.textContent = old.textContent; }

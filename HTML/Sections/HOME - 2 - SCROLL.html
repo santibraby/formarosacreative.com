@@ -1,25 +1,25 @@
 <!-- ============================================================
-     Section: SCROLL view — stacked hero cards that scale down to zero
+     Section: SCROLL view - stacked hero cards that scale down to zero
               as you scroll, revealing the next image waiting behind.
      Class:   frc-hero-scroll
      Effect:  Image N is centered, full-size. As scroll advances within
-              its "chunk", image N scales 1 → 0. Image N+1 sits behind
+              its "chunk", image N scales 1 -> 0. Image N+1 sits behind
               at scale 1 and is progressively revealed at the edges as
               N shrinks toward center. When N hits 0, N+1 starts its own
               scale-down. Continuous scroll-linked, no threshold flicker.
 
-     ⚠️  MOBILE CRITICAL — PARENT-SECTION SETTINGS
-     ──────────────────────────────────────────────────────────
+     [!]  MOBILE CRITICAL - PARENT-SECTION SETTINGS
+     ----------------------------------------------------------
      `position: sticky` on the stage silently breaks if any ancestor
      has transform/filter/backdrop-filter/perspective/will-change/
      contain: paint. On the parent Elementor section:
        - Template: Elementor Canvas (globals off) is cleanest
        - Layout: Full Width; Stretch section = OFF
-         (Stretch section uses JS transform — kills sticky.)
+         (Stretch section uses JS transform - kills sticky.)
        - Section padding: 0, Column padding: 0
-       - Advanced → Motion Effects: NONE
-       - Advanced → Entrance Animation: NONE
-       - Advanced → CSS: no transform/filter/will-change/perspective
+       - Advanced -> Motion Effects: NONE
+       - Advanced -> Entrance Animation: NONE
+       - Advanced -> CSS: no transform/filter/will-change/perspective
      If sticky stage un-pins on mobile, the JS console will log a
      [frc-hero-scroll] warning pinpointing the offending ancestor.
 
@@ -27,10 +27,10 @@
      (NOT window.innerHeight) so iOS Safari's URL-bar shrink/grow
      does not desync the math. visualViewport.resize is also wired
      so URL-bar transitions recompute immediately.
-     ──────────────────────────────────────────────────────────
+     ----------------------------------------------------------
 
      Drop this BELOW frc-header and ABOVE frc-covers. Section is
-     tall ((N+1) × 100dvh) so the sticky stage stays pinned through
+     tall ((N+1) x 100dvh) so the sticky stage stays pinned through
      all N scale-down transitions. Auto-hides when
      html[data-view="covers"].
      ============================================================ -->
@@ -39,7 +39,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<section class="frc-hero-scroll" data-frc-hero aria-label="Projects — scroll view">
+<section class="frc-hero-scroll" data-frc-hero aria-label="Projects - scroll view">
 
   <!-- Sticky stage: image stack + label + scroll cue -->
   <div class="frc-hero-scroll__stage">
@@ -114,7 +114,7 @@
       <span class="frc-hero-scroll__title" data-hero-title>Library</span>
     </div>
 
-    <!-- Scroll cue (bottom-right) — fades out after first scroll -->
+    <!-- Scroll cue (bottom-right) - fades out after first scroll -->
     <div class="frc-hero-scroll__cue" aria-hidden="true">
       <span class="frc-hero-scroll__cue-label">SCROLL</span>
       <span class="frc-hero-scroll__cue-line"></span>
@@ -122,7 +122,7 @@
 
   </div>
 
-  <!-- Scroll length provider. Height = N × 100dvh of scroll distance.
+  <!-- Scroll length provider. Height = N x 100dvh of scroll distance.
        Invisible (covered by the sticky stage). -->
   <div class="frc-hero-scroll__track" data-hero-track aria-hidden="true"></div>
 
@@ -130,7 +130,7 @@
 
 <style>
   .frc-hero-scroll {
-    /* local tokens — do not leak */
+    /* local tokens - do not leak */
     --bg:            #0a0a0a;
     --ink:           #f5f1ec;
     --ink-peach:     #d4c4b5;
@@ -147,7 +147,7 @@
     color: var(--ink);
     box-sizing: border-box;
     /* CRITICAL: `overflow` (incl. `clip`, `hidden`, `auto`, `scroll`) on
-       ANY axis of an ancestor breaks `position: sticky` on descendants —
+       ANY axis of an ancestor breaks `position: sticky` on descendants -
        sticky pins to the nearest clipped ancestor, not the window. We
        still want to prevent sideways scroll from stray transforms, so
        clip ONLY the x-axis and leave y-axis visible. Per CSS spec
@@ -164,7 +164,7 @@
      !important on position: sticky because Elementor/theme occasionally
      override `position` on descendants with higher specificity. If this
      doesn't pin on mobile, the cause is an ancestor with transform/
-     filter/etc. — see top-of-file comment and the JS self-diagnostic
+     filter/etc. - see top-of-file comment and the JS self-diagnostic
      that logs actionable warnings to the console. */
   .frc-hero-scroll .frc-hero-scroll__stage {
     position: sticky !important;
@@ -191,7 +191,7 @@
        - centered via top/left 50% + translate(-50%, -50%)
        - scale driven by --s (set inline by JS)
        At scale 1, portrait images overflow top/bottom (stage's
-       overflow:hidden crops them — classic full-bleed center-crop);
+       overflow:hidden crops them - classic full-bleed center-crop);
        as --s shrinks toward 0, the full composition becomes visible
        around the viewport center.
        !important on sizing defeats Elementor's global
@@ -206,7 +206,7 @@
     min-width:  0 !important;
     min-height: 0 !important;
     display: block !important;
-    /* --s is the JS-driven scale (0 → 1). Base transform combines
+    /* --s is the JS-driven scale (0 -> 1). Base transform combines
        centering + scale so JS only needs to update the variable. */
     --s: 1;
     transform: translate(-50%, -50%) scale(var(--s));
@@ -307,7 +307,7 @@
     50%      { transform: scaleX(1);    opacity: 0.95; }
   }
 
-  /* ---- TRACK: pure scroll spacer (N chunks × 100dvh) ---- */
+  /* ---- TRACK: pure scroll spacer (N chunks x 100dvh) ---- */
   .frc-hero-scroll__track {
     position: relative;
     width: 100%;
@@ -320,9 +320,9 @@
      On mobile the stage is `position: fixed` (not sticky), which means
      the stage does NOT consume layout space inside the section. The
      section is effectively just the track, and the section ends when
-     the track's bottom edge hits the viewport's bottom edge — i.e.
+     the track's bottom edge hits the viewport's bottom edge - i.e.
      one viewport-height sooner than on desktop. Without this override,
-     rawProgress maxes out at (N-1)/N ≈ 0.93 and the `rawProgress >= 1`
+     rawProgress maxes out at (N-1)/N ~= 0.93 and the `rawProgress >= 1`
      loop-reset branch never fires, so the cycle never restarts.
      Add one extra viewport-height of track so rawProgress can actually
      reach 1.0 and the loop reset triggers. */
@@ -339,7 +339,7 @@
   /* ---- Reduced motion ---- */
   @media (prefers-reduced-motion: reduce) {
     .frc-hero-scroll__cue-line { animation: none !important; }
-    /* JS switches to snap mode — no scale animation, just show active image. */
+    /* JS switches to snap mode - no scale animation, just show active image. */
   }
 
   /* ---- Mobile ---- */
@@ -347,18 +347,18 @@
      Previously 719px left a 48px gap where Elementor tablet styles
      competed with widget desktop styles, causing visual inconsistency. */
   @media (max-width: 767px) {
-    /* ══════════════════════════════════════════════════════════════
+    /* ==============================================================
        MOBILE: switch stage from `position: sticky` to `position: fixed`.
-       ──────────────────────────────────────────────────────────────
+       --------------------------------------------------------------
        WHY: `position: sticky` silently fails if ANY ancestor has
-       `overflow: hidden/auto/scroll/clip` on any axis — which is
+       `overflow: hidden/auto/scroll/clip` on any axis - which is
        common in Elementor sections/columns/themes and unfixable from
        inside the widget. `position: fixed` is immune to overflow
        traps (only transform/filter-family traps affect it), and the
        site's header already proves `position: fixed` works on mobile
        for this page. So we take the stage out of flow entirely and
        let JS toggle `.is-in-view` on the widget based on the section's
-       bounding rect — the stage appears only while the hero section
+       bounding rect - the stage appears only while the hero section
        intersects the viewport. Scroll math is unchanged. */
     .frc-hero-scroll .frc-hero-scroll__stage {
       position: fixed !important;
@@ -375,21 +375,21 @@
       visibility: visible;
     }
 
-    /* Mobile image sizing — match desktop exactly.
+    /* Mobile image sizing - match desktop exactly.
        Keep natural aspect ratio (width: 100vw + height: auto) so the
        zoom-out reveals the full original composition as the image
-       scales 1 → 0. Landscape images will show with black bars above
-       and below at scale 1 — that's by design; as the image shrinks
+       scales 1 -> 0. Landscape images will show with black bars above
+       and below at scale 1 - that's by design; as the image shrinks
        the bars stop mattering and the full frame becomes visible.
        Portrait images at scale 1 will overflow top/bottom (cropped by
        stage overflow:hidden), then uncrop as they shrink.
 
        The base .frc-hero-scroll__img rule already sets width:100vw
-       and height:auto with !important. We don't re-declare those —
+       and height:auto with !important. We don't re-declare those -
        the single-class base rule's !important wins the cascade
        against anything Elementor ships at mobile breakpoints.
 
-       ⚠ IMPORTANT — re-declare `transform` with !important here.
+       [!] IMPORTANT - re-declare `transform` with !important here.
        The base rule sets the centering + scale transform WITHOUT
        !important. On mobile, Elementor's mobile responsive engine
        (and several WordPress themes) inject `@media (max-width: 767px)
@@ -414,7 +414,7 @@
       bottom: max(clamp(18px, 3vh, 28px), env(safe-area-inset-bottom, 18px));
     }
 
-    /* ── Mobile scroll cue ────────────────────────────────────
+    /* -- Mobile scroll cue ------------------------------------
        Bottom-right placement (same as desktop). Promoted to
        `position: fixed` so it sits in the root stacking context
        and rises above .frc-header (z-index 100). Without this,
@@ -471,7 +471,7 @@
   var track      = widget.querySelector('[data-hero-track]');
   if (!stage || !stack || !imgs.length || !labelNum || !labelTitle || !track) return;
 
-  // ── Containing-block trap self-diagnostic ──────────────────
+  // -- Containing-block trap self-diagnostic ------------------
   // If any ancestor has transform/filter/etc., position: sticky
   // on the stage silently breaks. Log a precise warning so the
   // user can identify and fix it in seconds.
@@ -499,11 +499,11 @@
     }
     if (trouble.length) {
       console.warn(
-        '[frc-hero-scroll] ⚠ Containing-block / scroll-container trap detected. ' +
+        '[frc-hero-scroll] [!] Containing-block / scroll-container trap detected. ' +
         'position: sticky on the stage may not pin correctly until this is fixed.\n' +
         'Offending ancestors:', trouble,
         '\nFix: on the parent Elementor section, turn OFF Motion Effects, Entrance ' +
-        'Animation, and Stretch Section. Remove any Advanced → CSS transform/filter/' +
+        'Animation, and Stretch Section. Remove any Advanced -> CSS transform/filter/' +
         'will-change. See comment block at top of frc-hero-scroll.html.'
       );
     }
@@ -528,9 +528,9 @@
   var lastLabelIdx = 0;
 
   // --- Reduced-motion preference ---
-  // ⚠ DESIGN DECISION: the scroll-scale effect is the hero of this page,
+  // [!] DESIGN DECISION: the scroll-scale effect is the hero of this page,
   // so we intentionally override the OS-level Reduce Motion setting and
-  // always run the continuous scale animation — even for visitors who
+  // always run the continuous scale animation - even for visitors who
   // have prefers-reduced-motion enabled. Set FORCE_CONTINUOUS = false
   // to restore accessibility-default behaviour (snap between images,
   // no scale). See the image-scaling code below for where this is used.
@@ -539,7 +539,7 @@
 
   // --- Viewport-height source (the mobile-critical change) ---
   // Previous version used window.innerHeight, which on iOS Safari
-  // changes as the URL bar shows/hides — that desynced scroll math
+  // changes as the URL bar shows/hides - that desynced scroll math
   // and made the effect jump/feel broken on phones. Instead, we
   // read the rendered height of the sticky stage, which is sized
   // via 100dvh in CSS and tracks the visible viewport exactly.
@@ -549,13 +549,13 @@
   }
   var vh = measureVh();
 
-  // ── Per-image FILL SCALE ─────────────────────────────────────
-  // Each image is sized via CSS as width:100vw, height:auto — so at
-  // transform scale 1 it renders at vw × (vw × naturalH/naturalW).
+  // -- Per-image FILL SCALE -------------------------------------
+  // Each image is sized via CSS as width:100vw, height:auto - so at
+  // transform scale 1 it renders at vw x (vw x naturalH/naturalW).
   // On portrait phones, landscape images are letterboxed at scale 1.
   // We want the image to START at "cover-fill" (zoomed in just enough
   // to fill the viewport edge-to-edge), then scale down through its
-  // natural aspect ratio to zero — revealing the full original
+  // natural aspect ratio to zero - revealing the full original
   // composition as it shrinks. fillScale is the multiplier needed to
   // make the rendered box meet OR exceed viewport height; for portrait
   // images that already overflow, fillScale is 1.
@@ -592,7 +592,7 @@
     if (scrolled < 0) scrolled = 0;
 
     var trackH      = vh * N;
-    var rawProgress = scrolled / trackH;       // 0 → 1 (and possibly >1)
+    var rawProgress = scrolled / trackH;       // 0 -> 1 (and possibly >1)
 
     // --- LOOP: when the user has scrolled past the last image's full
     // scale-down, snap back to the section top so the cycle restarts.
@@ -612,7 +612,7 @@
     if (progress < 0) progress = 0;
     if (progress > 1) progress = 1;
 
-    var totalProgress = progress * N;          // 0 → N (one unit per image chunk)
+    var totalProgress = progress * N;          // 0 -> N (one unit per image chunk)
 
     if (!FORCE_CONTINUOUS && prefersReduce.matches) {
       // Snap mode: show only the dominant image at full scale.
@@ -628,8 +628,8 @@
         labelTitle.textContent = projects[snapIdx].title;
       }
     } else {
-      // Continuous mode: each image scales fillScale → 0 during its chunk.
-      // ⚠ MOBILE FIX: set `transform` directly via inline style with
+      // Continuous mode: each image scales fillScale -> 0 during its chunk.
+      // [!] MOBILE FIX: set `transform` directly via inline style with
       // `!important` priority instead of a CSS variable. Inline style
       // with `!important` is the highest-priority CSS source short of
       // user stylesheets, so this wins unconditionally against anything
@@ -678,13 +678,13 @@
       cueHidden = false;
     }
 
-    // ── Mobile stage visibility (position: fixed mode) ─────────
+    // -- Mobile stage visibility (position: fixed mode) ---------
     // On mobile the stage is position: fixed (see mobile media query
     // for why). Toggle .is-in-view on the widget so the stage only
     // renders while the hero section intersects the viewport. This
     // prevents it from floating above page content after the user
     // scrolls past the section. The class is harmless on desktop
-    // (sticky stage ignores it). Using rect + vh — same inputs as
+    // (sticky stage ignores it). Using rect + vh - same inputs as
     // the scroll progress math so the two can't desync.
     var sectionInView = (rect.bottom > 0) && (rect.top < vh);
     if (sectionInView) {
@@ -708,7 +708,7 @@
   }
   function onResize() {
     vh = measureVh();
-    computeFillScales();   // viewport changed → recompute per-image fill scale
+    computeFillScales();   // viewport changed -> recompute per-image fill scale
     update();
   }
 
@@ -716,16 +716,16 @@
   window.addEventListener('resize', onResize);
   // visualViewport fires on iOS Safari when the URL bar shows/hides
   // (the main `resize` event does NOT fire reliably in that case).
-  // Without this listener, scroll math desyncs by ~60–180px as the
+  // Without this listener, scroll math desyncs by ~60-180px as the
   // user scrolls and the URL bar animates.
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', onResize);
     window.visualViewport.addEventListener('scroll', onScroll);
   }
 
-  /* ── iOS scroll-event throttling fix ───────────────────────
+  /* -- iOS scroll-event throttling fix -----------------------
      iOS Safari batches/defers `scroll` events during momentum
-     scroll — sometimes firing only when the flick settles. That
+     scroll - sometimes firing only when the flick settles. That
      makes our scroll-linked scale effect look like it "snaps"
      from image 1 to image 3 instead of animating smoothly.
      Fix: on mobile, run update() every frame via rAF while the
@@ -772,7 +772,7 @@
       if (mobileMq.matches) ensureRafLoop();
     });
   }
-  // Also recompute after orientation change — the `orientationchange`
+  // Also recompute after orientation change - the `orientationchange`
   // event is sometimes fired before layout settles; double-fire on
   // next frame for safety.
   window.addEventListener('orientationchange', function () {
