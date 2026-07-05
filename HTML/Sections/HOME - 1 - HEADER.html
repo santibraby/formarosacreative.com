@@ -208,7 +208,7 @@
       </summary>
       <div class="frc-header__feature">
         <a class="frc-header__feature-link"
-           href="/creative-projects-wave-exhibit"
+           href="https://formarosacreative.com/practice-wave-exhibit/"
            aria-label="Wave Exhibit - featured project">
           <span class="frc-header__feature-frame">
             <img class="frc-header__feature-img"
@@ -341,11 +341,16 @@
 
 .frc-header__bar {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  /* 1fr | auto | 1fr keeps the COVERS/SCROLL toggle truly centered
+     on the viewport (matching the centered tagline above), instead
+     of centered in the leftover space between logo and IG/COLLAB. */
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 1rem;
   padding: 0.8rem 0 0.9rem;
 }
+.frc-header__bar > .frc-header__logo { justify-self: start; }
+.frc-header__bar > .frc-header__meta { justify-self: end; }
 
 .frc-header__logo {
   font-family: var(--font-display);

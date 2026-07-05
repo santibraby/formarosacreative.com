@@ -33,18 +33,18 @@
   <!-- --- Fixed far-left rail -------------------------------- -->
   <aside class="frc-practice__rail" aria-label="Site navigation">
     <a class="frc-practice__rail-logo" href="https://formarosacreative.com" aria-label="Forma Rosa Creative - home">
-      <img src="https://formarosacreative.com/wp-content/uploads/2026/07/CHROME-LOGO.png" alt="Forma Rosa mark" width="34" height="34">
+      <img src="https://formarosacreative.com/wp-content/uploads/2026/07/CHROME-LOGO.png" alt="Forma Rosa mark" width="68" height="68">
     </a>
 
     <nav class="frc-practice__rail-links" aria-label="Quick links">
       <a href="https://formarosacreative.com/collab" aria-label="Collaborate with us" title="Collab">
-        <img src="https://formarosacreative.com/wp-content/uploads/2026/07/icon-ABOUT.png" alt="" width="36" height="36">
+        <img src="https://formarosacreative.com/wp-content/uploads/2026/07/icon-ABOUT.png" alt="" width="30" height="30">
       </a>
       <a href="https://instagram.com/formarosacreative" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
-        <img src="https://formarosacreative.com/wp-content/uploads/2026/07/icon-INSTAGRAM.png" alt="" width="36" height="36">
+        <img src="https://formarosacreative.com/wp-content/uploads/2026/07/icon-INSTAGRAM.png" alt="" width="30" height="30">
       </a>
       <a href="mailto:creative@formarosastudio.com" aria-label="Contact us by email" title="Contact">
-        <img src="https://formarosacreative.com/wp-content/uploads/2026/07/icon-EMAIL.png" alt="" width="36" height="36">
+        <img src="https://formarosacreative.com/wp-content/uploads/2026/07/icon-EMAIL.png" alt="" width="30" height="30">
       </a>
     </nav>
   </aside>
@@ -274,9 +274,9 @@
   .frc-practice__rail {
     position: fixed;
     z-index: 40;
-    top: 32px;
-    left: 18px;
-    width: 44px;
+    top: 24px;
+    left: 12px;
+    width: 68px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -291,7 +291,7 @@
   }
   .frc-practice__rail-logo:hover,
   .frc-practice__rail-logo:focus-visible { opacity: 1; outline: none; }
-  .frc-practice__rail-logo img { width: 34px; height: 34px; object-fit: contain; }
+  .frc-practice__rail-logo img { width: 68px; height: 68px; object-fit: contain; }
 
   .frc-practice__rail-links {
     display: flex;
@@ -313,8 +313,8 @@
   .frc-practice__rail-links a:focus-visible { opacity: 1; outline: none; }
   .frc-practice__rail-links a img {
     display: block;
-    width: 36px;
-    height: 36px;
+    width: 30px;
+    height: 30px;
     object-fit: contain;
   }
   .frc-practice__rail-links a:hover,
@@ -456,10 +456,14 @@
     color: var(--ink);
   }
 
-  /* --- media (not full width - capped at the reading column) - */
+  /* --- media (not full width - capped at the reading column) -
+     !important on the horizontal margins: WordPress themes commonly
+     reset figure margins to 0, which un-centers the images. */
   .frc-practice__media {
     max-width: var(--frame-w);
     margin: clamp(28px, 4vh, 44px) auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
     background: #1a1a1a;
   }
   .frc-practice__media img {
@@ -681,7 +685,7 @@
       backdrop-filter: blur(6px);
       -webkit-backdrop-filter: blur(6px);
     }
-    .frc-practice__rail-logo img { width: 28px; height: 28px; }
+    .frc-practice__rail-logo img { width: 44px; height: 44px; }
     .frc-practice__rail-links {
       flex-direction: row;
       gap: 10px;
