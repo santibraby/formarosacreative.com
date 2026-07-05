@@ -1,0 +1,33 @@
+<!-- ============================================================
+     LOADER for section: ABOUT - 5 - APPROACH
+     Paste this ONCE into the Elementor HTML widget (replacing the
+     full section code). From then on the widget pulls the latest
+     version of "ABOUT - 5 - APPROACH.html" from GitHub automatically.
+     Updates go live ~5 minutes after you run PUSH-UPDATES.bat.
+     The parent-section Elementor settings noted at the top of the
+     section file still apply (Full Width, padding 0, etc.).
+     ============================================================ -->
+<div id="frc-load-about-5-approach"></div>
+<script>
+(function () {
+  var m = document.getElementById('frc-load-about-5-approach');
+  if (!m || m.dataset.initialized === '1') return;
+  m.dataset.initialized = '1';
+
+  fetch('https://raw.githubusercontent.com/santibraby/formarosacreative.com/main/HTML/Sections/ABOUT%20-%205%20-%20APPROACH.html', { cache: 'no-cache' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function (html) {
+      m.innerHTML = html;
+      // innerHTML does not execute <script> tags — recreate them so they run
+      m.querySelectorAll('script').forEach(function (old) {
+        var s = document.createElement('script');
+        if (old.src) { s.src = old.src; } else { s.textContent = old.textContent; }
+        old.parentNode.replaceChild(s, old);
+      });
+    })
+    .catch(function (e) { console.error('FRC loader (ABOUT - 5 - APPROACH):', e); });
+})();
+</script>
