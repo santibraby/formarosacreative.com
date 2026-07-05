@@ -78,6 +78,19 @@
         <div><dt>LOCATION</dt><dd>Soho, New York</dd></div>
       </dl>
 
+      <!-- SUBSCRIBE -->
+      <!-- [EDIT] SLOT: subscribe line. The form currently falls back
+           to opening an email to you with the subscriber's address.
+           TODO: when you pick a newsletter platform (Mailchimp,
+           Substack, etc.), swap the JS handler for its form action. -->
+      <div class="frc-practice__subscribe frc-practice__subscribe--top">
+        <p class="frc-practice__subscribe-line">SUBSCRIBE FOR NEW PROJECTS</p>
+        <form class="frc-practice__subscribe-form" data-frc-subscribe>
+          <input type="email" name="email" required placeholder="Type your email..." aria-label="Email address">
+          <button type="submit">SUBSCRIBE</button>
+        </form>
+      </div>
+
       <!-- HERO IMAGE -->
       <!-- [EDIT] SLOT: hero image -->
       <figure class="frc-practice__media">
@@ -89,19 +102,6 @@
       <p class="frc-practice__lead">
         Off a Soho street, the ground turns to pasture - green underfoot, a horizon at eye level.
       </p>
-
-      <!-- SUBSCRIBE -->
-      <!-- [EDIT] SLOT: subscribe line. The form currently falls back
-           to opening an email to you with the subscriber's address.
-           TODO: when you pick a newsletter platform (Mailchimp,
-           Substack, etc.), swap the JS handler for its form action. -->
-      <div class="frc-practice__subscribe">
-        <p class="frc-practice__subscribe-line">SUBSCRIBE FOR NEW PROJECTS</p>
-        <form class="frc-practice__subscribe-form" data-frc-subscribe>
-          <input type="email" name="email" required placeholder="Type your email..." aria-label="Email address">
-          <button type="submit">SUBSCRIBE</button>
-        </form>
-      </div>
 
       <div class="frc-practice__body">
         <p>Wave Exhibit by Forma Rosa Creative is an immersive environment designed to host the Wave Column in its many variations, a ceramic fixture by Forma Rosa Studio.</p>
@@ -141,9 +141,9 @@
         <figcaption>3D diagram showing spatial layout</figcaption>
       </figure>
 
-      <p class="frc-practice__aside-note">
-        Three Wave Columns in various modular configurations anchor the gallery, while three more pull visitors in from the window display. Pendants and a standing lamp showcase the different functions of the collection, built around a ceramic module.
-      </p>
+      <div class="frc-practice__body">
+        <p>Three Wave Columns in various modular configurations anchor the gallery, while three more pull visitors in from the window display. Pendants and a standing lamp showcase the different functions of the collection, built around a ceramic module.</p>
+      </div>
 
       <figure class="frc-practice__media">
         <img src="https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_07.png" alt="Wave Exhibit - Wave Column configuration study" loading="lazy" decoding="async">
@@ -240,17 +240,26 @@
     --card: #111111;  /* matches the grid background exactly */
     --card-line: #29251f;
     --ink: #f5f1ec;
-    --ink-body: #a89f93;
+    --ink-body: #d8d6d2;  /* light grey - body text readability */
     --ink-head: #d4c4b5;
     --ink-dim: #8e8578;
     --hover: #e5d6c6;
+    /* Brand peach saturation scale:
+       100% #F05300 (vivid) - 75% #F07A3C - 50% #F0A178 -
+       25% #F0C9B4 (brand default) - 0% #F0F0F0 (light grey) */
+    --link: #F07A3C;        /* 75% saturation */
+    --link-hover: #F05300;  /* vivid on hover */
     --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --font-serif: Georgia, "Times New Roman", serif;
     --frame-w: 720px;
 
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    /* lock to viewport height - the article scrolls INSIDE the
+       frame, so its border stays intact while content crops */
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
     box-sizing: border-box;
     font-family: var(--font-mono);
     color: var(--ink-body);
@@ -354,20 +363,30 @@
   .frc-practice__frame {
     position: relative;
     width: 100%;
-    min-height: calc(100vh - 28px);
+    height: 100%;
     margin: 0 auto;
     background: var(--card);
     border: 1px solid var(--card-line);
     border-radius: 10px;
-    overflow: hidden;
+    /* the frame is the scroll container */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #2e2a25 transparent;
     box-shadow: 0 10px 44px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4);
   }
+  .frc-practice__frame::-webkit-scrollbar { width: 10px; }
+  .frc-practice__frame::-webkit-scrollbar-thumb { background: #2e2a25; border-radius: 5px; }
+  .frc-practice__frame::-webkit-scrollbar-track { background: transparent; }
 
   .frc-practice__close {
-    position: absolute;
-    z-index: 10;
-    top: 16px;
-    left: 16px;
+    /* fixed so it stays pinned at the frame's corner while the
+       article scrolls underneath (Substack behavior) */
+    position: fixed;
+    z-index: 45;
+    top: 30px;
+    left: 104px;
     width: 36px;
     height: 36px;
     display: flex;
@@ -400,7 +419,6 @@
   .frc-practice__lead,
   .frc-practice__body,
   .frc-practice__section-head,
-  .frc-practice__aside-note,
   .frc-practice__cta-wrap,
   .frc-practice__foot {
     max-width: var(--frame-w);
@@ -473,10 +491,10 @@
   }
   .frc-practice__media figcaption {
     padding: 12px clamp(20px, 3vw, 32px) 0;
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 13px;
-    line-height: 1.5;
+    font-family: "Cascadia Code", "Cascadia Mono", var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
     color: var(--ink-dim);
     text-align: center;
     background: var(--card);
@@ -504,6 +522,12 @@
   .frc-practice__subscribe--bottom {
     margin-top: clamp(48px, 7vh, 72px);
     margin-bottom: 0;
+  }
+  /* top subscribe: hairline rule above, sits between spec and hero */
+  .frc-practice__subscribe--top {
+    border-top: 1px solid #2a2a2a;
+    padding-top: clamp(28px, 4vh, 40px);
+    margin-bottom: clamp(28px, 4vh, 44px);
   }
   .frc-practice__subscribe-line {
     margin: 0 0 16px;
@@ -548,19 +572,25 @@
   .frc-practice__subscribe-form button:hover,
   .frc-practice__subscribe-form button:focus-visible { background: var(--hover); outline: none; }
 
+  /* body copy - serif, narrower measure for comfortable reading
+     (matches the style of the old "Three Wave Columns" note) */
+  .frc-practice__body { max-width: 560px; }
+
   .frc-practice__body p {
-    margin: 0 0 20px;
-    font-size: 15px;
-    line-height: 1.9;
+    margin: 0 0 22px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.8;
   }
   .frc-practice__body p:last-child { margin-bottom: 0; }
   .frc-practice__body a {
-    color: var(--ink-head);
+    color: var(--link);
     text-decoration: underline;
     transition: color 200ms ease;
   }
   .frc-practice__body a:hover,
-  .frc-practice__body a:focus-visible { color: var(--hover); outline: none; }
+  .frc-practice__body a:focus-visible { color: var(--link-hover); outline: none; }
 
   .frc-practice__section-head {
     margin: clamp(40px, 6vh, 64px) auto 18px;
@@ -586,17 +616,6 @@
     font-size: 18px;
     line-height: 1.6;
     color: var(--ink-head);
-  }
-
-  .frc-practice__aside-note {
-    margin: 26px auto clamp(36px, 5vh, 56px);
-    max-width: 560px;
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 17px;
-    line-height: 1.8;
-    color: var(--ink-body);
-    text-align: center;
   }
 
   /* --- CTA panel -------------------------------------------- */
@@ -667,7 +686,8 @@
 
   /* --- mobile / narrow -------------------------------------- */
   @media (max-width: 979px) {
-    .frc-practice { padding: 76px 12px 12px; }
+    /* clear the fixed top bar (68px tall) plus breathing room */
+    .frc-practice { padding: 92px 12px 12px; }
 
     /* rail becomes a fixed top bar */
     .frc-practice__rail {
@@ -688,8 +708,10 @@
     .frc-practice__rail-logo img { width: 44px; height: 44px; }
     .frc-practice__rail-links {
       flex-direction: row;
-      gap: 10px;
+      gap: 6px;
     }
+    .frc-practice__rail-links a { width: 44px; height: 44px; }
+    .frc-practice__rail-links a img { width: 26px; height: 26px; }
 
     /* ticks are a desktop nicety */
     .frc-practice__ticks { display: none; }
@@ -699,7 +721,7 @@
       display: block;
       position: fixed;
       z-index: 41;
-      top: 53px;
+      top: 68px;
       left: 0;
       width: 100%;
       height: 2px;
@@ -713,9 +735,40 @@
       background: var(--ink-head);
     }
 
-    .frc-practice__close { top: 12px; left: 12px; width: 32px; height: 32px; }
+    .frc-practice__close { top: 104px; left: 24px; width: 32px; height: 32px; }
     .frc-practice__spec { grid-template-columns: 1fr 1fr; row-gap: 14px; }
     .frc-practice__spec > div:nth-child(2) { border-right: 0; }
+
+    /* comfortable reading + touch targets on small screens */
+    .frc-practice__article { padding-top: 48px; }
+    .frc-practice__title { font-size: clamp(34px, 10vw, 44px); }
+    .frc-practice__lead { font-size: 19px; line-height: 1.5; }
+    .frc-practice__body p { font-size: 16px; line-height: 1.75; }
+    .frc-practice__question { font-size: 17px; }
+
+    /* full-width buttons, like the newsletter's mobile rules */
+    .frc-practice__cta-btn {
+      display: block;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .frc-practice__subscribe-form {
+      max-width: 100%;
+    }
+    .frc-practice__subscribe-form input { font-size: 16px; } /* prevents iOS zoom-on-focus */
+  }
+
+  /* very narrow phones: stack the subscribe form */
+  @media (max-width: 400px) {
+    .frc-practice__subscribe-form { flex-direction: column; gap: 8px; }
+    .frc-practice__subscribe-form input {
+      border-right: 1px solid var(--card-line);
+      border-radius: 2px;
+      text-align: center;
+    }
+    .frc-practice__subscribe-form button { border-radius: 2px; padding: 14px 20px; }
+    .frc-practice__spec { grid-template-columns: 1fr; }
+    .frc-practice__spec > div { border-right: 0 !important; }
   }
 </style>
 
@@ -726,6 +779,7 @@
   widget.dataset.initialized = '1';
 
   var line = widget.querySelector('[data-frc-progress-line]');
+  var frame = widget.querySelector('.frc-practice__frame');
 
   /* build the progress ticks */
   var TICKS = 40;
@@ -740,9 +794,8 @@
   }
 
   function update() {
-    var doc = document.documentElement;
-    var max = (doc.scrollHeight - window.innerHeight);
-    var p = max > 0 ? Math.min(1, Math.max(0, (window.scrollY || doc.scrollTop) / max)) : 0;
+    var max = frame ? (frame.scrollHeight - frame.clientHeight) : 0;
+    var p = max > 0 ? Math.min(1, Math.max(0, frame.scrollTop / max)) : 0;
     var idx = Math.round(p * (TICKS - 1));
     for (var j = 0; j < ticks.length; j++) {
       ticks[j].classList.toggle('is-lit', j === idx);
@@ -757,7 +810,7 @@
     requestAnimationFrame(function () { update(); ticking = false; });
   }
 
-  window.addEventListener('scroll', onScroll, { passive: true });
+  if (frame) frame.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
   update();
 
