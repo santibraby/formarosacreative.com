@@ -1,0 +1,466 @@
+<!-- ============================================================
+     Section: About-page header (top band only)
+     Class:   frc-about-header
+     Purpose: Reisinger-style fixed top chrome for the FORMA ROSA
+              STUDIO About page. Tagline (centered) sits ABOVE a
+              1px hairline rule; FORMA ROSA STUDIO logo sits on
+              the LEFT of the bar below the rule; right-side nav
+              with IG and CREATIVE (link to the /creative subsite).
+
+              Mirrors the chrome of frc-header.html on /creative
+              so the brand reads as one site. No sidebar accordion
+              (CONTACT/FEATURED/ABOUT) here — those belong on the
+              creative portfolio page, not the About page itself.
+
+     ⚠️  MOBILE / PARENT-SECTION SETTINGS
+     ──────────────────────────────────────────────────────────
+     This widget uses `position: fixed`. ANY ancestor with
+     `transform`, `filter`, `backdrop-filter`, `perspective`,
+     `will-change: transform`, or `contain: paint` silently
+     breaks it. On the parent Elementor Section:
+       1. Advanced → Motion Effects → Sticky        = NONE
+       2. Advanced → Motion Effects → Scrolling     = NONE
+       3. Advanced → Entrance Animation             = NONE
+       4. Layout → Stretch Section                  = OFF
+       5. Advanced → CSS: no transform/filter/will-change
+       6. Column padding = 0; widget margin/padding = 0
+     Recommended page template: Elementor Canvas or Full Width.
+     ──────────────────────────────────────────────────────────
+
+     SUBSEQUENT SECTIONS should pad their top by at least
+     `clamp(96px, 12vh, 140px)` so they clear the header's top
+     band on every viewport.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<div class="frc-about-header" role="banner" data-frc-about-header>
+
+  <div class="frc-about-header__top">
+    <p class="frc-about-header__tagline">
+      DESIGN ATELIER - BROOKLYN, NEW YORK
+    </p>
+
+    <div class="frc-about-header__rule" aria-hidden="true"></div>
+
+    <div class="frc-about-header__bar">
+      <a href="/creative" class="frc-about-header__logo" aria-label="Forma Rosa Creative &mdash; home">
+        FORMA ROSA CREATIVE
+      </a>
+
+      <div class="frc-about-header__meta">
+        <!-- Hamburger button: hidden on desktop, visible on mobile.
+             Toggles the .is-open state on .frc-about-header__meta which
+             reveals the link panel below as a dropdown. Matches the
+             /creative header pattern for cross-page consistency. -->
+        <button type="button"
+                class="frc-about-header__menu-btn"
+                data-frc-about-menu-btn
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="frc-about-header-menu">
+          <span class="frc-about-header__menu-icon" aria-hidden="true"></span>
+        </button>
+
+        <!-- Link group: inline on desktop; right-aligned floating
+             dropdown on mobile (shown only when hamburger is open). -->
+        <div class="frc-about-header__meta-links"
+             id="frc-about-header-menu"
+             data-frc-about-menu-panel>
+          <a href="https://instagram.com/formarosacreative"
+             class="frc-about-header__link"
+             target="_blank"
+             rel="noopener"
+             aria-label="Instagram">
+            IG
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+/* ============================================================
+   .frc-about-header — scoped styles, sibling of .frc-header
+   ============================================================ */
+
+.frc-about-header {
+  /* ---- tokens (identical to frc-header on /creative) ---- */
+  --bg:          #111111;
+  --bg-glass:    rgba(17, 17, 17, 0.88);
+  --bg-soft:     #1a1a1a;
+  --ink:         #e8e0d8;
+  --ink-body:    #f5f1ec;
+  --ink-head:    #d4c4b5;   /* peach */
+  --ink-dim:     #999999;
+  --ink-mute:    #666666;
+  --rule:        #2a2a2a;
+  --hover:       #c4b5a5;
+
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-body:    "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono:    "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --pad-x:     clamp(1rem, 2.5vw, 2rem);
+  --pad-y:     clamp(0.75rem, 1.5vw, 1.25rem);
+
+  /* ---- fixed overlay at top of viewport ----
+     !important beats theme/Elementor overrides on `position`. */
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 100;
+  pointer-events: none;  /* let clicks fall through dead space */
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.frc-about-header *,
+.frc-about-header *::before,
+.frc-about-header *::after { box-sizing: border-box; }
+
+/* Re-enable pointer events on real interactive children. */
+.frc-about-header > *,
+.frc-about-header a,
+.frc-about-header button { pointer-events: auto; }
+
+/* ─── Neutralize Elementor/theme button & link styles ───────
+   Prevents pink/accent hover fills, focus rings, and underlines
+   from the active theme bleeding into our chrome. */
+.frc-about-header a {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+.frc-about-header a:hover,
+.frc-about-header a:focus,
+.frc-about-header a:focus-visible,
+.frc-about-header a:active {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+/* ─── Override Elementor's global img sizing rule ─────────
+   (Not strictly needed for this widget since it ships no
+   images, but kept for parity with frc-header's hardening.) */
+.frc-about-header img {
+  max-width: none !important;
+  height: auto !important;
+}
+
+/* ─── Top band ───────────────────────────────────────────── */
+.frc-about-header__top {
+  background: transparent;        /* keep page bg visible behind */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: var(--pad-y) var(--pad-x) 0;
+}
+
+.frc-about-header__tagline {
+  margin: 0 auto;
+  padding: 0.25em 0 0.6em;
+  max-width: 72ch;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: clamp(0.625rem, 0.85vw, 0.75rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--ink-dim);
+  line-height: 1.5;
+}
+
+.frc-about-header__rule {
+  height: 0;
+  border: 0;
+  border-top: 1px solid #3a3a3a;
+  margin: 0;
+}
+
+.frc-about-header__bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 0 0.9rem;
+}
+
+/* ─── Logo (left) ───────────────────────────────────────── */
+.frc-about-header__logo {
+  /* !important on font-family beats theme rules that target <a>. */
+  font-family: var(--font-display) !important;
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+  letter-spacing: 0.18em;
+  color: var(--ink-head);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 200ms ease;
+}
+.frc-about-header__logo:hover,
+.frc-about-header__logo:focus-visible {
+  color: var(--hover);
+  outline: none;
+}
+
+/* ─── Right-side nav ─────────────────────────────────────── */
+.frc-about-header__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  justify-self: end;
+  position: relative;   /* anchor for the mobile dropdown panel */
+}
+
+.frc-about-header__meta-links {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.frc-about-header__link {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.9vw, 0.85rem);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 200ms ease;
+}
+.frc-about-header__link:hover,
+.frc-about-header__link:focus-visible {
+  color: var(--ink-head);
+  outline: none;
+}
+
+/* ─── Hamburger button ─────────────────────────────────────
+   Hidden on desktop via `display: none`. The mobile media
+   query switches it to `inline-flex`. Same three-line icon +
+   animated X as the /creative header. */
+.frc-about-header__menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: -8px -6px -8px 0;
+  background: transparent !important;
+  border: 0;
+  padding: 0;
+  color: var(--ink-dim);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: color 200ms ease;
+}
+.frc-about-header__menu-btn:hover,
+.frc-about-header__menu-btn:focus-visible {
+  color: var(--ink-head);
+  outline: none;
+}
+
+.frc-about-header__menu-icon,
+.frc-about-header__menu-icon::before,
+.frc-about-header__menu-icon::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 220ms ease, top 220ms ease, opacity 180ms ease, background 180ms ease;
+}
+.frc-about-header__menu-icon { position: relative; }
+.frc-about-header__menu-icon::before,
+.frc-about-header__menu-icon::after { position: absolute; left: 0; }
+.frc-about-header__menu-icon::before { top: -7px; }
+.frc-about-header__menu-icon::after  { top:  7px; }
+
+.frc-about-header__menu-btn[aria-expanded="true"] .frc-about-header__menu-icon {
+  background: transparent;
+}
+.frc-about-header__menu-btn[aria-expanded="true"] .frc-about-header__menu-icon::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+.frc-about-header__menu-btn[aria-expanded="true"] .frc-about-header__menu-icon::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* ─── Focus ring (keyboard nav only) ────────────────────── */
+.frc-about-header a:focus-visible {
+  outline: 1px dotted var(--hover);
+  outline-offset: 3px;
+}
+
+/* ─── Mobile ───────────────────────────────────────────────
+   Breakpoint 767px to match Elementor's default. The bar
+   collapses to logo (left) + meta (right); the tagline stays
+   centered above it.
+   Doubled selectors (.frc-about-header.frc-about-header …)
+   raise specificity to beat theme rules that target <a> or
+   <nav> tags globally. */
+@media (max-width: 767px) {
+  .frc-about-header.frc-about-header .frc-about-header__bar {
+    grid-template-columns: 1fr auto !important;
+    gap: 0 1rem !important;
+  }
+  .frc-about-header.frc-about-header .frc-about-header__meta {
+    gap: 0.75rem !important;
+  }
+
+  /* ── Hamburger button visible on mobile. */
+  .frc-about-header.frc-about-header .frc-about-header__menu-btn {
+    display: inline-flex !important;
+  }
+
+  /* ── Hamburger dropdown (just IG on the about page).
+     Same minimal floating treatment as /creative: no background,
+     right-aligned, sized to content. */
+  .frc-about-header.frc-about-header .frc-about-header__meta-links {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 0;
+    padding: 4px 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 200ms ease, transform 220ms ease;
+    z-index: 110;
+  }
+  .frc-about-header.frc-about-header .frc-about-header__meta.is-open .frc-about-header__meta-links {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Smaller mono link, right-aligned, matching /creative. */
+  .frc-about-header.frc-about-header .frc-about-header__meta-links .frc-about-header__link {
+    font-size: 0.72rem !important;
+    letter-spacing: 0.1em !important;
+    padding: 2px 0;
+    text-align: right;
+    color: var(--ink-body);
+  }
+}
+
+/* ─── Reduced motion ───────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .frc-about-header *,
+  .frc-about-header *::before,
+  .frc-about-header *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
+</style>
+
+<script>
+(function () {
+  /* Idempotent guard: Elementor re-renders widgets in the editor;
+     without this the JS would run twice and stack listeners. */
+  var widget = document.querySelector('[data-frc-about-header]');
+  if (!widget || widget.dataset.initialized === '1') return;
+  widget.dataset.initialized = '1';
+
+  /* ── Containing-block trap self-diagnostic ──────────────────
+     `position: fixed` silently breaks if any ancestor has
+     transform/filter/backdrop-filter/perspective/will-change:
+     transform/contain: paint. Log a clear warning so the issue
+     is debuggable in seconds. Runs once on init. */
+  try {
+    var trouble = [];
+    var n = widget.parentElement;
+    while (n && n !== document.documentElement) {
+      var cs = getComputedStyle(n);
+      var hits = [];
+      if (cs.transform !== 'none')       hits.push('transform: ' + cs.transform);
+      if (cs.filter !== 'none')          hits.push('filter: ' + cs.filter);
+      if (cs.backdropFilter !== 'none')  hits.push('backdrop-filter: ' + cs.backdropFilter);
+      if (cs.perspective !== 'none')     hits.push('perspective: ' + cs.perspective);
+      if (cs.willChange && /transform|perspective|filter/.test(cs.willChange)) {
+        hits.push('will-change: ' + cs.willChange);
+      }
+      if (cs.contain && /paint|layout|strict/.test(cs.contain)) {
+        hits.push('contain: ' + cs.contain);
+      }
+      if (hits.length) trouble.push({ node: n, hits: hits });
+      n = n.parentElement;
+    }
+    if (trouble.length) {
+      console.warn(
+        '[frc-about-header] ⚠ Containing-block trap detected. ' +
+        'The fixed-position header will not stay pinned until this is fixed.\n' +
+        'Offending ancestors:', trouble,
+        '\nFix: on the parent Elementor section, turn OFF Motion Effects, ' +
+        'Entrance Animation, and Stretch Section.'
+      );
+    }
+  } catch (e) { /* diagnostic only, never throw */ }
+
+  /* ── Hamburger menu (mobile) ─────────────────────────────
+     Toggles the `.is-open` state on .frc-about-header__meta
+     which fades the dropdown panel in. Mirrors the /creative
+     header's behavior so the two pages feel identical. */
+  var menuBtn   = widget.querySelector('[data-frc-about-menu-btn]');
+  var menuPanel = widget.querySelector('[data-frc-about-menu-panel]');
+  var menuWrap  = widget.querySelector('.frc-about-header__meta');
+
+  if (menuBtn && menuPanel && menuWrap) {
+    var mq = window.matchMedia('(max-width: 767px)');
+
+    function setMenuOpen(open) {
+      menuWrap.classList.toggle('is-open', open);
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+
+    menuBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setMenuOpen(menuBtn.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Close on outside tap/click (pointerdown beats click on iOS).
+    document.addEventListener('pointerdown', function (e) {
+      if (!menuWrap.contains(e.target)) setMenuOpen(false);
+    });
+
+    // Close on Escape key.
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' || e.key === 'Esc') setMenuOpen(false);
+    });
+
+    // Close when a link inside the panel is tapped.
+    menuPanel.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setMenuOpen(false);
+    });
+
+    // Reset state if the viewport grows out of mobile.
+    function onResize() { if (!mq.matches) setMenuOpen(false); }
+    window.addEventListener('resize', onResize);
+    if (mq.addEventListener) mq.addEventListener('change', onResize);
+    else if (mq.addListener) mq.addListener(onResize);
+  }
+})();
+</script>

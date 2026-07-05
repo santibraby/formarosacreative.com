@@ -1,0 +1,1120 @@
+<!-- ============================================================
+     Section:  Site header + left sidebar
+     Class:    frc-header
+     Purpose:  Reisinger-style fixed chrome (top band + left accordion)
+               rendered in FRC dark brand palette. Persists across all views.
+
+     ⚠️  MOBILE CRITICAL — PARENT-SECTION SETTINGS (READ THIS)
+     ──────────────────────────────────────────────────────────────
+     This widget uses `position: fixed`. ANY ancestor with `transform`,
+     `filter`, `backdrop-filter`, `perspective`, `will-change: transform`,
+     or `contain: paint` silently breaks it — the header will render
+     inline at the top of the page instead of overlaying the hero.
+     That was the reported mobile bug.
+
+     On the Section containing this widget, verify in Elementor:
+       1. Advanced → Motion Effects → Sticky         = NONE
+       2. Advanced → Motion Effects → Scrolling Effects = NONE
+       3. Advanced → Entrance Animation              = NONE
+       4. Layout → Stretch Section                   = OFF
+          (use Full Width layout with Stretch OFF)
+       5. Advanced → CSS: no transform/filter/will-change/perspective
+       6. Column: Padding = 0
+       7. HTML Widget: Advanced → Margin = 0, Padding = 0
+
+     Also walk UP the DOM in devtools from .frc-header to <html>. If
+     any ancestor has the offending properties (common culprits: theme
+     mobile-nav wrapper with `transform: translateX(0)`, Elementor Pro
+     Page Transitions, Astra/OceanWP's mobile-menu drawer), move this
+     widget to a section outside that wrapper, OR disable the feature.
+
+     Paste this into devtools console on a broken page to find the trap:
+       (function(el){var n=el.parentElement,out=[];while(n){var c=getComputedStyle(n);
+       if(c.transform!=='none'||c.filter!=='none'||c.backdropFilter!=='none'||
+       c.perspective!=='none'||/transform|perspective|filter/.test(c.willChange)||
+       /paint|layout|strict/.test(c.contain))out.push({node:n,transform:c.transform,
+       filter:c.filter,willChange:c.willChange,contain:c.contain});n=n.parentElement}
+       console.table(out);return out.length?'⚠ trap found':'✓ clean';})(document.querySelector('.frc-header'));
+
+     ──────────────────────────────────────────────────────────────
+
+     SUBSEQUENT SECTIONS should either:
+       (a) be `min-height: 100dvh` so the header naturally overlays them, OR
+       (b) have `padding-top: clamp(96px, 12vh, 140px)` to clear the top band.
+
+     GOOGLE FONTS:
+       Loaded inline via <link>. If your Elementor theme already loads
+       Cormorant Garamond + Inter globally, you may remove the <link> tag
+       below (but it won't hurt to keep — browser dedupes).
+
+     VIEW TOGGLE:
+       Click [ ] COVERS or [X] SCROLL to switch views.
+       Active view is stored on <html data-view="..."> and a
+       custom event `frc:view-change` is dispatched on window so
+       the Hero/Covers widgets can respond.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<div class="frc-header" role="banner" data-frc-header>
+
+  <!-- ─── Fixed top band ─────────────────────────────────────── -->
+  <div class="frc-header__top">
+    <p class="frc-header__tagline">
+      MONUMENTS TO NATURE
+    </p>
+    <div class="frc-header__rule" aria-hidden="true"></div>
+
+    <div class="frc-header__bar">
+      <a href="/creative" class="frc-header__logo" aria-label="Forma Rosa Creative — home">
+        FORMA ROSA CREATIVE
+      </a>
+
+      <nav class="frc-header__views" aria-label="Portfolio view">
+        <button type="button" class="frc-header__toggle" data-frc-view="covers">
+          <span class="frc-header__box" aria-hidden="true"></span>
+          <span class="frc-header__label">COVERS</span>
+        </button>
+        <button type="button" class="frc-header__toggle is-active" data-frc-view="scroll" aria-pressed="true">
+          <span class="frc-header__box" aria-hidden="true"></span>
+          <span class="frc-header__label">SCROLL</span>
+        </button>
+      </nav>
+
+      <div class="frc-header__meta">
+        <!-- Hamburger button: hidden on desktop, visible on mobile.
+             Toggles the .is-open state on .frc-header__meta which
+             reveals the link panel below as a dropdown. -->
+        <button type="button"
+                class="frc-header__menu-btn"
+                data-frc-menu-btn
+                aria-label="Open menu"
+                aria-expanded="false"
+                aria-controls="frc-header-menu">
+          <span class="frc-header__menu-icon" aria-hidden="true"></span>
+        </button>
+
+        <!-- Link group: inline on desktop; absolutely-positioned
+             dropdown on mobile (shown only when hamburger is open). -->
+        <div class="frc-header__meta-links"
+             id="frc-header-menu"
+             data-frc-menu-panel>
+          <a href="https://instagram.com/formarosacreative"
+             class="frc-header__ig"
+             target="_blank"
+             rel="noopener"
+             aria-label="Instagram">
+            IG
+          </a>
+          <a href="https://formarosastudio.com/creative-about"
+             class="frc-header__about"
+             aria-label="About Forma Rosa Creative">
+            ABOUT
+          </a>
+          <a href="https://formarosastudio.com"
+             class="frc-header__studio"
+             aria-label="Forma Rosa Studio — main site">
+            STUDIO
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── Fixed left sidebar (accordion) ────────────────────── -->
+  <aside class="frc-header__aside" aria-label="Studio info">
+
+    <details class="frc-header__acc" open>
+      <summary>
+        <span class="frc-header__bracket" aria-hidden="true"></span>
+        <span class="frc-header__label">CONTACT</span>
+      </summary>
+      <ul class="frc-header__list">
+        <li>creative@formarosastudio.com</li>
+        <li>Brooklyn, NY</li>
+      </ul>
+    </details>
+
+    <details class="frc-header__acc">
+      <summary>
+        <span class="frc-header__bracket" aria-hidden="true"></span>
+        <span class="frc-header__label">ABOUT</span>
+      </summary>
+      <div class="frc-header__body">
+
+        <h4 class="frc-header__subhead">BIO</h4>
+        <div class="frc-header__bio-grid">
+          <p>Forma Rosa Creative is a Brooklyn design atelier offering creative direction and design development for luxury brands, galleries, and hospitality designers.</p>
+          <p>We specialize in experiential design, spatial concepts, and custom furniture and lighting &mdash; orchestrating bespoke teams to realize projects at the intersection of computational design and artisanal craft.</p>
+        </div>
+
+        <h4 class="frc-header__subhead">PRESS</h4>
+        <div class="frc-header__press-grid">
+          <div class="frc-header__press-col">
+            <h5 class="frc-header__minilabel">01. Digital</h5>
+            <ul class="frc-header__body-list">
+              <li><a href="https://sixtysixmag.com/forma-rosa-studio/" target="_blank" rel="noopener">Sixty Six Mag</a><span class="frc-header__press-ctx"> &mdash; Forma Rosa Studio at Alcova Milan 2023</span></li>
+              <li><a href="https://www.vogue.com.au/vogue-living/milan-report/milan-design-week-2023-day-5/image-gallery/b4017fa45a62720b82475ae4c453b3e1?page=1" target="_blank" rel="noopener">Vogue Living</a><span class="frc-header__press-ctx"> &mdash; Forma Rosa Studio at Alcova Milan 2023</span></li>
+              <li><a href="https://www.designboom.com/design/designbooms-guide-milan-design-week-2023/" target="_blank" rel="noopener">Designboom</a><span class="frc-header__press-ctx"> &mdash; Forma Rosa Studio at Alcova Milan 2023</span></li>
+              <li><a href="https://www.elledecor.com/design-decorate/g43568643/milan-design-week-2023/" target="_blank" rel="noopener">Elle Decor</a><span class="frc-header__press-ctx"> &mdash; Forma Rosa Studio at Alcova Milan 2023</span></li>
+              <li><a href="https://www.stirpad.com/news/stir-news/alcova-miami-explores-uncharted-realms-at-miami-art-week-2023/" target="_blank" rel="noopener">Stirpad</a><span class="frc-header__press-ctx"> &mdash; Uncharted Group Show at Alcova Miami 2023</span></li>
+              <li><a href="https://www.azuremagazine.com/article/design-miami-2023-previewing-5-top-attractions/" target="_blank" rel="noopener">Azure</a><span class="frc-header__press-ctx"> &mdash; Uncharted Group Show at Alcova Miami 2023</span></li>
+              <li><a href="https://www.thedesignrelease.com/event/mil-villa-bagatti-valsecchi-coexist-at-alcova-forma-rosa-studio" target="_blank" rel="noopener">The Design Release</a><span class="frc-header__press-ctx"> &mdash; Forma Rosa Studio at Alcova Milan 2025</span></li>
+              <li><a href="https://www.dezeen.com/2025/04/08/alcova-highlights-milan-design-week/" target="_blank" rel="noopener">Dezeen</a><span class="frc-header__press-ctx"> &mdash; Forma Rosa Studio at Alcova Milan 2025</span></li>
+              <li><a href="https://www.internimagazine.com/fuorisalone-en/fuorisalone-2025-en/fuorisalone-2025-alcova-raccontata-dai-curatori-tra-novita-conferme-e-highlights/" target="_blank" rel="noopener">Interni Magazine</a><span class="frc-header__press-ctx"> &mdash; Forma Rosa Studio at Alcova Milan 2025</span></li>
+            </ul>
+          </div>
+
+          <div class="frc-header__press-col">
+            <h5 class="frc-header__minilabel">02. Print</h5>
+            <ul class="frc-header__body-list">
+              <li>MANERA Magazine 05<span class="frc-header__press-ctx"> &mdash; Forma Rosa Studio at Alcova Milan 2023</span></li>
+              <li>New York Times<span class="frc-header__press-ctx"> &mdash; Uncharted Group Show at Alcova Miami 2023</span></li>
+              <li>New York Times<span class="frc-header__press-ctx"> &mdash; Soft Witness at Alcova Milan 2025 (visualization)</span></li>
+              <li>Interior Design Magazine<span class="frc-header__press-ctx"> &mdash; Forma Rosa Studio at Alcova Milan 2025</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- EXHIBITS + TEAM sit side-by-side in a 2-column grid
+             beneath PRESS. EXHIBITS column 1, TEAM column 2.
+             Mirrors the PRESS grid layout for visual consistency. -->
+        <div class="frc-header__bottom-grid">
+          <div class="frc-header__bottom-col">
+            <h4 class="frc-header__subhead">EXHIBITS</h4>
+            <ul class="frc-header__body-list">
+              <li>Forma Rosa Studio at Wanted Design 2021</li>
+              <li>Forma Rosa Studio at Alcova Milan 2023</li>
+              <li>Uncharted Group Show at Alcova Miami 2023</li>
+              <li>Forma Rosa Studio at Alcova Milan 2025</li>
+              <li>Soft Witness at Alcova Milan 2025 (visualization)</li>
+              <li>Wallpaper Projects at Afternoon Light NYC 2025 (visualization)</li>
+            </ul>
+          </div>
+
+          <div class="frc-header__bottom-col">
+            <h4 class="frc-header__subhead">TEAM</h4>
+            <ul class="frc-header__body-list">
+              <li>Santiago Braby Brown &mdash; Creative Director</li>
+              <li>Andr&eacute; Pi&ntilde;eiro &mdash; Branding Director</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <details class="frc-header__acc" open>
+      <summary>
+        <span class="frc-header__bracket" aria-hidden="true"></span>
+        <span class="frc-header__label">FEATURED</span>
+      </summary>
+      <div class="frc-header__feature">
+        <a class="frc-header__feature-link"
+           href="/creative-projects-wave-exhibit"
+           aria-label="Wave Exhibit — featured project">
+          <span class="frc-header__feature-frame">
+            <img class="frc-header__feature-img"
+                 src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wave-column-01.png"
+                 alt="Wave Exhibit"
+                 loading="lazy"
+                 decoding="async">
+          </span>
+          <span class="frc-header__feature-caption">
+            <span class="frc-header__feature-num">04</span>
+            <span class="frc-header__feature-title">Wave Exhibit</span>
+          </span>
+        </a>
+      </div>
+    </details>
+
+  </aside>
+</div>
+
+<style>
+/* ============================================================
+   .frc-header — scoped styles
+   ============================================================ */
+
+.frc-header {
+  /* ---- tokens (from FRC brand guide) ---- */
+  --bg:          #111111;
+  --bg-glass:    rgba(17, 17, 17, 0.88);
+  --bg-soft:     #1a1a1a;
+  --ink:         #e8e0d8;
+  --ink-head:    #d4c4b5;
+  --ink-dim:     #999999;
+  --ink-mute:    #666666;
+  --rule:        #2a2a2a;
+  --hover:       #c4b5a5;
+
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-body:    "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono:    "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --pad-x:     clamp(1rem, 2.5vw, 2rem);
+  --pad-y:     clamp(0.75rem, 1.5vw, 1.25rem);
+  /* Sidebar width &mdash; widened from clamp(260px, 24vw, 360px)
+     so the FEATURED thumbnail (max-width 480px) can render at
+     close to its full 2x size on desktop viewports. */
+  --aside-w:   clamp(300px, 28vw, 500px);
+  --ink-body:  #f5f1ec;   /* near-white body copy — pairs with peach --ink-head */
+
+  /* ---- fixed overlay (desktop AND mobile) ----
+     !important beats theme/Elementor overrides. If the header still
+     isn't fixed on mobile, the cause is an ancestor with transform/
+     filter/etc. See comment block at top of file. */
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 100;
+  pointer-events: none;  /* let clicks through the empty middle */
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.frc-header *,
+.frc-header *::before,
+.frc-header *::after { box-sizing: border-box; }
+
+.frc-header > * { pointer-events: auto; } /* re-enable on real elements */
+
+/* ─── Neutralize Elementor/theme button & link styles ─────────── */
+/* Prevent pink/accent hover fills, focus rings, and underlines from
+   the active theme bleeding into our chrome. */
+.frc-header a,
+.frc-header button,
+.frc-header summary {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  -webkit-tap-highlight-color: transparent;
+}
+.frc-header a:hover,
+.frc-header a:focus,
+.frc-header a:focus-visible,
+.frc-header a:active,
+.frc-header button:hover,
+.frc-header button:focus,
+.frc-header button:focus-visible,
+.frc-header button:active,
+.frc-header summary:hover,
+.frc-header summary:focus,
+.frc-header summary:focus-visible {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+/* ─── Top band ──────────────────────────────────────────────── */
+.frc-header__top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: transparent;           /* let the hero image fill through */
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: var(--pad-y) var(--pad-x) 0;
+}
+
+.frc-header__tagline {
+  margin: 0 auto;
+  padding: 0.25em 0 0.6em;
+  max-width: 72ch;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: clamp(0.625rem, 0.85vw, 0.75rem);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--ink-dim);
+  line-height: 1.5;
+}
+
+.frc-header__rule {
+  height: 0;
+  border: 0;
+  border-top: 1px solid #3a3a3a;
+  margin: 0;
+}
+
+.frc-header__bar {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 0 0.9rem;
+}
+
+.frc-header__logo {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.05rem, 1.5vw, 1.4rem);
+  letter-spacing: 0.18em;
+  color: var(--ink-head);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.frc-header__logo:hover,
+.frc-header__logo:focus-visible { color: var(--hover); outline: none; }
+
+.frc-header__views {
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.5rem, 1.2vw, 1.2rem);
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 0.85vw, 0.8rem);
+  letter-spacing: 0.05em;
+  color: var(--ink-dim);
+}
+
+.frc-header__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  background: transparent !important;   /* block theme/Elementor button fills */
+  border: 0;
+  border-radius: 0;
+  box-shadow: none !important;
+  padding: 0.25em 0.15em;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+  text-transform: uppercase;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: color 200ms ease;
+}
+.frc-header__toggle:hover,
+.frc-header__toggle:focus,
+.frc-header__toggle:focus-visible,
+.frc-header__toggle:active {
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--ink-head);
+  outline: none;
+}
+.frc-header__toggle.is-active { color: var(--ink-head); }
+
+.frc-header__box::before { content: "[ ]"; }
+.frc-header__toggle.is-active .frc-header__box::before { content: "[X]"; }
+
+.frc-header__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  justify-self: end;
+  position: relative;   /* anchor for the mobile dropdown panel */
+}
+
+/* Base styles for the inline nav links (typography + color).
+   `display: inline-flex !important` and the doubled class selector
+   beat any WordPress theme rule that might be hiding ABOUT/STUDIO
+   (some themes ship `nav a { display: none; }` or similar globals
+   targeting non-first menu items). The visibility/position/opacity
+   resets are scoped to desktop only via @media below, so the mobile
+   dropdown's `opacity: 0` hide-state still wins below 768px. */
+.frc-header__meta-links {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+}
+
+.frc-header__ig,
+.frc-header__about,
+.frc-header__studio {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.9vw, 0.85rem);
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+  text-decoration: none;
+  transition: color 200ms ease;
+  white-space: nowrap;
+}
+
+/* Desktop visibility hardening &mdash; only above the mobile
+   hamburger breakpoint. Forces the inline nav and all three links
+   visible even if a WordPress theme rule tries to hide them. */
+@media (min-width: 768px) {
+  .frc-header.frc-header .frc-header__meta-links {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+  .frc-header.frc-header .frc-header__ig,
+  .frc-header.frc-header .frc-header__about,
+  .frc-header.frc-header .frc-header__studio {
+    display: inline-block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
+.frc-header__ig:hover, .frc-header__ig:focus-visible,
+.frc-header__about:hover, .frc-header__about:focus-visible,
+.frc-header__studio:hover, .frc-header__studio:focus-visible {
+  color: var(--ink-head);
+  outline: none;
+}
+
+/* ─── Hamburger button ─────────────────────────────────────────
+   Hidden on desktop via `display: none`. The mobile media query
+   switches it to `inline-flex`. Three-line icon built from the
+   element's background + two pseudo-elements; animates to an X
+   when aria-expanded="true". */
+.frc-header__menu-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: -8px -6px -8px 0;   /* negative so it doesn't enlarge the bar visually */
+  background: transparent !important;
+  border: 0;
+  padding: 0;
+  color: var(--ink-dim);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: color 200ms ease;
+}
+.frc-header__menu-btn:hover,
+.frc-header__menu-btn:focus-visible { color: var(--ink-head); outline: none; }
+
+.frc-header__menu-icon,
+.frc-header__menu-icon::before,
+.frc-header__menu-icon::after {
+  content: "";
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: currentColor;
+  transition: transform 220ms ease, top 220ms ease, opacity 180ms ease, background 180ms ease;
+}
+.frc-header__menu-icon {
+  position: relative;
+}
+.frc-header__menu-icon::before,
+.frc-header__menu-icon::after {
+  position: absolute;
+  left: 0;
+}
+.frc-header__menu-icon::before { top: -7px; }
+.frc-header__menu-icon::after  { top:  7px; }
+
+.frc-header__menu-btn[aria-expanded="true"] .frc-header__menu-icon {
+  background: transparent;
+}
+.frc-header__menu-btn[aria-expanded="true"] .frc-header__menu-icon::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+.frc-header__menu-btn[aria-expanded="true"] .frc-header__menu-icon::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+/* ─── Left sidebar accordion ────────────────────────────────── */
+.frc-header__aside {
+  position: absolute;
+  top: clamp(96px, 11vh, 128px);  /* starts below the top band */
+  left: 0;
+  width: var(--aside-w);
+  padding: 0.75rem var(--pad-x) 1rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.7rem, 0.85vw, 0.78rem);
+  letter-spacing: 0.05em;
+  color: var(--ink-dim);
+}
+
+.frc-header__acc {
+  margin: 0 0 0.35rem;
+}
+.frc-header__acc > summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.15em 0;
+  cursor: pointer;
+  user-select: none;
+  color: var(--ink-dim);
+  transition: color 200ms ease;
+}
+.frc-header__acc > summary::-webkit-details-marker { display: none; }
+.frc-header__acc > summary:hover { color: var(--ink-head); }
+
+/* (Summary-level rule-leader removed — Reisinger only uses them on subheads) */
+
+.frc-header__bracket::before { content: "[+]"; }
+.frc-header__acc[open] .frc-header__bracket::before { content: "[-]"; }
+.frc-header__acc[open] > summary { color: var(--ink-head); }
+
+.frc-header__list {
+  list-style: none;
+  margin: 0.5em 0 0.9em 1.6em;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  line-height: 1.9;
+  color: var(--ink-body);
+}
+.frc-header__list a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+.frc-header__list a:hover,
+.frc-header__list a:focus-visible { color: var(--hover); outline: none; }
+
+/* ─── FEATURED thumbnail (4:3 small thumbnail with caption) ───
+   Sits inside the accordion when expanded. Image is a link to a
+   project page on WordPress. The frame enforces a 4:3 aspect ratio
+   so the thumbnail stays consistent regardless of source image
+   dimensions — object-fit: cover crops the source to fit.
+   Indented to match `.frc-header__list` left margin so the caption
+   sits at the same x-position as the CONTACT list items above it. */
+.frc-header__feature {
+  margin: 0.5em 0 0.9em 1.6em;
+}
+.frc-header__feature-link {
+  display: block;
+  width: 100%;
+  max-width: 480px;          /* doubled from 240px so the featured thumbnail reads bigger */
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+.frc-header__feature-frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--bg-soft);
+  position: relative;
+}
+.frc-header__feature-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 480ms cubic-bezier(0.2, 0.6, 0.2, 1),
+              filter   320ms ease;
+  filter: saturate(0.95) contrast(1.02);
+  will-change: transform;
+}
+.frc-header__feature-link:hover .frc-header__feature-img,
+.frc-header__feature-link:focus-visible .frc-header__feature-img {
+  transform: scale(1.04);
+  filter: saturate(1.05) contrast(1.04);
+}
+.frc-header__feature-caption {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55em;
+  margin-top: 0.55em;
+  font-family: var(--font-mono);
+  /* Same em scale as the CONTACT list (.frc-header__list uses
+     font-size: 0.95em) so the FEATURED title visually reads at the
+     same size as 'creative@formarosastudio.com' under CONTACT. */
+  font-size: 0.95em;
+  letter-spacing: 0.08em;
+  color: var(--ink-body);
+  transition: color 200ms ease;
+}
+.frc-header__feature-link:hover .frc-header__feature-caption,
+.frc-header__feature-link:focus-visible .frc-header__feature-caption {
+  color: var(--hover);
+}
+/* Match the CONTACT list (.frc-header__list) styling exactly:
+   JetBrains Mono at the caption's 0.95em, regular weight,
+   --ink-body color, no italic, no display font. The num and the
+   title read as one consistent line, like a CONTACT list item. */
+.frc-header__feature-num {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  color: var(--ink-body);
+}
+.frc-header__feature-title {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1em;          /* inherit caption size, no display bump */
+  letter-spacing: inherit;
+  color: var(--ink-body);
+}
+
+.frc-header__body {
+  margin: 0.5em 0 0.9em 1.6em;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--ink-body);
+  /* Break out of the narrow sidebar so subhead lines extend across the viewport.
+     Leave padding on the right so lines don't kiss the screen edge.
+     No 1100px cap — subheads should span the full viewport. Paragraph and
+     list readability is preserved via individual max-width below. */
+  width: calc(100vw - var(--aside-w) - 3rem);
+  max-width: none;
+}
+.frc-header__body p {
+  margin: 0 0 0.8em;
+  max-width: 60ch; /* keep paragraph line-length comfortable even on wide screens */
+}
+.frc-header__body p:last-child { margin: 0; }
+
+/* Subsection headers inside the ABOUT body (BIO, SELECTED PRESS, etc.) */
+.frc-header__subhead {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  margin: 1.6em 0 0.55em;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-head);   /* peach, was grey --ink-dim */
+  text-transform: uppercase;
+}
+.frc-header__subhead:first-child { margin-top: 0; }
+.frc-header__subhead::after {
+  content: "";
+  flex: 1 1 auto;
+  border-bottom: 1px solid var(--ink-head);   /* peach, matches subhead text */
+  height: 0;
+  margin-left: 0.55em;
+  opacity: 0.55;                              /* soften so text dominates */
+}
+
+/* Nested sub-sub-heading inside ABOUT (e.g. "01. Articles (Digital)" under PRESS).
+   Smaller + no rule-leader, so the visual hierarchy reads as:
+     subhead (peach + full-width rule)  >  minilabel (ink-body, no rule)  >  list items */
+.frc-header__minilabel {
+  display: block;
+  margin: 1.1em 0 0.45em;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-body);
+  text-transform: none;          /* preserve "Articles (Digital)" casing */
+  opacity: 0.85;
+}
+.frc-header__minilabel:first-child { margin-top: 0.4em; }
+
+/* Two-column layout for PRESS (Digital | Print). Collapses to single column
+   on narrow viewports via the mobile media query below. */
+.frc-header__press-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(1.5rem, 3vw, 3.5rem);
+  row-gap: 0;
+  align-items: start;
+  margin: 0 0 0.6em;
+}
+.frc-header__press-col {
+  min-width: 0;  /* allow the column to shrink with its content */
+}
+.frc-header__press-col .frc-header__body-list {
+  max-width: none;  /* columns already constrain width */
+}
+
+/* Two-column layout for EXHIBITS + TEAM under PRESS. Same column
+   structure as the press grid so the bottom of the ABOUT body
+   reads as a consistent two-column composition. */
+.frc-header__bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: clamp(1.5rem, 3vw, 3.5rem);
+  row-gap: 0;
+  align-items: start;
+  margin: 0 0 0.6em;
+}
+.frc-header__bottom-col {
+  min-width: 0;
+}
+.frc-header__bottom-col .frc-header__body-list {
+  max-width: none;
+}
+/* The EXHIBITS subhead sits below the press grid, so it shouldn't
+   carry the large top-margin the first-child reset removes &mdash;
+   pull it tight to the press grid for cleaner vertical rhythm. */
+.frc-header__bottom-col .frc-header__subhead:first-child {
+  margin-top: 0.8em;
+}
+
+/* Lists inside ABOUT body — match the BIO prose voice (Inter 0.82/1.65)
+   so PRESS entries, EXHIBITS, and TEAM all read in the same voice as BIO. */
+.frc-header__body-list {
+  list-style: none;
+  margin: 0 0 0.6em;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  line-height: 1.65;
+  color: var(--ink-body);
+  max-width: 72ch;           /* readability even on wide viewports */
+}
+.frc-header__body-list li {
+  padding-left: 1em;
+  position: relative;
+}
+.frc-header__body-list li::before {
+  content: "·";
+  position: absolute;
+  left: 0;
+  color: var(--ink-dim);
+}
+
+/* PRESS entries — publication name reads as dominant (weight 500 / white),
+   project context stays same white color but at regular weight, so visual
+   hierarchy is conveyed by weight, not color contrast. Scoped to press
+   columns so EXHIBITS and TEAM lists keep their normal regular weight. */
+.frc-header__press-col .frc-header__body-list li {
+  font-weight: 500;        /* pub name appears "bold" at mono weight 500 */
+  color: var(--ink-body);  /* stays near-white */
+}
+.frc-header__press-col .frc-header__body-list li a {
+  color: inherit;          /* same white as the li */
+  font-weight: inherit;    /* same weight 500 */
+  text-decoration: none;
+  transition: color 200ms ease;
+}
+.frc-header__press-col .frc-header__body-list li a:hover,
+.frc-header__press-col .frc-header__body-list li a:focus-visible {
+  color: var(--hover);     /* peach on hover, matches other nav */
+  outline: none;
+}
+
+/* Project-context suffix (e.g. "— Forma Rosa Studio at Alcova Milan 2023").
+   Same near-white color as the pub name, but regular weight for readability
+   while keeping hierarchy. */
+.frc-header__press-ctx {
+  color: var(--ink-body);
+  font-weight: 400;
+}
+
+/* BIO 2-column layout — stacked on narrow screens, side-by-side on desktop.
+   Uses the ABOUT body's full-viewport breakout width, so columns have
+   plenty of room at typical laptop/desktop widths. */
+.frc-header__bio-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8em clamp(1.5rem, 3vw, 3.5rem);
+  margin: 0 0 0.6em;
+}
+.frc-header__body .frc-header__bio-grid p {
+  margin: 0;
+  max-width: 60ch;
+}
+@media (min-width: 900px) {
+  .frc-header__bio-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.frc-header__muted {
+  color: var(--ink-mute);
+  font-style: italic;
+}
+
+/* ─── Mobile: same fixed-overlay chrome as desktop ─────────────
+   Mobile uses the SAME fixed-overlay pattern as desktop so the hero
+   image sits edge-to-edge behind the top band and the scroll-scale
+   effect is unbroken. Adjustments:
+     1. Top band grid collapses to logo + meta (hamburger).
+     2. COVERS/SCROLL view toggle is hidden; mobile locks to SCROLL.
+     3. The left sidebar (CONTACT / ABOUT accordion) remains visible
+        but stretches nearly full-width and scrolls internally when
+        ABOUT is expanded so it can't push the fixed layout.
+
+   Breakpoint is 767px to match Elementor's default mobile breakpoint.
+   All selectors doubled (.frc-header.frc-header …) to win specificity
+   battles against theme/Elementor rules that target aside/nav/header
+   tags globally. !important used as belt-and-braces against any
+   higher-specificity global rule.
+   ─────────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  /* Mobile layout: 2 columns, 1 row — logo + meta (hamburger). The
+     COVERS/SCROLL view toggle and the left sidebar are hidden. */
+  .frc-header.frc-header .frc-header__bar {
+    grid-template-columns: 1fr auto !important;
+    grid-template-areas: "logo meta" !important;
+    gap: 0 1rem !important;
+  }
+  .frc-header.frc-header .frc-header__logo { grid-area: logo; }
+  .frc-header.frc-header .frc-header__meta { grid-area: meta; justify-self: end; }
+
+  /* ── COVERS/SCROLL view toggle: hidden on mobile.
+     Mobile locks to the SCROLL view (see JS). Doubled selector +
+     !important beats any theme rule targeting <button> or <nav>. */
+  .frc-header.frc-header .frc-header__views { display: none !important; }
+
+  /* ── Left sidebar on mobile ───────────────────────────────────
+     The aside is shown on mobile (users asked for CONTACT/ABOUT
+     accordion back on phones). Stretch it nearly full-width so
+     CONTACT list and ABOUT body have room to breathe, and undo
+     the desktop right-side "breakout" on the ABOUT body so content
+     stays inside the aside instead of trying to extend into empty
+     space to its right (there isn't any on mobile). */
+  .frc-header.frc-header .frc-header__aside {
+    top: clamp(96px, 13vh, 140px);
+    /* width: full viewport minus a little air on the right */
+    width: calc(100vw - 1rem);
+    max-width: 100vw;
+    padding-right: clamp(1rem, 4vw, 1.5rem);
+    /* Cap height + scroll internally so an expanded ABOUT can never
+       push the viewport height and break the fixed-overlay layout.
+       Scroll propagation is kept contained to this panel only. */
+    max-height: calc(100dvh - clamp(96px, 13vh, 140px) - env(safe-area-inset-bottom, 12px));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Kill the desktop breakout math — on mobile the body stays inside
+     the aside and fills its padded width. */
+  .frc-header.frc-header .frc-header__body {
+    width: auto;
+    max-width: 100%;
+    margin-left: 1.2em;
+  }
+  .frc-header.frc-header .frc-header__list {
+    margin-left: 1.2em;
+  }
+  .frc-header.frc-header .frc-header__feature {
+    margin-left: 1.2em;
+  }
+  /* FEATURED thumbnail smaller on mobile (the desktop 480px would
+     fill nearly the whole phone viewport). */
+  .frc-header.frc-header .frc-header__feature-link {
+    max-width: 240px;
+  }
+
+  /* PRESS two-column → one column on mobile (no horizontal room). */
+  .frc-header.frc-header .frc-header__press-grid {
+    grid-template-columns: 1fr;
+    row-gap: 0.8em;
+  }
+
+  /* Same single-column collapse for EXHIBITS + TEAM on mobile. */
+  .frc-header.frc-header .frc-header__bottom-grid {
+    grid-template-columns: 1fr;
+    row-gap: 0.8em;
+  }
+
+  /* ── Hamburger button: visible on mobile. */
+  .frc-header.frc-header .frc-header__menu-btn {
+    display: inline-flex !important;
+  }
+
+  /* ── Hamburger dropdown (IG, ABOUT, STUDIO) ──
+     No background / blur / border &mdash; items just float over the
+     hero behind the header. Right-aligned and padding-right: 0 so
+     the text is flush with the panel's right edge instead of
+     sitting in a wide empty padded box. */
+  .frc-header.frc-header .frc-header__meta-links {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 0;
+    padding: 4px 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity 200ms ease, transform 220ms ease;
+    z-index: 110;
+  }
+  .frc-header.frc-header .frc-header__meta.is-open .frc-header__meta-links {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* Smaller mono links sized like the rest of the chrome.
+     Right-aligned so they sit flush against the menu's right edge. */
+  .frc-header.frc-header .frc-header__meta-links .frc-header__ig,
+  .frc-header.frc-header .frc-header__meta-links .frc-header__about,
+  .frc-header.frc-header .frc-header__meta-links .frc-header__studio {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    padding: 2px 0;
+    text-align: right;
+    color: var(--ink-body);
+  }
+}
+
+/* ─── Desktop focus states ──────────────────────────────────── */
+.frc-header button:focus-visible,
+.frc-header summary:focus-visible {
+  outline: 1px dotted var(--hover);
+  outline-offset: 3px;
+}
+
+/* ─── Reduced motion respect ────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .frc-header *,
+  .frc-header *::before,
+  .frc-header *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+  }
+}
+</style>
+
+<script>
+(function () {
+  var widget = document.currentScript.closest('[data-frc-header]') ||
+               document.querySelector('[data-frc-header]');
+  if (!widget || widget.dataset.initialized === '1') return;
+  widget.dataset.initialized = '1';
+
+  /* ── Containing-block trap self-diagnostic ──────────────────
+     `position: fixed` silently breaks if any ancestor has
+     transform/filter/backdrop-filter/perspective/will-change:
+     transform/contain: paint. If we detect a trap, log a clear
+     warning to the console so this is debuggable in seconds.
+     Runs once on init; does not repeat. */
+  try {
+    var trouble = [];
+    var n = widget.parentElement;
+    while (n && n !== document.documentElement) {
+      var cs = getComputedStyle(n);
+      var hits = [];
+      if (cs.transform !== 'none')       hits.push('transform: ' + cs.transform);
+      if (cs.filter !== 'none')          hits.push('filter: ' + cs.filter);
+      if (cs.backdropFilter !== 'none')  hits.push('backdrop-filter: ' + cs.backdropFilter);
+      if (cs.perspective !== 'none')     hits.push('perspective: ' + cs.perspective);
+      if (cs.willChange && /transform|perspective|filter/.test(cs.willChange)) {
+        hits.push('will-change: ' + cs.willChange);
+      }
+      if (cs.contain && /paint|layout|strict/.test(cs.contain)) {
+        hits.push('contain: ' + cs.contain);
+      }
+      if (hits.length) trouble.push({ node: n, hits: hits });
+      n = n.parentElement;
+    }
+    if (trouble.length) {
+      console.warn(
+        '[frc-header] ⚠ Containing-block trap detected. ' +
+        'The fixed-position header will not stay pinned until this is fixed.\n' +
+        'Offending ancestors:', trouble,
+        '\nFix: remove transform/filter/etc. from these ancestors — most often ' +
+        'by turning OFF Motion Effects / Entrance Animation / Stretch Section ' +
+        'on the parent Elementor section, or disabling the theme mobile-menu ' +
+        'drawer transform. See comment block at top of frc-header.html.'
+      );
+    }
+  } catch (e) { /* diagnostic only, never throw */ }
+
+  /* ── Mobile detection ────────────────────────────────────── */
+  var mq = window.matchMedia('(max-width: 767px)');
+  function isMobile() { return mq.matches; }
+
+  /* ── View toggle ─────────────────────────────────────────── */
+  var toggles = widget.querySelectorAll('[data-frc-view]');
+
+  // Initial view: on mobile, always SCROLL (covers toggle is hidden).
+  // On desktop, read existing <html data-view="..."> or default to scroll.
+  var initial = isMobile()
+    ? 'scroll'
+    : (document.documentElement.getAttribute('data-view') || 'scroll');
+  document.documentElement.setAttribute('data-view', initial);
+  toggles.forEach(function (btn) {
+    var isActive = btn.getAttribute('data-frc-view') === initial;
+    btn.classList.toggle('is-active', isActive);
+    btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+
+  function setView(view) {
+    if (!view) return;
+    document.documentElement.setAttribute('data-view', view);
+    toggles.forEach(function (b) {
+      var active = b.getAttribute('data-frc-view') === view;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    window.dispatchEvent(new CustomEvent('frc:view-change', { detail: { view: view } }));
+  }
+
+  toggles.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      // Safety: on mobile the COVERS button is visually hidden, but
+      // if it somehow fires (e.g. programmatic click), ignore it.
+      if (isMobile()) { setView('scroll'); return; }
+      setView(btn.getAttribute('data-frc-view'));
+    });
+  });
+
+  // If the viewport crosses into mobile, force SCROLL view.
+  function onMqChange() {
+    if (isMobile() && document.documentElement.getAttribute('data-view') !== 'scroll') {
+      setView('scroll');
+    }
+  }
+  if (mq.addEventListener) mq.addEventListener('change', onMqChange);
+  else if (mq.addListener) mq.addListener(onMqChange);
+
+  /* ── Hamburger menu (mobile) ─────────────────────────────── */
+  var menuBtn    = widget.querySelector('[data-frc-menu-btn]');
+  var menuPanel  = widget.querySelector('[data-frc-menu-panel]');
+  var menuWrap   = widget.querySelector('.frc-header__meta');
+
+  if (menuBtn && menuPanel && menuWrap) {
+    function setMenuOpen(open) {
+      menuWrap.classList.toggle('is-open', open);
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+
+    menuBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      setMenuOpen(menuBtn.getAttribute('aria-expanded') !== 'true');
+    });
+
+    // Close on outside tap/click (pointerdown beats click on iOS).
+    document.addEventListener('pointerdown', function (e) {
+      if (!menuWrap.contains(e.target)) setMenuOpen(false);
+    });
+
+    // Close on Escape key.
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' || e.key === 'Esc') setMenuOpen(false);
+    });
+
+    // Close when a link inside the panel is tapped so navigation
+    // feels instant (no lingering open overlay).
+    menuPanel.addEventListener('click', function (e) {
+      if (e.target.closest('a')) setMenuOpen(false);
+    });
+
+    // Reset state if the viewport grows out of mobile.
+    function onResize() { if (!isMobile()) setMenuOpen(false); }
+    window.addEventListener('resize', onResize);
+    if (mq.addEventListener) mq.addEventListener('change', onResize);
+    else if (mq.addListener) mq.addListener(onResize);
+  }
+})();
+</script>

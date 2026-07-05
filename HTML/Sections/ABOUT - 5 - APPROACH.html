@@ -1,0 +1,513 @@
+<!--
+  FORMA ROSA STUDIO &mdash; Approach Section
+  Drop this into an Elementor HTML widget.
+  Colors + fonts realigned to match the homepage:
+    cream  #f0ccb9 -> #d4c4b5    text   #f5f5f3 -> #f5f1ec
+    muted  #8a8a88 -> #999999    chrcl  -> #111111
+    mono   Cascadia -> JetBrains Mono   sans   system -> Inter
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* Belt-and-braces @import in case the <link> above is sanitized. */
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  .fr-approach {
+    --fr-cream:      #d4c4b5;
+    --fr-dark: #0a0a0a;
+    --fr-charcoal:   #111111;
+    --fr-text:       #f5f1ec;
+    --fr-text-muted: #999999;
+    --fr-gray:       #2a2a2a;
+    --fr-hover:      #c4b5a5;
+    --fr-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --fr-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --fr-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    
+    position: relative;
+    background: var(--fr-dark);
+    padding: 120px 60px;
+    overflow: hidden;
+  }
+
+  /* Subtle grain texture */
+  .fr-approach::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 1000px 1000px;
+    background-repeat: repeat;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Gradient accent glow */
+  .fr-approach::after {
+    content: '';
+    position: absolute;
+    bottom: 20%;
+    right: -5%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(212, 196, 181, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .fr-approach__line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(212, 196, 181, 0.15) 20%, rgba(212, 196, 181, 0.15) 80%, transparent);
+    z-index: 1;
+  }
+
+  .fr-approach__container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .fr-approach__label {
+    font-family: var(--fr-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--fr-cream);
+    text-transform: uppercase;
+    margin-bottom: 72px;
+  }
+
+  .fr-approach__label span {
+    color: var(--fr-text-muted);
+    margin-left: 16px;
+  }
+
+  .fr-approach__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  /* Left: Images */
+  .fr-approach__image-wrap {
+    position: relative;
+  }
+
+  .fr-approach__craft {
+    position: relative;
+  }
+
+  .fr-approach__image {
+    position: relative;
+    aspect-ratio: 16/10;
+    background: var(--fr-charcoal);
+    overflow: hidden;
+  }
+
+  .fr-approach__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  }
+
+  .fr-approach__image:hover img {
+    transform: scale(1.05);
+    filter: grayscale(0%);
+  }
+
+  /* Frame for craft image */
+  .fr-approach__image-frame {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border: 1px solid rgba(212, 196, 181, 0.2);
+    pointer-events: none;
+    opacity: 1;
+    transition: opacity 0.4s ease;
+  }
+
+  .fr-approach__image-frame::before,
+  .fr-approach__image-frame::after {
+    content: '';
+    position: absolute;
+    background: var(--fr-cream);
+  }
+
+  .fr-approach__image-frame::before {
+    top: -1px;
+    left: 20px;
+    width: 36px;
+    height: 1px;
+  }
+
+  .fr-approach__image-frame::after {
+    bottom: -1px;
+    right: 20px;
+    width: 36px;
+    height: 1px;
+  }
+
+  .fr-approach__annotation {
+    position: absolute;
+    font-family: var(--fr-mono);
+    font-size: 9px;
+    color: var(--fr-cream);
+    opacity: 0.8;
+    pointer-events: none;
+  }
+
+  .fr-approach__annotation--1 {
+    top: 15%;
+    left: -20px;
+    transform: translateX(-100%);
+  }
+
+  .fr-approach__annotation--2 {
+    bottom: 25%;
+    right: -20px;
+    transform: translateX(100%);
+    text-align: right;
+  }
+
+  .fr-approach__annotation-line {
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: var(--fr-cream);
+    opacity: 0.4;
+    margin: 8px 0;
+  }
+
+  .fr-approach__annotation--1 .fr-approach__annotation-line {
+    margin-left: auto;
+  }
+
+  .fr-approach__annotation-text {
+    color: var(--fr-text-muted);
+    margin-top: 4px;
+  }
+
+  /* Right: Content */
+  .fr-approach__content {
+    padding-top: 24px;
+  }
+
+  .fr-approach__headline {
+    font-family: var(--fr-serif);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 300;
+    line-height: 1.2;
+    color: var(--fr-text);
+    margin-bottom: 36px;
+    letter-spacing: -0.01em;
+  }
+
+  .fr-approach__headline em {
+    font-style: italic;
+    font-weight: 400;   /* italic 400 (italic 300 is unreliable on Google Fonts) */
+    color: var(--fr-cream);
+  }
+
+  .fr-approach__text {
+    font-family: var(--fr-sans);
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--fr-text-muted);
+    margin-bottom: 24px;
+    max-width: 480px;
+  }
+
+  .fr-approach__text:last-of-type {
+    margin-bottom: 0;
+  }
+
+  .fr-approach__text strong {
+    color: var(--fr-text);
+    font-weight: 400;
+  }
+
+  /* Selectivity callout */
+  .fr-approach__selectivity {
+    margin-top: 48px;
+    padding: 28px 32px;
+    background: var(--fr-charcoal);
+    border-left: 2px solid var(--fr-cream);
+  }
+
+  .fr-approach__selectivity-text {
+    font-family: var(--fr-serif);
+    font-size: 1.0625rem;
+    font-style: italic;
+    font-weight: 400;   /* italic 400 (italic 300 is unreliable on Google Fonts) */
+    line-height: 1.6;
+    color: var(--fr-text);
+  }
+
+  .fr-approach__selectivity-text span {
+    color: var(--fr-cream);
+  }
+
+  /* Tech image - now portrait */
+  .fr-approach__tech {
+    position: relative;
+    margin-top: 48px;
+    margin-left: 64px;
+  }
+
+  .fr-approach__tech-image {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: var(--fr-charcoal);
+    overflow: hidden;
+  }
+
+  .fr-approach__tech-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(20%);
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+  }
+
+  .fr-approach__tech-image:hover img {
+    transform: scale(1.05);
+    filter: grayscale(0%);
+  }
+
+  .fr-approach__tech-frame {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border: 1px solid rgba(212, 196, 181, 0.2);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .fr-approach__tech-frame::before,
+  .fr-approach__tech-frame::after {
+    content: '';
+    position: absolute;
+    background: var(--fr-cream);
+  }
+
+  .fr-approach__tech-frame::before {
+    top: -1px;
+    left: 20px;
+    width: 36px;
+    height: 1px;
+  }
+
+  .fr-approach__tech-frame::after {
+    bottom: -1px;
+    right: 20px;
+    width: 36px;
+    height: 1px;
+  }
+
+  /* Frame hover states */
+  .fr-approach__tech:hover .fr-approach__tech-frame {
+    opacity: 1;
+  }
+
+  /* When hovering tech, hide craft frame */
+  .fr-approach__image-wrap:has(.fr-approach__tech:hover) .fr-approach__image-frame {
+    opacity: 0;
+  }
+
+  /* When hovering craft image, hide tech frame and ensure craft frame stays visible */
+  .fr-approach__image-wrap:has(.fr-approach__craft:hover) .fr-approach__tech-frame {
+    opacity: 0;
+  }
+
+  .fr-approach__image-wrap:has(.fr-approach__craft:hover) .fr-approach__image-frame {
+    opacity: 1;
+  }
+
+  /* ===========================================
+     MOBILE STYLES
+     =========================================== */
+  @media (max-width: 767px) {
+    .fr-approach {
+      padding: 80px 24px;
+    }
+
+    .fr-approach__line {
+      display: none;
+    }
+
+    .fr-approach__label {
+      font-size: 10px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .fr-approach__grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .fr-approach__image-wrap {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .fr-approach__craft {
+      position: relative;
+    }
+
+    .fr-approach__image {
+      aspect-ratio: 3/4;
+    }
+
+    .fr-approach__annotation {
+      display: none;
+    }
+
+    .fr-approach__tech {
+      margin: 0;
+    }
+
+    .fr-approach__tech-image {
+      aspect-ratio: 3/4;
+    }
+
+    .fr-approach__tech-frame {
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+    }
+
+    .fr-approach__image-frame {
+      top: -8px;
+      left: -8px;
+      right: -8px;
+      bottom: -8px;
+    }
+
+    .fr-approach__content {
+      padding-top: 0;
+      text-align: center;
+    }
+
+    .fr-approach__headline {
+      font-size: 1.75rem;
+      margin-bottom: 28px;
+    }
+
+    .fr-approach__text {
+      font-size: 14px;
+      line-height: 1.75;
+      margin-bottom: 20px;
+      max-width: 100%;
+    }
+
+    .fr-approach__selectivity {
+      margin-top: 32px;
+      padding: 24px 20px;
+      text-align: left;
+    }
+
+    .fr-approach__selectivity-text {
+      font-size: 1rem;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .fr-approach {
+      padding: 160px 80px;
+    }
+
+    .fr-approach__grid {
+      gap: 100px;
+    }
+
+    .fr-approach__tech {
+      margin-left: 80px;
+    }
+  }
+</style>
+
+<section class="fr-approach">
+  <div class="fr-approach__line"></div>
+  
+  <div class="fr-approach__container">
+    
+    <div class="fr-approach__label">
+      Approach <span>04</span>
+    </div>
+
+    <div class="fr-approach__grid">
+      
+      <div class="fr-approach__image-wrap">
+        <div class="fr-approach__craft">
+          <div class="fr-approach__image">
+            <img src="https://formarosastudio.com/wp-content/uploads/2026/04/Coexist-at-Alcova-Milan-scaled.jpg" alt="Coexist at Alcova Milan installation view">
+          </div>
+          <div class="fr-approach__image-frame"></div>
+        </div>
+
+        <div class="fr-approach__annotation fr-approach__annotation--1">
+          <span>Realization</span>
+          <span class="fr-approach__annotation-line"></span>
+          <span class="fr-approach__annotation-text">Coexist at Alcova Milan</span>
+        </div>
+
+        <div class="fr-approach__annotation fr-approach__annotation--2">
+          <span>Concept</span>
+          <span class="fr-approach__annotation-line"></span>
+          <span class="fr-approach__annotation-text">NYC Library</span>
+        </div>
+
+        <div class="fr-approach__tech">
+          <div class="fr-approach__tech-image">
+            <img src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-library-nyc-01.jpg" alt="NYC Library spatial visualization">
+          </div>
+          <div class="fr-approach__tech-frame"></div>
+        </div>
+      </div>
+
+      <div class="fr-approach__content">
+        <h2 class="fr-approach__headline">
+          Environments composed<br><em>as landscapes.</em>
+        </h2>
+
+        <p class="fr-approach__text">
+          Every space starts with <strong>the user experience</strong> - how you move, what you smell, how your depth of view expands. Deep sightlines let your nervous system settle. Real material - dirt, clay, pigmented plaster - convinces the senses the room is alive.
+        </p>
+
+        <p class="fr-approach__text">
+          The atelier is led by <strong>Santiago Braby Brown</strong> - architect by training (B.Arch, Pratt Institute), creative director by practice. His 10+ years span healthcare architecture, computational facade engineering, and high-end residential interiors. He co-founded Forma Rosa, the ceramic lighting studio shown at Milan Design Week and covered by The New York Times and Elle Decor. Projects are developed through advanced 3D modeling and computational solutions, prototyped by hand, and built with fabricators assembled per project - craft and technology, the method in service of something older.
+        </p>
+
+        <div class="fr-approach__selectivity">
+          <p class="fr-approach__selectivity-text">
+            We take on a <span>small number of projects</span> each year, and give each the studio's full attention - concept through installation.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>

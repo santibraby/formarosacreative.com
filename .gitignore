@@ -1,0 +1,14 @@
+# Back up ONLY the HTML folder (plus these helper files).
+# Everything else in this folder is ignored.
+/*
+!/HTML/
+!/.gitignore
+!/PUSH-UPDATES.bat
+
+# Windows junk
+Thumbs.db
+desktop.ini
+
+# Temp files
+*.tmp
+~$*

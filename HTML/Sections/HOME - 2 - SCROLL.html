@@ -1,0 +1,789 @@
+<!-- ============================================================
+     Section: SCROLL view — stacked hero cards that scale down to zero
+              as you scroll, revealing the next image waiting behind.
+     Class:   frc-hero-scroll
+     Effect:  Image N is centered, full-size. As scroll advances within
+              its "chunk", image N scales 1 → 0. Image N+1 sits behind
+              at scale 1 and is progressively revealed at the edges as
+              N shrinks toward center. When N hits 0, N+1 starts its own
+              scale-down. Continuous scroll-linked, no threshold flicker.
+
+     ⚠️  MOBILE CRITICAL — PARENT-SECTION SETTINGS
+     ──────────────────────────────────────────────────────────
+     `position: sticky` on the stage silently breaks if any ancestor
+     has transform/filter/backdrop-filter/perspective/will-change/
+     contain: paint. On the parent Elementor section:
+       - Template: Elementor Canvas (globals off) is cleanest
+       - Layout: Full Width; Stretch section = OFF
+         (Stretch section uses JS transform — kills sticky.)
+       - Section padding: 0, Column padding: 0
+       - Advanced → Motion Effects: NONE
+       - Advanced → Entrance Animation: NONE
+       - Advanced → CSS: no transform/filter/will-change/perspective
+     If sticky stage un-pins on mobile, the JS console will log a
+     [frc-hero-scroll] warning pinpointing the offending ancestor.
+
+     Scroll math is driven by stage.getBoundingClientRect().height
+     (NOT window.innerHeight) so iOS Safari's URL-bar shrink/grow
+     does not desync the math. visualViewport.resize is also wired
+     so URL-bar transitions recompute immediately.
+     ──────────────────────────────────────────────────────────
+
+     Drop this BELOW frc-header and ABOVE frc-covers. Section is
+     tall ((N+1) × 100dvh) so the sticky stage stays pinned through
+     all N scale-down transitions. Auto-hides when
+     html[data-view="covers"].
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<section class="frc-hero-scroll" data-frc-hero aria-label="Projects — scroll view">
+
+  <!-- Sticky stage: image stack + label + scroll cue -->
+  <div class="frc-hero-scroll__stage">
+
+    <!-- Stacked images. DOM order = visual stacking: first = top.
+         JS sets z-index on init so image 0 sits on top of image 1, etc. -->
+    <div class="frc-hero-scroll__stack" data-hero-stack aria-hidden="true">
+      <img class="frc-hero-scroll__img" data-hero-img data-num="01" data-title="Library"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-library-nyc-01.jpg"
+           alt="NYC Library visualization, Brooklyn design atelier" loading="eager" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="02" data-title="Coexist"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/Coexist-at-Alcova-Milan-scaled.jpg"
+           alt="Coexist at Alcova Milan" loading="eager" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="03" data-title="Wave Exhibit"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wave-column-01.png"
+           alt="Wave Exhibit" loading="eager" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="04" data-title="Cocktail Bar"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-nyc-mansion-cocktail-02.jpg"
+           alt="Cocktail Bar" loading="eager" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="05" data-title="Uncharted at Alcova"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-uncharted-scaled.jpg"
+           alt="Uncharted at Alcova" loading="eager" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="06" data-title="Soft Witness"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-soft-witness-scaled.jpg"
+           alt="Soft Witness" loading="lazy" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="07" data-title="Coexist"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-coexist.jpg"
+           alt="Coexist (render)" loading="lazy" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="08" data-title="Greenhouse"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-greenhouse-01.jpg"
+           alt="Greenhouse" loading="lazy" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="09" data-title="Natura Oscura"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/Natura-Oscura-at-Alcova-Milan-scaled.jpg"
+           alt="Natura Oscura at Alcova Milan" loading="lazy" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="10" data-title="Paracas"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wave-column-03.jpg"
+           alt="Paracas" loading="lazy" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="11" data-title="Jewel"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-jewel-02.jpg"
+           alt="Jewel" loading="lazy" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="12" data-title="Wallpaper"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wallpaper-projects-nydw.jpg"
+           alt="Wallpaper Projects NYDW" loading="lazy" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="13" data-title="Greenhouse Pavilion"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-pavilion-01-scaled.jpg"
+           alt="Greenhouse Pavilion" loading="lazy" decoding="async">
+
+      <img class="frc-hero-scroll__img" data-hero-img data-num="14" data-title="Wanted Design"
+           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wanted-01.jpg"
+           alt="Wanted Design" loading="lazy" decoding="async">
+    </div>
+
+    <!-- Bottom scrim for label readability over bright images -->
+    <div class="frc-hero-scroll__scrim" aria-hidden="true"></div>
+
+    <!-- Project label: NN / dash / Title -->
+    <div class="frc-hero-scroll__label">
+      <span class="frc-hero-scroll__num"   data-hero-num>01</span>
+      <span class="frc-hero-scroll__dash"  aria-hidden="true"></span>
+      <span class="frc-hero-scroll__title" data-hero-title>Library</span>
+    </div>
+
+    <!-- Scroll cue (bottom-right) — fades out after first scroll -->
+    <div class="frc-hero-scroll__cue" aria-hidden="true">
+      <span class="frc-hero-scroll__cue-label">SCROLL</span>
+      <span class="frc-hero-scroll__cue-line"></span>
+    </div>
+
+  </div>
+
+  <!-- Scroll length provider. Height = N × 100dvh of scroll distance.
+       Invisible (covered by the sticky stage). -->
+  <div class="frc-hero-scroll__track" data-hero-track aria-hidden="true"></div>
+
+</section>
+
+<style>
+  .frc-hero-scroll {
+    /* local tokens — do not leak */
+    --bg:            #0a0a0a;
+    --ink:           #f5f1ec;
+    --ink-peach:     #d4c4b5;
+    --ink-dim:       #8e8578;
+
+    --font-mono:     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-display:  "Cormorant Garamond", Georgia, "Times New Roman", serif;
+
+    --project-count: 14;    /* keep in sync with number of <img> children */
+
+    position: relative;
+    width: 100%;
+    background: var(--bg);
+    color: var(--ink);
+    box-sizing: border-box;
+    /* CRITICAL: `overflow` (incl. `clip`, `hidden`, `auto`, `scroll`) on
+       ANY axis of an ancestor breaks `position: sticky` on descendants —
+       sticky pins to the nearest clipped ancestor, not the window. We
+       still want to prevent sideways scroll from stray transforms, so
+       clip ONLY the x-axis and leave y-axis visible. Per CSS spec
+       `overflow-x: clip` requires `overflow-y: visible` (not `clip`) to
+       preserve sticky on children. */
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+  .frc-hero-scroll *,
+  .frc-hero-scroll *::before,
+  .frc-hero-scroll *::after { box-sizing: border-box; }
+
+  /* ---- STAGE: pinned to top while track below provides scroll distance ----
+     !important on position: sticky because Elementor/theme occasionally
+     override `position` on descendants with higher specificity. If this
+     doesn't pin on mobile, the cause is an ancestor with transform/
+     filter/etc. — see top-of-file comment and the JS self-diagnostic
+     that logs actionable warnings to the console. */
+  .frc-hero-scroll .frc-hero-scroll__stage {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;  /* iOS URL-bar safe */
+    overflow: hidden;
+    z-index: 1;
+    background: var(--bg);
+  }
+
+  /* ---- IMAGE STACK ---- */
+  .frc-hero-scroll__stack {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .frc-hero-scroll__img {
+    /* Full-bleed strategy:
+       - width = 100vw (edge to edge)
+       - height = auto (natural aspect ratio preserved)
+       - centered via top/left 50% + translate(-50%, -50%)
+       - scale driven by --s (set inline by JS)
+       At scale 1, portrait images overflow top/bottom (stage's
+       overflow:hidden crops them — classic full-bleed center-crop);
+       as --s shrinks toward 0, the full composition becomes visible
+       around the viewport center.
+       !important on sizing defeats Elementor's global
+       `img { max-width: 100%; height: auto; }` rule. */
+    position: absolute !important;
+    top:  50% !important;
+    left: 50% !important;
+    width:  100vw !important;
+    height: auto  !important;
+    max-width:  none !important;
+    max-height: none !important;
+    min-width:  0 !important;
+    min-height: 0 !important;
+    display: block !important;
+    /* --s is the JS-driven scale (0 → 1). Base transform combines
+       centering + scale so JS only needs to update the variable. */
+    --s: 1;
+    transform: translate(-50%, -50%) scale(var(--s));
+    transform-origin: 50% 50%;
+    will-change: transform, opacity;
+    filter: saturate(0.95) contrast(1.02);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* ---- Subtle bottom scrim ----
+     Images in the stack get inline z-index 1000..988 from JS, so
+     scrim/label/cue must sit above that plane to remain legible
+     throughout the scroll. Using 1500/2000 to stay well clear. */
+  .frc-hero-scroll__scrim {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 30%;
+    background: linear-gradient(to top,
+                  rgba(0, 0, 0, 0.50) 0%,
+                  rgba(0, 0, 0, 0.15) 55%,
+                  rgba(0, 0, 0, 0)    100%);
+    pointer-events: none;
+    z-index: 1500;
+  }
+
+  /* ---- LABEL (bottom-left) ---- */
+  .frc-hero-scroll__label {
+    position: absolute;
+    left:   clamp(16px, 2.5vw, 40px);
+    bottom: clamp(22px, 4vh, 48px);
+    z-index: 2000;
+    display: flex;
+    align-items: baseline;
+    gap: clamp(10px, 1vw, 18px);
+    color: var(--ink);
+    pointer-events: none;
+    line-height: 1;
+  }
+  .frc-hero-scroll__num {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: clamp(11px, 0.9vw, 13px);
+    letter-spacing: 0.08em;
+    color: var(--ink-peach);
+    opacity: 0.95;
+    transform: translateY(-0.5em);
+  }
+  .frc-hero-scroll__dash {
+    display: inline-block;
+    width: clamp(20px, 2vw, 36px);
+    height: 1px;
+    background: currentColor;
+    opacity: 0.55;
+    transform: translateY(-0.45em);
+  }
+  .frc-hero-scroll__title {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-style: italic;
+    font-size: clamp(32px, 6vw, 84px);
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+
+  /* ---- SCROLL CUE (bottom-right) ---- */
+  .frc-hero-scroll__cue {
+    position: absolute;
+    right:  clamp(16px, 2.5vw, 40px);
+    bottom: clamp(22px, 4vh, 48px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-family: var(--font-mono);
+    font-size: clamp(10px, 0.75vw, 12px);
+    letter-spacing: 0.16em;
+    color: var(--ink);
+    opacity: 0.7;
+    pointer-events: none;
+    transition: opacity 420ms ease;
+  }
+  .frc-hero-scroll.is-scrolled .frc-hero-scroll__cue { opacity: 0; }
+  .frc-hero-scroll__cue-line {
+    display: inline-block;
+    width:  clamp(28px, 3.5vw, 56px);
+    height: 1px;
+    background: currentColor;
+    transform-origin: left center;
+    animation: frc-hero-cue 1800ms ease-in-out infinite;
+  }
+  @keyframes frc-hero-cue {
+    0%, 100% { transform: scaleX(0.35); opacity: 0.35; }
+    50%      { transform: scaleX(1);    opacity: 0.95; }
+  }
+
+  /* ---- TRACK: pure scroll spacer (N chunks × 100dvh) ---- */
+  .frc-hero-scroll__track {
+    position: relative;
+    width: 100%;
+    height: calc(var(--project-count) * 100vh);
+    height: calc(var(--project-count) * 100dvh);
+    z-index: 0;
+  }
+
+  /* ---- MOBILE track height fix for the loop ----
+     On mobile the stage is `position: fixed` (not sticky), which means
+     the stage does NOT consume layout space inside the section. The
+     section is effectively just the track, and the section ends when
+     the track's bottom edge hits the viewport's bottom edge — i.e.
+     one viewport-height sooner than on desktop. Without this override,
+     rawProgress maxes out at (N-1)/N ≈ 0.93 and the `rawProgress >= 1`
+     loop-reset branch never fires, so the cycle never restarts.
+     Add one extra viewport-height of track so rawProgress can actually
+     reach 1.0 and the loop reset triggers. */
+  @media (max-width: 767px) {
+    .frc-hero-scroll__track {
+      height: calc((var(--project-count) + 1) * 100vh);
+      height: calc((var(--project-count) + 1) * 100dvh);
+    }
+  }
+
+  /* ---- View-toggle: hide when COVERS view is active ---- */
+  html[data-view="covers"] .frc-hero-scroll { display: none; }
+
+  /* ---- Reduced motion ---- */
+  @media (prefers-reduced-motion: reduce) {
+    .frc-hero-scroll__cue-line { animation: none !important; }
+    /* JS switches to snap mode — no scale animation, just show active image. */
+  }
+
+  /* ---- Mobile ---- */
+  /* Breakpoint is 767px to match Elementor's default mobile breakpoint.
+     Previously 719px left a 48px gap where Elementor tablet styles
+     competed with widget desktop styles, causing visual inconsistency. */
+  @media (max-width: 767px) {
+    /* ══════════════════════════════════════════════════════════════
+       MOBILE: switch stage from `position: sticky` to `position: fixed`.
+       ──────────────────────────────────────────────────────────────
+       WHY: `position: sticky` silently fails if ANY ancestor has
+       `overflow: hidden/auto/scroll/clip` on any axis — which is
+       common in Elementor sections/columns/themes and unfixable from
+       inside the widget. `position: fixed` is immune to overflow
+       traps (only transform/filter-family traps affect it), and the
+       site's header already proves `position: fixed` works on mobile
+       for this page. So we take the stage out of flow entirely and
+       let JS toggle `.is-in-view` on the widget based on the section's
+       bounding rect — the stage appears only while the hero section
+       intersects the viewport. Scroll math is unchanged. */
+    .frc-hero-scroll .frc-hero-scroll__stage {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      height: 100dvh !important;
+      visibility: hidden;   /* default hidden until section is in view */
+      z-index: 1;           /* header (z-index 100) still overlays */
+    }
+    .frc-hero-scroll.is-in-view .frc-hero-scroll__stage {
+      visibility: visible;
+    }
+
+    /* Mobile image sizing — match desktop exactly.
+       Keep natural aspect ratio (width: 100vw + height: auto) so the
+       zoom-out reveals the full original composition as the image
+       scales 1 → 0. Landscape images will show with black bars above
+       and below at scale 1 — that's by design; as the image shrinks
+       the bars stop mattering and the full frame becomes visible.
+       Portrait images at scale 1 will overflow top/bottom (cropped by
+       stage overflow:hidden), then uncrop as they shrink.
+
+       The base .frc-hero-scroll__img rule already sets width:100vw
+       and height:auto with !important. We don't re-declare those —
+       the single-class base rule's !important wins the cascade
+       against anything Elementor ships at mobile breakpoints.
+
+       ⚠ IMPORTANT — re-declare `transform` with !important here.
+       The base rule sets the centering + scale transform WITHOUT
+       !important. On mobile, Elementor's mobile responsive engine
+       (and several WordPress themes) inject `@media (max-width: 767px)
+       img { transform: ...; }` rules that win the cascade and
+       neutralize the JS-driven scale. Inline style with !important
+       from JS (see update()) is the actual winning source; this rule
+       is a CSS-only fallback in case the inline style is stripped.
+       translate3d() forces the iOS WebKit compositor to keep the
+       layer GPU-composited so scale updates re-rasterize cleanly. */
+    .frc-hero-scroll .frc-hero-scroll__img {
+      transform: translate3d(-50%, -50%, 0) scale(var(--s)) !important;
+      transform-origin: 50% 50% !important;
+      will-change: transform, opacity !important;
+    }
+
+    .frc-hero-scroll .frc-hero-scroll__title { font-size: clamp(24px, 8vw, 44px); }
+
+    .frc-hero-scroll .frc-hero-scroll__label {
+      left:   clamp(14px, 4vw, 20px);
+      /* Respect the iOS home-indicator safe area so the label never
+         sits hidden behind the home bar at the bottom of the screen. */
+      bottom: max(clamp(18px, 3vh, 28px), env(safe-area-inset-bottom, 18px));
+    }
+
+    /* ── Mobile scroll cue ────────────────────────────────────
+       Bottom-right placement (same as desktop). Promoted to
+       `position: fixed` so it sits in the root stacking context
+       and rises above .frc-header (z-index 100). Without this,
+       the cue is trapped inside .frc-hero-scroll__stage's
+       stacking context and gets rendered behind the header's
+       CONTACT email accordion. z-index 150 beats the header (100)
+       but stays below modal-level layers. */
+    .frc-hero-scroll .frc-hero-scroll__cue {
+      position: fixed !important;
+      z-index: 150 !important;
+      right: clamp(14px, 4vw, 20px) !important;
+      left: auto !important;
+      top: auto !important;
+      bottom: max(clamp(18px, 3vh, 28px), env(safe-area-inset-bottom, 18px)) !important;
+      transform: none !important;
+      flex-direction: row;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--ink);
+      opacity: 0.85;
+    }
+    /* Mobile cue line: same horizontal dash as desktop. */
+    .frc-hero-scroll .frc-hero-scroll__cue-line {
+      width: clamp(24px, 4vw, 40px);
+      height: 1px;
+      background: currentColor;
+      transform-origin: left center;
+      animation: frc-hero-cue 1800ms ease-in-out infinite;
+    }
+  }
+
+  /* Vertical pulse animation for the mobile cue (desktop uses
+     `frc-hero-cue` which is horizontal). Declared outside the
+     media query so the browser can reach it from the rule above. */
+  @keyframes frc-hero-cue-v {
+    0%, 100% { transform: scaleY(0.35); opacity: 0.35; }
+    50%      { transform: scaleY(1);    opacity: 0.95; }
+  }
+</style>
+
+<script>
+(function () {
+  var widget = document.querySelector('.frc-hero-scroll');
+  if (!widget || widget.dataset.initialized === '1') return;
+  widget.dataset.initialized = '1';
+
+  var stage      = widget.querySelector('.frc-hero-scroll__stage');
+  var stack      = widget.querySelector('[data-hero-stack]');
+  var imgs       = widget.querySelectorAll('[data-hero-img]');
+  var labelNum   = widget.querySelector('[data-hero-num]');
+  var labelTitle = widget.querySelector('[data-hero-title]');
+  var track      = widget.querySelector('[data-hero-track]');
+  if (!stage || !stack || !imgs.length || !labelNum || !labelTitle || !track) return;
+
+  // ── Containing-block trap self-diagnostic ──────────────────
+  // If any ancestor has transform/filter/etc., position: sticky
+  // on the stage silently breaks. Log a precise warning so the
+  // user can identify and fix it in seconds.
+  try {
+    var trouble = [];
+    var n = widget.parentElement;
+    while (n && n !== document.documentElement) {
+      var cs = getComputedStyle(n);
+      var hits = [];
+      if (cs.transform !== 'none')       hits.push('transform: ' + cs.transform);
+      if (cs.filter !== 'none')          hits.push('filter: ' + cs.filter);
+      if (cs.backdropFilter !== 'none')  hits.push('backdrop-filter: ' + cs.backdropFilter);
+      if (cs.perspective !== 'none')     hits.push('perspective: ' + cs.perspective);
+      if (cs.willChange && /transform|perspective|filter/.test(cs.willChange)) {
+        hits.push('will-change: ' + cs.willChange);
+      }
+      if (cs.contain && /paint|layout|strict/.test(cs.contain)) {
+        hits.push('contain: ' + cs.contain);
+      }
+      if (cs.overflow === 'hidden' || cs.overflowY === 'hidden' || cs.overflowY === 'auto' || cs.overflowY === 'scroll') {
+        hits.push('overflow(-y): ' + (cs.overflowY || cs.overflow) + ' (may break sticky)');
+      }
+      if (hits.length) trouble.push({ node: n, hits: hits });
+      n = n.parentElement;
+    }
+    if (trouble.length) {
+      console.warn(
+        '[frc-hero-scroll] ⚠ Containing-block / scroll-container trap detected. ' +
+        'position: sticky on the stage may not pin correctly until this is fixed.\n' +
+        'Offending ancestors:', trouble,
+        '\nFix: on the parent Elementor section, turn OFF Motion Effects, Entrance ' +
+        'Animation, and Stretch Section. Remove any Advanced → CSS transform/filter/' +
+        'will-change. See comment block at top of frc-hero-scroll.html.'
+      );
+    }
+  } catch (e) { /* diagnostic only, never throw */ }
+
+  var N = imgs.length;
+
+  // --- Keep CSS --project-count in sync with actual image count ---
+  widget.style.setProperty('--project-count', N);
+
+  // --- Project data + z-order (image 0 on top, N-1 on bottom) ---
+  var projects = [];
+  for (var i = 0; i < N; i++) {
+    var el = imgs[i];
+    projects.push({ num: el.dataset.num, title: el.dataset.title });
+    el.style.zIndex = String(1000 - i);
+  }
+
+  // --- Initial label ---
+  labelNum.textContent   = projects[0].num;
+  labelTitle.textContent = projects[0].title;
+  var lastLabelIdx = 0;
+
+  // --- Reduced-motion preference ---
+  // ⚠ DESIGN DECISION: the scroll-scale effect is the hero of this page,
+  // so we intentionally override the OS-level Reduce Motion setting and
+  // always run the continuous scale animation — even for visitors who
+  // have prefers-reduced-motion enabled. Set FORCE_CONTINUOUS = false
+  // to restore accessibility-default behaviour (snap between images,
+  // no scale). See the image-scaling code below for where this is used.
+  var FORCE_CONTINUOUS = true;
+  var prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // --- Viewport-height source (the mobile-critical change) ---
+  // Previous version used window.innerHeight, which on iOS Safari
+  // changes as the URL bar shows/hides — that desynced scroll math
+  // and made the effect jump/feel broken on phones. Instead, we
+  // read the rendered height of the sticky stage, which is sized
+  // via 100dvh in CSS and tracks the visible viewport exactly.
+  function measureVh() {
+    var h = stage.getBoundingClientRect().height;
+    return h > 0 ? h : (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+  }
+  var vh = measureVh();
+
+  // ── Per-image FILL SCALE ─────────────────────────────────────
+  // Each image is sized via CSS as width:100vw, height:auto — so at
+  // transform scale 1 it renders at vw × (vw × naturalH/naturalW).
+  // On portrait phones, landscape images are letterboxed at scale 1.
+  // We want the image to START at "cover-fill" (zoomed in just enough
+  // to fill the viewport edge-to-edge), then scale down through its
+  // natural aspect ratio to zero — revealing the full original
+  // composition as it shrinks. fillScale is the multiplier needed to
+  // make the rendered box meet OR exceed viewport height; for portrait
+  // images that already overflow, fillScale is 1.
+  // Stored per-image so each chunk uses its own correct start-scale.
+  function computeFillScales() {
+    var vw = window.innerWidth;
+    var vhLocal = vh;
+    for (var i = 0; i < N; i++) {
+      var img = imgs[i];
+      if (!img.naturalWidth || !img.naturalHeight) {
+        img.dataset.fillScale = '1';
+        continue;
+      }
+      var renderedH = vw * (img.naturalHeight / img.naturalWidth);
+      var fillScale = (renderedH < vhLocal) ? (vhLocal / renderedH) : 1;
+      img.dataset.fillScale = fillScale.toFixed(4);
+    }
+  }
+  // Initial pass + listen for images still loading.
+  computeFillScales();
+  for (var fi = 0; fi < N; fi++) {
+    if (!imgs[fi].complete || !imgs[fi].naturalWidth) {
+      imgs[fi].addEventListener('load', computeFillScales, { once: false });
+    }
+  }
+  var cueHidden = false;
+  var loopLock  = false;        // prevents repeat-fire of the loop reset
+
+  function update() {
+    var rect = widget.getBoundingClientRect();
+    // How far has widget top moved above the viewport top?
+    // At section start (widget top == viewport top): scrolled = 0.
+    var scrolled = -rect.top;
+    if (scrolled < 0) scrolled = 0;
+
+    var trackH      = vh * N;
+    var rawProgress = scrolled / trackH;       // 0 → 1 (and possibly >1)
+
+    // --- LOOP: when the user has scrolled past the last image's full
+    // scale-down, snap back to the section top so the cycle restarts.
+    // At rawProgress >= 1, all images are at scale 0 (empty stage), so
+    // an instant scroll reset is invisible. ---
+    if (rawProgress >= 1 && !loopLock) {
+      loopLock = true;
+      var topAbs = rect.top + window.scrollY;
+      window.scrollTo(0, topAbs);
+      // Small cooldown so we don't immediately retrigger on the next frame
+      setTimeout(function () { loopLock = false; }, 120);
+      // Continue with progress = 0 so this frame paints the restart state
+      rawProgress = 0;
+    }
+
+    var progress = rawProgress;
+    if (progress < 0) progress = 0;
+    if (progress > 1) progress = 1;
+
+    var totalProgress = progress * N;          // 0 → N (one unit per image chunk)
+
+    if (!FORCE_CONTINUOUS && prefersReduce.matches) {
+      // Snap mode: show only the dominant image at full scale.
+      var snapIdx = Math.min(N - 1, Math.round(totalProgress));
+      for (var i = 0; i < N; i++) {
+        var img = imgs[i];
+        img.style.setProperty('--s', '1');
+        img.style.opacity = (i === snapIdx) ? '1' : '0';
+      }
+      if (snapIdx !== lastLabelIdx) {
+        lastLabelIdx = snapIdx;
+        labelNum.textContent   = projects[snapIdx].num;
+        labelTitle.textContent = projects[snapIdx].title;
+      }
+    } else {
+      // Continuous mode: each image scales fillScale → 0 during its chunk.
+      // ⚠ MOBILE FIX: set `transform` directly via inline style with
+      // `!important` priority instead of a CSS variable. Inline style
+      // with `!important` is the highest-priority CSS source short of
+      // user stylesheets, so this wins unconditionally against anything
+      // Elementor or the theme injects.
+      //
+      // fillScale (set by computeFillScales) makes each image START at
+      // cover-fill (zoomed past natural to fill viewport edge-to-edge)
+      // and linearly scale down to 0 through its natural aspect ratio,
+      // so the full original composition is progressively revealed as
+      // it shrinks. Landscape-on-portrait images get fillScale > 1;
+      // portrait-on-portrait images get fillScale == 1 (they already
+      // overflow naturally and are cropped by stage overflow:hidden).
+      for (var j = 0; j < N; j++) {
+        var local = totalProgress - j;
+        if (local < 0) local = 0;
+        if (local > 1) local = 1;
+        var imgEl = imgs[j];
+        var fillScale = parseFloat(imgEl.dataset.fillScale) || 1;
+        var s = fillScale * (1 - local);
+        if (s <= 0.001) {
+          imgEl.style.opacity = '0';
+          imgEl.style.setProperty('transform',
+            'translate3d(-50%, -50%, 0) scale(0)', 'important');
+        } else {
+          imgEl.style.opacity = '1';
+          imgEl.style.setProperty('transform',
+            'translate3d(-50%, -50%, 0) scale(' + s.toFixed(4) + ')', 'important');
+        }
+      }
+      // Label: swap at the midpoint of each chunk (feels anticipatory,
+      // matching what the eye perceives as the "dominant" image).
+      var curIdx = Math.min(N - 1, Math.max(0, Math.round(totalProgress)));
+      if (curIdx !== lastLabelIdx) {
+        lastLabelIdx = curIdx;
+        labelNum.textContent   = projects[curIdx].num;
+        labelTitle.textContent = projects[curIdx].title;
+      }
+    }
+
+    // Fade out the scroll cue once the user has moved past the first sliver.
+    if (!cueHidden && progress > 0.015) {
+      widget.classList.add('is-scrolled');
+      cueHidden = true;
+    } else if (cueHidden && progress <= 0.001) {
+      widget.classList.remove('is-scrolled');
+      cueHidden = false;
+    }
+
+    // ── Mobile stage visibility (position: fixed mode) ─────────
+    // On mobile the stage is position: fixed (see mobile media query
+    // for why). Toggle .is-in-view on the widget so the stage only
+    // renders while the hero section intersects the viewport. This
+    // prevents it from floating above page content after the user
+    // scrolls past the section. The class is harmless on desktop
+    // (sticky stage ignores it). Using rect + vh — same inputs as
+    // the scroll progress math so the two can't desync.
+    var sectionInView = (rect.bottom > 0) && (rect.top < vh);
+    if (sectionInView) {
+      if (!widget.classList.contains('is-in-view')) {
+        widget.classList.add('is-in-view');
+      }
+    } else if (widget.classList.contains('is-in-view')) {
+      widget.classList.remove('is-in-view');
+    }
+  }
+
+  // --- rAF-throttled scroll + resize ---
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () {
+      update();
+      ticking = false;
+    });
+  }
+  function onResize() {
+    vh = measureVh();
+    computeFillScales();   // viewport changed → recompute per-image fill scale
+    update();
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onResize);
+  // visualViewport fires on iOS Safari when the URL bar shows/hides
+  // (the main `resize` event does NOT fire reliably in that case).
+  // Without this listener, scroll math desyncs by ~60–180px as the
+  // user scrolls and the URL bar animates.
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', onResize);
+    window.visualViewport.addEventListener('scroll', onScroll);
+  }
+
+  /* ── iOS scroll-event throttling fix ───────────────────────
+     iOS Safari batches/defers `scroll` events during momentum
+     scroll — sometimes firing only when the flick settles. That
+     makes our scroll-linked scale effect look like it "snaps"
+     from image 1 to image 3 instead of animating smoothly.
+     Fix: on mobile, run update() every frame via rAF while the
+     hero section is on-screen. Pauses when scrolled past, so the
+     loop isn't burning battery when nothing visible is changing. */
+  var mobileMq = window.matchMedia('(max-width: 767px)');
+  var rafRunning = false;
+
+  function inView() {
+    var r = widget.getBoundingClientRect();
+    return r.bottom > 0 && r.top < vh;
+  }
+
+  function rafLoop() {
+    if (!mobileMq.matches || !inView()) {
+      rafRunning = false;
+      return;
+    }
+    update();
+    requestAnimationFrame(rafLoop);
+  }
+
+  function ensureRafLoop() {
+    if (rafRunning) return;
+    if (!mobileMq.matches) return;
+    if (!inView()) return;
+    rafRunning = true;
+    requestAnimationFrame(rafLoop);
+  }
+
+  // Start the loop now (in case we land on the hero).
+  ensureRafLoop();
+  // Any scroll event re-kicks the loop if it had stopped (e.g. user
+  // scrolled back up into the section).
+  window.addEventListener('scroll', ensureRafLoop, { passive: true });
+  window.addEventListener('touchstart', ensureRafLoop, { passive: true });
+  window.addEventListener('touchmove', ensureRafLoop, { passive: true });
+  if (mobileMq.addEventListener) {
+    mobileMq.addEventListener('change', function () {
+      if (mobileMq.matches) ensureRafLoop();
+    });
+  } else if (mobileMq.addListener) {
+    mobileMq.addListener(function () {
+      if (mobileMq.matches) ensureRafLoop();
+    });
+  }
+  // Also recompute after orientation change — the `orientationchange`
+  // event is sometimes fired before layout settles; double-fire on
+  // next frame for safety.
+  window.addEventListener('orientationchange', function () {
+    onResize();
+    requestAnimationFrame(onResize);
+  });
+  prefersReduce.addEventListener
+    ? prefersReduce.addEventListener('change', update)
+    : prefersReduce.addListener(update);  // Safari <14 fallback
+
+  // Initial paint
+  update();
+})();
+</script>

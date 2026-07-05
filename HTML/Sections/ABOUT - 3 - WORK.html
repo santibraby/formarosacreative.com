@@ -1,0 +1,574 @@
+<!--
+  FORMA ROSA STUDIO &mdash; Selected Work Section v5
+  Updated order: Artist Library featured, Townhouse second
+  Replace IMAGE_URL with your WordPress upload path
+  Drop this into an Elementor HTML widget
+
+  Colors + fonts realigned to match the homepage:
+    cream  #f0ccb9 -> #d4c4b5    text   #f5f5f3 -> #f5f1ec
+    muted  #8a8a88 -> #999999    chrcl  #141414 -> #111111
+    mono   Cascadia -> JetBrains Mono   sans   system -> Inter
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* Belt-and-braces @import in case the <link> above is sanitized. */
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  .fr-work {
+    --fr-cream:      #d4c4b5;   /* was #f0ccb9 */
+    --fr-dark:       #0a0a0a;
+    --fr-charcoal:   #111111;   /* was #141414 */
+    --fr-gray:       #2a2a2a;
+    --fr-text:       #f5f1ec;   /* was #f5f5f3 */
+    --fr-text-muted: #999999;   /* was #8a8a88 */
+    --fr-hover:      #c4b5a5;   /* new (homepage --hover) */
+    --fr-serif:      "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --fr-mono:       "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --fr-sans:       "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    
+    position: relative;
+    background: var(--fr-dark);
+    padding: 120px 60px;
+    overflow: hidden;
+  }
+
+  /* Subtle grain texture */
+  .fr-work::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 1000px 1000px;
+    background-repeat: repeat;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Gradient accent glow */
+  .fr-work::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(212, 196, 181, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .fr-work__container {
+    position: relative;
+    z-index: 2;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .fr-work__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    gap: 40px;
+  }
+
+  .fr-work__label {
+    font-family: var(--fr-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--fr-cream);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .fr-work__label span {
+    color: var(--fr-text-muted);
+    margin-left: 16px;
+  }
+
+  .fr-work__title {
+    font-family: var(--fr-serif);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 300;
+    color: var(--fr-text);
+    letter-spacing: -0.02em;
+  }
+
+  /* Client logos */
+  .fr-work__clients {
+    margin-bottom: 56px;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .fr-work__clients-text {
+    font-family: var(--fr-serif);
+    font-size: 1rem;
+    font-style: italic;
+    font-weight: 400;   /* italic 400 (italic 300 is unreliable on Google Fonts) */
+    color: var(--fr-text-muted);
+    margin-bottom: 28px;
+  }
+
+  .fr-work__clients-text span {
+    color: var(--fr-cream);
+  }
+
+  .fr-work__clients-logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+  }
+
+  .fr-work__clients-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fr-work__clients-logo img {
+    height: 120px;
+    width: auto;
+    max-width: 280px;
+    object-fit: contain;
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+  }
+
+  .fr-work__clients-logo:hover img {
+    opacity: 1;
+  }
+
+  .fr-work__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 28px;
+  }
+
+  .fr-work__project {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .fr-work__project--featured {
+    grid-row: span 2;
+  }
+
+  .fr-work__project-image {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: var(--fr-dark);
+    display: flex;
+  }
+
+  .fr-work__project--featured .fr-work__project-image {
+    aspect-ratio: 3/4;
+  }
+
+  .fr-work__project:not(.fr-work__project--featured) .fr-work__project-image {
+    aspect-ratio: 4/3;
+  }
+
+  .fr-work__project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    flex: 1;
+    min-height: 0;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+    filter: grayscale(15%) brightness(0.95);
+  }
+
+  .fr-work__project:hover .fr-work__project-image img {
+    transform: scale(1.05);
+    filter: grayscale(0%) brightness(1);
+  }
+
+  .fr-work__project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    background: linear-gradient(to top, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0.3) 50%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  .fr-work__project:hover .fr-work__project-overlay {
+    opacity: 1;
+  }
+
+  .fr-work__project-tag {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-family: var(--fr-mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--fr-text);
+    text-transform: uppercase;
+    background: rgba(10, 10, 10, 0.75);
+    backdrop-filter: blur(10px);
+    padding: 8px 12px;
+    border: 1px solid rgba(212, 196, 181, 0.2);
+  }
+
+  .fr-work__project-number {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: var(--fr-mono);
+    font-size: 10px;
+    color: var(--fr-cream);
+    opacity: 0.6;
+  }
+
+  .fr-work__project-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 28px;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fr-work__project:hover .fr-work__project-info {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .fr-work__project-name {
+    font-family: var(--fr-serif);
+    font-size: clamp(1.375rem, 2.5vw, 1.75rem);
+    font-weight: 300;
+    color: var(--fr-text);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+
+  .fr-work__project-meta {
+    font-family: var(--fr-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fr-text-muted);
+    text-transform: uppercase;
+  }
+
+  .fr-work__footer {
+    margin-top: 72px;
+    padding-top: 40px;
+    border-top: 1px solid rgba(212, 196, 181, 0.1);
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .fr-work__footer-cta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: var(--fr-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--fr-cream);
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: gap 0.3s ease;
+    cursor: pointer;
+  }
+
+  .fr-work__footer-cta:hover {
+    gap: 24px;
+  }
+
+  .fr-work__footer-cta-line {
+    width: 48px;
+    height: 1px;
+    background: var(--fr-cream);
+    transition: width 0.3s ease;
+  }
+
+  .fr-work__footer-cta:hover .fr-work__footer-cta-line {
+    width: 64px;
+  }
+
+  @media (max-width: 767px) {
+    .fr-work {
+      padding: 72px 24px;
+    }
+
+    .fr-work__header {
+      margin-bottom: 28px;
+    }
+
+    .fr-work__label {
+      font-size: 10px;
+      margin-bottom: 12px;
+    }
+
+    .fr-work__title {
+      font-size: 2rem;
+    }
+
+    .fr-work__clients {
+      margin-bottom: 40px;
+    }
+
+    .fr-work__clients-text {
+      font-size: 0.9375rem;
+      margin-bottom: 24px;
+    }
+
+    .fr-work__clients-logos {
+      gap: 32px 40px;
+    }
+
+    .fr-work__clients-logo img {
+      height: 40px;
+      max-width: 120px;
+    }
+
+    .fr-work__grid {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .fr-work__project--featured {
+      grid-row: span 1;
+    }
+
+    .fr-work__project--featured .fr-work__project-image,
+    .fr-work__project:not(.fr-work__project--featured) .fr-work__project-image {
+      aspect-ratio: 4/3;
+    }
+
+    .fr-work__project-tag {
+      top: 16px;
+      left: 16px;
+      font-size: 8px;
+      padding: 6px 10px;
+    }
+
+    .fr-work__project-number {
+      top: 16px;
+      right: 16px;
+      font-size: 9px;
+    }
+
+    .fr-work__project-overlay {
+      opacity: 1;
+    }
+
+    .fr-work__project-info {
+      opacity: 1;
+      transform: translateY(0);
+      padding: 20px;
+    }
+
+    .fr-work__project-name {
+      font-size: 1.25rem;
+      margin-bottom: 6px;
+    }
+
+    .fr-work__project-meta {
+      font-size: 9px;
+    }
+
+    .fr-work__footer {
+      margin-top: 48px;
+      padding-top: 32px;
+    }
+
+    .fr-work__footer-cta {
+      font-size: 10px;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .fr-work {
+      padding: 140px 80px;
+    }
+
+    .fr-work__grid {
+      gap: 36px;
+    }
+  }
+</style>
+
+<section class="fr-work">
+  <div class="fr-work__container">
+    
+    <div class="fr-work__header">
+      <div>
+        <div class="fr-work__label">
+          Work <span>02</span>
+        </div>
+        <h2 class="fr-work__title">Selected Projects</h2>
+      </div>
+    </div>
+
+    <div class="fr-work__clients">
+      <p class="fr-work__clients-text">
+        Selected work with <span>galleries</span>, <span>architecture studios</span>, and <span>luxury brands</span>.
+      </p>
+      <div class="fr-work__clients-logos">
+        <span class="fr-work__clients-logo"><img src="https://formarosastudio.com/wp-content/uploads/2025/12/logo-soft-witness.png" alt="Soft Witness"></span>
+        <span class="fr-work__clients-logo"><img src="https://formarosastudio.com/wp-content/uploads/2025/12/logo-nyt.png" alt="The New York Times"></span>
+        <span class="fr-work__clients-logo"><img src="https://formarosastudio.com/wp-content/uploads/2025/12/logo-alcova.png" alt="Alcova Milan"></span>
+        <span class="fr-work__clients-logo"><img src="https://formarosastudio.com/wp-content/uploads/2025/12/logo-andrea-claire-studio.png" alt="Andrea Claire Studio"></span>
+        <span class="fr-work__clients-logo"><img src="https://formarosastudio.com/wp-content/uploads/2025/12/logo-oad.png" alt="OAD Interiors"></span>
+      </div>
+    </div>
+
+    <div class="fr-work__grid">
+
+      <!-- Project 1: Wave Exhibit (Featured) -->
+      <article class="fr-work__project fr-work__project--featured">
+        <div class="fr-work__project-image">
+          <!-- TODO: confirm final WordPress URL for the Wave Exhibit hero image. -->
+          <img src="https://formarosastudio.com/wp-content/uploads/2026/06/wave-exhibit-01a.png" alt="Wave Exhibit installation view">
+        </div>
+        <div class="fr-work__project-overlay"></div>
+        <div class="fr-work__project-tag">Creative Direction</div>
+        <span class="fr-work__project-number">01</span>
+        <div class="fr-work__project-info">
+          <h3 class="fr-work__project-name">Wave Exhibit</h3>
+          <span class="fr-work__project-meta">Immersive Environment, Soho New York</span>
+        </div>
+      </article>
+
+      <!-- Project 2: Andrea Claire (Collaboration) &mdash; moved up from 04;
+           NYC Library Concept slot was removed per design. -->
+      <article class="fr-work__project">
+        <div class="fr-work__project-image">
+          <img src="https://formarosastudio.com/wp-content/uploads/2025/12/work-andrea-claire.jpg" alt="Andrea Claire Studio ceramic chandelier">
+        </div>
+        <div class="fr-work__project-overlay"></div>
+        <div class="fr-work__project-tag">Collaboration</div>
+        <span class="fr-work__project-number">02</span>
+        <div class="fr-work__project-info">
+          <h3 class="fr-work__project-name">Andrea Claire Studio</h3>
+          <span class="fr-work__project-meta">Thorn Chandelier</span>
+        </div>
+      </article>
+
+      <!-- Project 3: Private Townhouse -->
+      <article class="fr-work__project">
+        <div class="fr-work__project-image">
+          <img src="https://formarosastudio.com/wp-content/uploads/2025/12/work-townhouse.jpg" alt="Private Townhouse interior with skylight">
+        </div>
+        <div class="fr-work__project-overlay"></div>
+        <div class="fr-work__project-tag">Realization</div>
+        <span class="fr-work__project-number">03</span>
+        <div class="fr-work__project-info">
+          <h3 class="fr-work__project-name">Private Townhouse</h3>
+          <span class="fr-work__project-meta">Custom Skylight for OAD Interiors</span>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="fr-work__footer">
+      <a href="#contact" class="fr-work__footer-cta">
+        <span>Inquire About a Project</span>
+        <span class="fr-work__footer-cta-line"></span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function() {
+  function initWorkAnimations() {
+    if (typeof anime === 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js';
+      script.onload = runAnimations;
+      document.head.appendChild(script);
+    } else {
+      runAnimations();
+    }
+  }
+
+  function runAnimations() {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          triggerAnimations();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const section = document.querySelector('.fr-work');
+    if (section) {
+      observer.observe(section);
+    }
+
+    function triggerAnimations() {
+      const tl = anime.timeline({
+        easing: 'easeOutExpo'
+      });
+
+      tl.add({
+        targets: '.fr-work__header',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 1000
+      }, 0);
+
+      tl.add({
+        targets: '.fr-work__clients',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 1000
+      }, 200);
+
+      tl.add({
+        targets: '.fr-work__project',
+        opacity: [0, 1],
+        translateY: [40, 0],
+        duration: 1000,
+        delay: anime.stagger(150)
+      }, 400);
+
+      tl.add({
+        targets: '.fr-work__footer',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 1000
+      }, 1000);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWorkAnimations);
+  } else {
+    initWorkAnimations();
+  }
+})();
+</script>

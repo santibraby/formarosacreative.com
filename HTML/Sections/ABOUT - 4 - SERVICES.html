@@ -1,0 +1,551 @@
+<!--
+  FORMA ROSA STUDIO &mdash; Services Section
+  Drop this into an Elementor HTML widget.
+  Colors + fonts realigned to match the homepage:
+    cream  #f0ccb9 -> #d4c4b5    text   #f5f5f3 -> #f5f1ec
+    muted  #8a8a88 -> #999999    chrcl  -> #111111
+    mono   Cascadia -> JetBrains Mono   sans   system -> Inter
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* Belt-and-braces @import in case the <link> above is sanitized. */
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  .fr-services {
+    --fr-cream:      #d4c4b5;
+    --fr-dark: #0a0a0a;
+    --fr-charcoal:   #111111;
+    --fr-text:       #f5f1ec;
+    --fr-text-muted: #999999;
+    --fr-gray:       #2a2a2a;
+    --fr-hover:      #c4b5a5;
+    --fr-serif: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --fr-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --fr-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    
+    position: relative;
+    background: var(--fr-dark);
+    padding: 120px 60px;
+    overflow: hidden;
+  }
+
+  /* Subtle grain texture */
+  .fr-services::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 1000px 1000px;
+    background-repeat: repeat;
+    opacity: 0.03;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Gradient accent glow */
+  .fr-services::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(ellipse, rgba(212, 196, 181, 0.04) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .fr-services__deco-line {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(to bottom, transparent, rgba(212, 196, 181, 0.08) 20%, rgba(212, 196, 181, 0.08) 80%, transparent);
+  }
+
+  .fr-services__deco-line--1 { left: 33.33%; }
+  .fr-services__deco-line--2 { left: 66.66%; }
+
+  .fr-services__container {
+    position: relative;
+    z-index: 2;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .fr-services__header {
+    text-align: center;
+    margin-bottom: 80px;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .fr-services__label {
+    font-family: var(--fr-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--fr-cream);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .fr-services__label span {
+    color: var(--fr-text-muted);
+    margin-left: 16px;
+  }
+
+  .fr-services__title {
+    font-family: var(--fr-serif);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 300;
+    color: var(--fr-text);
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 20px;
+  }
+
+  .fr-services__title em {
+    font-style: italic;
+    font-weight: 400;   /* italic 400 (italic 300 is unreliable on Google Fonts) */
+    color: var(--fr-cream);
+  }
+
+  .fr-services__intro {
+    font-family: var(--fr-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--fr-text-muted);
+    max-width: 560px;
+    margin: 0 auto;
+  }
+
+  /* 3-column grid */
+  .fr-services__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .fr-services__card {
+    position: relative;
+    background: var(--fr-charcoal);
+    border: 1px solid rgba(212, 196, 181, 0.08);
+    padding: 44px 36px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: border-color 0.4s ease, background 0.4s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fr-services__card:hover {
+    border-color: rgba(212, 196, 181, 0.2);
+    background: #161616;
+  }
+
+  .fr-services__card-number {
+    position: absolute;
+    top: 36px;
+    right: 36px;
+    font-family: var(--fr-mono);
+    font-size: 10px;
+    color: var(--fr-cream);
+    opacity: 0.4;
+    transition: opacity 0.3s ease;
+  }
+
+  .fr-services__card:hover .fr-services__card-number {
+    opacity: 0.8;
+  }
+
+  .fr-services__card-symbol {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 28px;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+
+  .fr-services__card:hover .fr-services__card-symbol {
+    opacity: 1;
+  }
+
+  .fr-services__card-symbol svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .fr-services__card-symbol-line {
+    fill: none;
+    stroke: var(--fr-cream);
+    stroke-width: 1;
+  }
+
+  .fr-services__card-headline {
+    font-family: var(--fr-serif);
+    font-size: 1.125rem;
+    font-weight: 400;       /* was 300; italic 300 is unreliable on Google Fonts */
+    font-style: italic;
+    color: var(--fr-cream);
+    margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  .fr-services__card-title {
+    font-family: var(--fr-serif);
+    font-size: clamp(1.375rem, 2vw, 1.625rem);
+    font-weight: 300;
+    color: var(--fr-text);
+    margin-bottom: 20px;
+    line-height: 1.2;
+  }
+
+  /* Capability bullets */
+  .fr-services__card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 28px 0;
+    flex-grow: 1;
+  }
+
+  .fr-services__card-list li {
+    font-family: var(--fr-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--fr-text-muted);
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(212, 196, 181, 0.06);
+    transition: color 0.3s ease;
+  }
+
+  .fr-services__card-list li:last-child {
+    border-bottom: none;
+  }
+
+  .fr-services__card:hover .fr-services__card-list li {
+    color: var(--fr-text);
+  }
+
+  .fr-services__card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--fr-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--fr-cream);
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-top: auto;
+    padding-top: 20px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+
+  .fr-services__card:hover .fr-services__card-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .fr-services__card-cta-line {
+    width: 32px;
+    height: 1px;
+    background: var(--fr-cream);
+    transition: width 0.3s ease;
+  }
+
+  .fr-services__card:hover .fr-services__card-cta-line {
+    width: 48px;
+  }
+
+  /* Corner accents */
+  .fr-services__card::before,
+  .fr-services__card::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(212, 196, 181, 0.2);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .fr-services__card::before {
+    top: -1px;
+    left: -1px;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .fr-services__card::after {
+    bottom: -1px;
+    right: -1px;
+    border-left: none;
+    border-top: none;
+  }
+
+  .fr-services__card:hover::before,
+  .fr-services__card:hover::after {
+    opacity: 1;
+  }
+
+  /* ===========================================
+     MOBILE STYLES
+     =========================================== */
+  @media (max-width: 767px) {
+    .fr-services {
+      padding: 72px 24px;
+    }
+
+    .fr-services__deco-line {
+      display: none;
+    }
+
+    .fr-services__header {
+      margin-bottom: 48px;
+    }
+
+    .fr-services__label {
+      font-size: 10px;
+    }
+
+    .fr-services__title {
+      font-size: 1.875rem;
+    }
+
+    .fr-services__intro {
+      font-size: 14px;
+    }
+
+    .fr-services__grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .fr-services__card {
+      padding: 32px 24px;
+    }
+
+    .fr-services__card-number {
+      top: 28px;
+      right: 24px;
+    }
+
+    .fr-services__card-symbol {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 20px;
+    }
+
+    .fr-services__card-headline {
+      font-size: 1rem;
+      margin-bottom: 16px;
+    }
+
+    .fr-services__card-title {
+      font-size: 1.25rem;
+      margin-bottom: 16px;
+    }
+
+    .fr-services__card-list li {
+      font-size: 13px;
+      padding: 6px 0;
+    }
+
+    .fr-services__card-cta {
+      opacity: 1;
+      transform: translateY(0);
+      font-size: 9px;
+    }
+
+    .fr-services__card::before,
+    .fr-services__card::after {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1400px) {
+    .fr-services {
+      padding: 140px 80px;
+    }
+
+    .fr-services__grid {
+      gap: 36px;
+    }
+
+    .fr-services__card {
+      padding: 52px 44px;
+    }
+  }
+</style>
+
+<section class="fr-services">
+  <div class="fr-services__deco-line fr-services__deco-line--1"></div>
+  <div class="fr-services__deco-line fr-services__deco-line--2"></div>
+  
+  <div class="fr-services__container">
+    
+    <div class="fr-services__header">
+      <div class="fr-services__label">
+        Disciplines <span>03</span>
+      </div>
+      <h2 class="fr-services__title">Three disciplines.<br><em>One studio.</em></h2>
+      <p class="fr-services__intro">
+        Each discipline draws on the same computational toolset and a trusted network of fabricators. Most projects cross more than one.
+      </p>
+    </div>
+
+    <div class="fr-services__grid">
+      
+      <!-- Service 1: Experiential Design -->
+      <div class="fr-services__card">
+        <span class="fr-services__card-number">01</span>
+        <div class="fr-services__card-symbol">
+          <svg viewBox="0 0 48 48">
+            <polygon points="24,4 44,24 24,44 4,24" class="fr-services__card-symbol-line"/>
+            <line x1="24" y1="4" x2="24" y2="44" class="fr-services__card-symbol-line"/>
+            <line x1="4" y1="24" x2="44" y2="24" class="fr-services__card-symbol-line"/>
+          </svg>
+        </div>
+        <p class="fr-services__card-headline">"Rooms that calm the body the way a horizon does."</p>
+        <h3 class="fr-services__card-title">Experiential Design</h3>
+        <ul class="fr-services__card-list">
+          <li>Brand activations & pop-ups</li>
+          <li>Exhibition & booth design</li>
+          <li>Retail installations</li>
+          <li>3D visualization & concept development</li>
+          <li>Fabrication coordination & installation</li>
+        </ul>
+        <a href="#contact" class="fr-services__card-cta">
+          <span>Begin a Conversation</span>
+          <span class="fr-services__card-cta-line"></span>
+        </a>
+      </div>
+
+      <!-- Service 2: Visualization & Design Development -->
+      <div class="fr-services__card">
+        <span class="fr-services__card-number">02</span>
+        <div class="fr-services__card-symbol">
+          <svg viewBox="0 0 48 48">
+            <circle cx="24" cy="24" r="18" class="fr-services__card-symbol-line"/>
+            <circle cx="24" cy="24" r="10" class="fr-services__card-symbol-line"/>
+            <circle cx="24" cy="24" r="3" class="fr-services__card-symbol-line"/>
+          </svg>
+        </div>
+        <p class="fr-services__card-headline">"The vision before the making."</p>
+        <h3 class="fr-services__card-title">Visualization & Design Development</h3>
+        <ul class="fr-services__card-list">
+          <li>Concept development & creative direction</li>
+          <li>Photorealistic rendering & visualization</li>
+          <li>Technical drawings & design-for-fabrication</li>
+          <li>Presentation packages for clients & press</li>
+          <li>Spatial strategy & material exploration</li>
+        </ul>
+        <a href="#contact" class="fr-services__card-cta">
+          <span>Explore a Collaboration</span>
+          <span class="fr-services__card-cta-line"></span>
+        </a>
+      </div>
+
+      <!-- Service 3: Custom Furniture & Lighting -->
+      <div class="fr-services__card">
+        <span class="fr-services__card-number">03</span>
+        <div class="fr-services__card-symbol">
+          <svg viewBox="0 0 48 48">
+            <polygon points="24,6 42,42 6,42" class="fr-services__card-symbol-line"/>
+            <line x1="24" y1="6" x2="24" y2="42" class="fr-services__card-symbol-line"/>
+          </svg>
+        </div>
+        <p class="fr-services__card-headline">"Singular pieces that give a room its soul."</p>
+        <h3 class="fr-services__card-title">Custom Furniture & Lighting</h3>
+        <ul class="fr-services__card-list">
+          <li>Furniture designed for a specific project</li>
+          <li>Ceramic & metal lighting development</li>
+          <li>Custom millwork & upholstery</li>
+          <li>Fabrication coordination through our network</li>
+          <li>Forma Rosa originals, adapted for your space</li>
+        </ul>
+        <a href="#contact" class="fr-services__card-cta">
+          <span>Discuss a Commission</span>
+          <span class="fr-services__card-cta-line"></span>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function() {
+  function initServicesAnimations() {
+    if (typeof anime === 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js';
+      script.onload = runAnimations;
+      document.head.appendChild(script);
+    } else {
+      runAnimations();
+    }
+  }
+
+  function runAnimations() {
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px 0px -60px 0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          triggerAnimations();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    const section = document.querySelector('.fr-services');
+    if (section) {
+      observer.observe(section);
+    }
+
+    function triggerAnimations() {
+      const tl = anime.timeline({
+        easing: 'easeOutExpo'
+      });
+
+      tl.add({
+        targets: '.fr-services__header',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        duration: 1000
+      }, 0);
+
+      tl.add({
+        targets: '.fr-services__card',
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 1000,
+        delay: anime.stagger(150)
+      }, 300);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initServicesAnimations);
+  } else {
+    initServicesAnimations();
+  }
+})();
+</script>
