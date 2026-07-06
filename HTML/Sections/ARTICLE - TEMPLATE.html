@@ -1,0 +1,919 @@
+<!-- ============================================================
+     Section: ARTICLE - TEMPLATE (shared article page chrome)
+     Class:   frc-practice
+     Notes:   ONE template for ALL article pages. The article
+              content itself lives in HTML/Articles/<NAME>.md and
+              is fetched + rendered by the script at the bottom.
+              Which article loads is decided by the loader widget:
+              the data-article attribute on its mount div
+              (see LOADER - ARTICLE.html).
+
+              Elementor section settings (same as before):
+                - Template: Elementor Canvas (globals off)
+                - Layout: Full Width, Stretch section: ON
+                - Section padding: 0, Column padding: 0
+                - Standalone chrome - no frc-header needed.
+              Do NOT apply transform/filter/will-change to the
+              parent section (breaks the fixed rail).
+
+     Layout: article lives in a framed card (close x top-left,
+             soft shadow) over a full-page grid background.
+             Far-left fixed rail: logo (-> home), COLLAB, IG,
+             CONTACT. Progress ticks sit just left of the frame
+             and light up top-down as you scroll.
+             On mobile the rail becomes a top bar with a thin
+             progress line.
+
+     -- HOW TO CREATE A NEW ARTICLE -----------------------------
+     1. Duplicate an .md in HTML/Articles/, rename, edit, push.
+     2. Duplicate an article page in WordPress.
+     3. In its HTML widget, change ONLY the data-article value to
+        the new file name (without .md).
+     Design changes made HERE propagate to every article page.
+
+     -- MD SYNTAX (parsed by the script below) ------------------
+     Front matter between --- lines: kicker, title, project,
+     client, year, location.
+     Body: blank-line separated blocks.
+       ![alt](url)            image   (first image = eager hero)
+       ![alt](url "caption")  image with caption
+       ## KICKER | Title      section heading (kicker optional)
+       > text                 interview question
+       plain text             paragraph (first one = lead line)
+       [text](url), *em*, **strong** inside paragraphs
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<div class="frc-practice" data-frc-practice>
+
+  <!-- --- Fixed far-left rail -------------------------------- -->
+  <aside class="frc-practice__rail" aria-label="Site navigation">
+    <a class="frc-practice__rail-logo" href="https://formarosacreative.com" aria-label="Forma Rosa Creative - home">
+      <img src="https://formarosacreative.com/wp-content/uploads/2026/07/CHROME-LOGO.png" alt="Forma Rosa mark" width="68" height="68">
+    </a>
+
+    <nav class="frc-practice__rail-links" aria-label="Quick links">
+      <a href="https://formarosacreative.com/collab" aria-label="Collaborate with us" title="Collab">
+        <img src="https://formarosacreative.com/wp-content/uploads/2026/07/icon-ABOUT.png" alt="" width="30" height="30">
+      </a>
+      <a href="https://instagram.com/formarosacreative" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <img src="https://formarosacreative.com/wp-content/uploads/2026/07/icon-INSTAGRAM.png" alt="" width="30" height="30">
+      </a>
+      <a href="mailto:creative@formarosastudio.com" aria-label="Contact us by email" title="Contact">
+        <img src="https://formarosacreative.com/wp-content/uploads/2026/07/icon-EMAIL.png" alt="" width="30" height="30">
+      </a>
+    </nav>
+  </aside>
+
+  <!-- reading-progress ticks (light up as you scroll) -->
+  <div class="frc-practice__ticks" data-frc-ticks aria-hidden="true"></div>
+
+  <!-- mobile progress line -->
+  <div class="frc-practice__progress-line" aria-hidden="true"><span data-frc-progress-line></span></div>
+
+  <!-- --- Framed article ------------------------------------ -->
+  <div class="frc-practice__frame">
+
+    <a class="frc-practice__close" href="https://formarosacreative.com" data-frc-close aria-label="Close and return home">&times;</a>
+
+    <article class="frc-practice__article">
+
+      <!-- TITLE BLOCK + SPEC (rendered from the .md front matter) -->
+      <div data-frc-art-head></div>
+
+      <!-- SUBSCRIBE (top). Falls back to opening an email with the
+           subscriber's address. TODO: when a newsletter platform is
+           picked (Mailchimp, Substack, etc.), swap the JS handler
+           for its form action. -->
+      <div class="frc-practice__subscribe frc-practice__subscribe--top">
+        <p class="frc-practice__subscribe-line">SUBSCRIBE FOR NEW PROJECTS</p>
+        <form class="frc-practice__subscribe-form" data-frc-subscribe>
+          <input type="email" name="email" required placeholder="Type your email..." aria-label="Email address">
+          <button type="submit">SUBSCRIBE</button>
+        </form>
+      </div>
+
+      <!-- ARTICLE BODY (rendered from the .md body) -->
+      <div data-frc-art-body>
+        <p class="frc-practice__note">LOADING ARTICLE ...</p>
+      </div>
+
+      <!-- SUBSCRIBE (bottom) -->
+      <div class="frc-practice__subscribe frc-practice__subscribe--bottom">
+        <p class="frc-practice__subscribe-line">SUBSCRIBE FOR NEW PROJECTS</p>
+        <form class="frc-practice__subscribe-form" data-frc-subscribe>
+          <input type="email" name="email" required placeholder="Type your email..." aria-label="Email address">
+          <button type="submit">SUBSCRIBE</button>
+        </form>
+      </div>
+
+      <!-- CTA (flat, matches the article style) -->
+      <div class="frc-practice__cta-wrap">
+        <p class="frc-practice__cta-label">WE WOULD LOVE TO HEAR FROM YOU</p>
+        <a class="frc-practice__cta-btn" href="https://formarosacreative.com/collab">BEGIN A CONVERSATION</a>
+        <a class="frc-practice__cta-mail" href="mailto:creative@formarosastudio.com">creative@formarosastudio.com</a>
+      </div>
+
+      <!-- MINI FOOTER -->
+      <footer class="frc-practice__foot">
+        <p class="frc-practice__foot-brand">FORMA ROSA CREATIVE</p>
+        <p class="frc-practice__foot-tag">MONUMENTS TO NATURE</p>
+      </footer>
+
+    </article>
+  </div>
+</div>
+
+<style>
+  .frc-practice {
+    /* local tokens */
+    --bg: #111111;
+    --grid-size: 32px;
+    --card: #111111;  /* matches the grid background exactly */
+    --card-line: #29251f;
+
+    /* Brand peach saturation scale - the only accent colors used:
+       100% #F05300 (vivid) - 75% #F07A3C - 50% #F0A178 -
+       25% #F0C9B4 (brand default) - 0% #F0F0F0 (light grey) */
+    --peach-100: #F05300;
+    --peach-75:  #F07A3C;
+    --peach-50:  #F0A178;
+    --peach-25:  #F0C9B4;
+    --grey-0:    #F0F0F0;
+
+    --grid-line: rgba(240, 201, 180, 0.05);
+    --ink: var(--grey-0);                  /* headings / bright text */
+    --ink-body: var(--grey-0);             /* body text */
+    --ink-head: var(--peach-25);           /* peach accents: kickers, lead, buttons */
+    --ink-dim: rgba(240, 240, 240, 0.5);   /* muted labels */
+    --hover: var(--peach-50);
+    --link: var(--peach-75);
+    --link-hover: var(--peach-100);
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-serif: Georgia, "Times New Roman", serif;
+    --frame-w: 720px;
+
+    position: relative;
+    width: 100%;
+    /* lock to viewport height - the article scrolls INSIDE the
+       frame, so its border stays intact while content crops */
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    box-sizing: border-box;
+    font-family: var(--font-mono);
+    color: var(--ink-body);
+
+    /* full-page grid background */
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+
+    /* frame runs nearly edge-to-edge; left side clears the icon rail */
+    padding: 14px 14px 14px 88px;
+  }
+
+  .frc-practice *,
+  .frc-practice *::before,
+  .frc-practice *::after { box-sizing: border-box; }
+
+  /* --- far-left rail ---------------------------------------- */
+  .frc-practice__rail {
+    position: fixed;
+    z-index: 40;
+    top: 24px;
+    left: 12px;
+    width: 68px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 26px;
+  }
+
+  .frc-practice__rail-logo {
+    display: block;
+    line-height: 0;
+    opacity: 0.85;
+    transition: opacity 200ms ease;
+  }
+  .frc-practice__rail-logo:hover,
+  .frc-practice__rail-logo:focus-visible { opacity: 1; outline: none; }
+  .frc-practice__rail-logo img { width: 68px; height: 68px; object-fit: contain; }
+
+  .frc-practice__rail-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+  .frc-practice__rail-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    text-decoration: none;
+    opacity: 0.72;
+    transition: opacity 200ms ease;
+  }
+  .frc-practice__rail-links a:hover,
+  .frc-practice__rail-links a:focus-visible { opacity: 1; outline: none; }
+  .frc-practice__rail-links a img {
+    display: block;
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+  .frc-practice__rail-links a:hover,
+  .frc-practice__rail-links a:focus-visible { color: var(--hover); outline: none; }
+
+  /* --- reading-progress ticks --------------------------------
+     A vertical ruler of short lines inside the article frame's
+     left edge, centered vertically. One tick is highlighted at
+     a time, marking how far down the article you are. */
+  .frc-practice__ticks {
+    position: fixed;
+    z-index: 39;
+    top: 50%;
+    left: 106px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    pointer-events: none;
+  }
+  .frc-practice__ticks span {
+    display: block;
+    width: 10px;
+    height: 2px;
+    background: #2e2a25;
+    transition: background 200ms ease, width 200ms ease;
+  }
+  .frc-practice__ticks span.is-lit {
+    width: 18px;
+    background: var(--ink-head);
+  }
+
+  /* --- mobile progress line (hidden on desktop) ------------ */
+  .frc-practice__progress-line { display: none; }
+
+  /* --- framed article --------------------------------------- */
+  .frc-practice__frame {
+    position: relative;
+    z-index: 1;  /* above the background video */
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    /* translucent so the scrubbed video shows through the frame,
+       dark enough to keep text/images readable on top of it */
+    background: rgba(17, 17, 17, 0.6);
+    border: 1px solid var(--card-line);
+    border-radius: 10px;
+    /* the frame is the scroll container */
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #2e2a25 transparent;
+    box-shadow: 0 10px 44px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4);
+  }
+  .frc-practice__frame::-webkit-scrollbar { width: 10px; }
+  .frc-practice__frame::-webkit-scrollbar-thumb { background: #2e2a25; border-radius: 5px; }
+  .frc-practice__frame::-webkit-scrollbar-track { background: transparent; }
+
+  .frc-practice__close {
+    /* fixed so it stays pinned at the frame's corner while the
+       article scrolls underneath (Substack behavior) */
+    position: fixed;
+    z-index: 45;
+    top: 30px;
+    left: 104px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--card-line);
+    border-radius: 50%;
+    background: rgba(17, 17, 17, 0.6);
+    color: var(--ink-dim);
+    font-size: 20px;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 200ms ease, border-color 200ms ease;
+  }
+  .frc-practice__close:hover,
+  .frc-practice__close:focus-visible {
+    color: var(--hover);
+    border-color: var(--ink-dim);
+    outline: none;
+  }
+
+  .frc-practice__article {
+    padding: clamp(56px, 8vh, 80px) 0 0;
+  }
+
+  /* all content sits in a centered reading column; the frame
+     itself is much wider (Substack-style) */
+  .frc-practice__head,
+  .frc-practice__spec,
+  .frc-practice__lead,
+  .frc-practice__body,
+  .frc-practice__section-head,
+  .frc-practice__cta-wrap,
+  .frc-practice__foot {
+    max-width: var(--frame-w);
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: clamp(20px, 3vw, 32px);
+    padding-right: clamp(20px, 3vw, 32px);
+  }
+
+  /* --- title block (left-aligned, Substack-style) ---------- */
+  .frc-practice__head { text-align: left; margin-bottom: clamp(28px, 4vh, 40px); }
+
+  .frc-practice__kicker {
+    margin: 0 0 14px;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--ink-dim);
+  }
+  .frc-practice__kicker--dim { color: var(--ink-dim); }
+
+  .frc-practice__title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(38px, 6vw, 54px);
+    line-height: 1.05;
+    color: var(--ink);
+  }
+
+  /* --- spec strip ------------------------------------------- */
+  .frc-practice__spec {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0 auto clamp(32px, 5vh, 48px);
+  }
+  .frc-practice__spec > div {
+    padding: 4px 14px;
+    text-align: center;
+    border-right: 1px solid #2a2a2a;
+  }
+  .frc-practice__spec > div:last-child { border-right: 0; }
+  .frc-practice__spec dt {
+    margin: 0 0 6px;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+  }
+  .frc-practice__spec dd {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    color: var(--ink);
+  }
+
+  /* --- media (not full width - capped at the reading column) -
+     !important on the horizontal margins: WordPress themes commonly
+     reset figure margins to 0, which un-centers the images. */
+  .frc-practice__media {
+    max-width: var(--frame-w);
+    margin: clamp(52px, 8vh, 88px) auto;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background: #1a1a1a;
+  }
+  .frc-practice__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .frc-practice__media figcaption {
+    padding: 12px clamp(20px, 3vw, 32px) 0;
+    font-family: "Cascadia Code", "Cascadia Mono", var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+    color: var(--peach-25);
+    text-align: center;
+    background: transparent;
+  }
+
+  /* --- copy ------------------------------------------------- */
+  .frc-practice__lead {
+    margin: 0 auto clamp(24px, 3vh, 32px);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(21px, 2.4vw, 25px);
+    line-height: 1.42;
+    color: var(--ink-head);
+    text-align: center;
+  }
+
+  /* --- loading / error note ---------------------------------- */
+  .frc-practice__note {
+    max-width: var(--frame-w);
+    margin: clamp(40px, 8vh, 80px) auto;
+    padding-left: clamp(20px, 3vw, 32px);
+    padding-right: clamp(20px, 3vw, 32px);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--ink-dim);
+    text-align: center;
+  }
+
+  /* --- subscribe line --------------------------------------- */
+  .frc-practice__subscribe {
+    max-width: var(--frame-w);
+    margin: 0 auto clamp(36px, 5vh, 56px);
+    padding-left: clamp(20px, 3vw, 32px);
+    padding-right: clamp(20px, 3vw, 32px);
+    text-align: center;
+  }
+  .frc-practice__subscribe--bottom {
+    margin-top: clamp(48px, 7vh, 72px);
+    margin-bottom: 0;
+  }
+  /* top subscribe: hairline rule above, sits between spec and hero */
+  .frc-practice__subscribe--top {
+    border-top: 1px solid #2a2a2a;
+    padding-top: clamp(28px, 4vh, 40px);
+    margin-bottom: clamp(28px, 4vh, 44px);
+  }
+  .frc-practice__subscribe-line {
+    margin: 0 0 16px;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--peach-50);
+  }
+  .frc-practice__subscribe-form {
+    display: flex;
+    justify-content: center;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  .frc-practice__subscribe-form input {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    background: #171614;
+    border: 1px solid var(--card-line);
+    border-right: 0;
+    border-radius: 2px 0 0 2px;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    outline: none;
+  }
+  .frc-practice__subscribe-form input::placeholder { color: var(--ink-dim); }
+  .frc-practice__subscribe-form input:focus { border-color: var(--ink-dim); }
+  .frc-practice__subscribe-form button {
+    padding: 12px 20px;
+    background: var(--peach-50);
+    border: 0;
+    border-radius: 0 2px 2px 0;
+    color: #0a0a0a;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 200ms ease;
+  }
+  .frc-practice__subscribe-form button:hover,
+  .frc-practice__subscribe-form button:focus-visible { background: var(--peach-75); outline: none; }
+
+  /* body copy - serif, narrower measure for comfortable reading
+     (matches the style of the old "Three Wave Columns" note) */
+  .frc-practice__body { max-width: 560px; }
+
+  .frc-practice__body p {
+    margin: 0 0 22px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.8;
+  }
+  .frc-practice__body p:last-child { margin-bottom: 0; }
+  .frc-practice__body a {
+    color: var(--link);
+    text-decoration: underline;
+    transition: color 200ms ease;
+  }
+  .frc-practice__body a:hover,
+  .frc-practice__body a:focus-visible { color: var(--link-hover); outline: none; }
+
+  .frc-practice__section-head {
+    margin: clamp(40px, 6vh, 64px) auto 18px;
+    text-align: center;
+  }
+  .frc-practice__section-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: clamp(26px, 3vw, 30px);
+    letter-spacing: 0.03em;
+    color: var(--ink);
+  }
+
+  /* interview questions - italic serif, set apart from answers */
+  .frc-practice__question {
+    max-width: var(--frame-w);
+    margin: clamp(36px, 5vh, 56px) auto 18px;
+    padding-left: clamp(20px, 3vw, 32px);
+    padding-right: clamp(20px, 3vw, 32px);
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-head);
+  }
+
+  /* --- CTA panel -------------------------------------------- */
+  .frc-practice__cta-wrap {
+    margin: clamp(40px, 6vh, 64px) auto 0;
+    padding-top: clamp(40px, 6vh, 56px);
+    padding-bottom: clamp(40px, 6vh, 56px);
+    border-top: 1px solid #2a2a2a;
+    text-align: center;
+  }
+  .frc-practice__cta-label {
+    margin: 0 0 28px;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--ink-head);
+  }
+  .frc-practice__cta-btn {
+    display: inline-block;
+    padding: 16px 42px;
+    background: var(--ink-head);
+    color: #0a0a0a;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 200ms ease;
+  }
+  .frc-practice__cta-btn:hover,
+  .frc-practice__cta-btn:focus-visible { background: var(--hover); outline: none; }
+  .frc-practice__cta-mail {
+    display: block;
+    margin: 26px 0 0;
+    font-size: 13px;
+    color: var(--ink);
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 200ms ease;
+  }
+  .frc-practice__cta-mail:hover,
+  .frc-practice__cta-mail:focus-visible { color: var(--hover); outline: none; }
+
+  /* --- footer ----------------------------------------------- */
+  .frc-practice__foot {
+    padding-top: 34px;
+    padding-bottom: 38px;
+    border-top: 1px solid #2a2a2a;
+    text-align: center;
+  }
+  .frc-practice__foot-brand {
+    margin: 0 0 8px;
+    font-family: var(--font-serif);
+    font-size: 15px;
+    letter-spacing: 0.2em;
+    color: var(--ink);
+  }
+  .frc-practice__foot-tag {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: var(--ink-dim);
+  }
+
+  /* --- reduced motion --------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .frc-practice * { transition: none !important; }
+  }
+
+  /* --- mobile / narrow -------------------------------------- */
+  @media (max-width: 979px) {
+    /* clear the fixed top bar (68px tall) plus breathing room */
+    .frc-practice { padding: 92px 12px 12px; }
+
+    /* rail becomes a fixed top bar */
+    .frc-practice__rail {
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      gap: 0;
+      background: rgba(17, 17, 17, 0.92);
+      border-bottom: 1px solid var(--card-line);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .frc-practice__rail-logo img { width: 44px; height: 44px; }
+    .frc-practice__rail-links {
+      flex-direction: row;
+      gap: 6px;
+    }
+    .frc-practice__rail-links a { width: 44px; height: 44px; }
+    .frc-practice__rail-links a img { width: 26px; height: 26px; }
+
+    /* ticks are a desktop nicety */
+    .frc-practice__ticks { display: none; }
+
+    /* thin progress line under the top bar */
+    .frc-practice__progress-line {
+      display: block;
+      position: fixed;
+      z-index: 41;
+      top: 68px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: transparent;
+      pointer-events: none;
+    }
+    .frc-practice__progress-line span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      background: var(--ink-head);
+    }
+
+    .frc-practice__close { top: 104px; left: 24px; width: 32px; height: 32px; }
+    .frc-practice__spec { grid-template-columns: 1fr 1fr; row-gap: 14px; }
+    .frc-practice__spec > div:nth-child(2) { border-right: 0; }
+
+    /* comfortable reading + touch targets on small screens */
+    .frc-practice__article { padding-top: 48px; }
+    .frc-practice__title { font-size: clamp(34px, 10vw, 44px); }
+    .frc-practice__lead { font-size: 19px; line-height: 1.5; }
+    .frc-practice__body p { font-size: 16px; line-height: 1.75; }
+    .frc-practice__question { font-size: 17px; }
+
+    /* full-width buttons, like the newsletter's mobile rules */
+    .frc-practice__cta-btn {
+      display: block;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .frc-practice__subscribe-form {
+      max-width: 100%;
+    }
+    .frc-practice__subscribe-form input { font-size: 16px; } /* prevents iOS zoom-on-focus */
+  }
+
+  /* very narrow phones: stack the subscribe form */
+  @media (max-width: 400px) {
+    .frc-practice__subscribe-form { flex-direction: column; gap: 8px; }
+    .frc-practice__subscribe-form input {
+      border-right: 1px solid var(--card-line);
+      border-radius: 2px;
+      text-align: center;
+    }
+    .frc-practice__subscribe-form button { border-radius: 2px; padding: 14px 20px; }
+    .frc-practice__spec { grid-template-columns: 1fr; }
+    .frc-practice__spec > div { border-right: 0 !important; }
+  }
+</style>
+
+<script>
+(function () {
+  var widget = document.querySelector('.frc-practice');
+  if (!widget || widget.dataset.initialized === '1') return;
+  widget.dataset.initialized = '1';
+
+  var line = widget.querySelector('[data-frc-progress-line]');
+  var frame = widget.querySelector('.frc-practice__frame');
+
+  /* build the progress ticks */
+  var TICKS = 40;
+  var ticksWrap = widget.querySelector('[data-frc-ticks]');
+  var ticks = [];
+  if (ticksWrap) {
+    for (var i = 0; i < TICKS; i++) {
+      var t = document.createElement('span');
+      ticksWrap.appendChild(t);
+      ticks.push(t);
+    }
+  }
+
+  function update() {
+    var max = frame ? (frame.scrollHeight - frame.clientHeight) : 0;
+    var p = max > 0 ? Math.min(1, Math.max(0, frame.scrollTop / max)) : 0;
+    var idx = Math.round(p * (TICKS - 1));
+    for (var j = 0; j < ticks.length; j++) {
+      ticks[j].classList.toggle('is-lit', j === idx);
+    }
+    if (line) line.style.width = (p * 100) + '%';
+  }
+
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { update(); ticking = false; });
+  }
+
+  if (frame) frame.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
+
+  /* Subscribe forms (top + bottom): mailto fallback until a
+     newsletter platform is wired up */
+  widget.querySelectorAll('[data-frc-subscribe]').forEach(function (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var email = form.querySelector('input[name="email"]').value;
+      window.location.href = 'mailto:creative@formarosastudio.com'
+        + '?subject=' + encodeURIComponent('Newsletter subscription')
+        + '&body=' + encodeURIComponent('Please add me to the newsletter: ' + email);
+    });
+  });
+
+  /* Close button: go back if the visitor came from this site, else home */
+  var close = widget.querySelector('[data-frc-close]');
+  if (close) {
+    close.addEventListener('click', function (e) {
+      if (window.history.length > 1 && document.referrer.indexOf(location.host) !== -1) {
+        e.preventDefault();
+        window.history.back();
+      }
+    });
+  }
+
+  /* ==========================================================
+     ARTICLE RENDERER
+     Fetches HTML/Articles/<name>.md from GitHub and renders it
+     into the two containers above. The article name comes from
+     the loader's mount div: <div ... data-article="NAME">.
+     ========================================================== */
+
+  var ARTICLES_BASE = 'https://raw.githubusercontent.com/santibraby/formarosacreative.com/main/HTML/Articles/';
+
+  var headBox = widget.querySelector('[data-frc-art-head]');
+  var bodyBox = widget.querySelector('[data-frc-art-body]');
+
+  function escapeHtml(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* inline markdown: links, **bold**, *italic* (input already escaped) */
+  function inline(s) {
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (m, text, href) {
+      var ext = /^https?:\/\//i.test(href) &&
+                href.indexOf('formarosacreative.com') === -1;
+      return '<a href="' + href + '"' +
+             (ext ? ' target="_blank" rel="noopener"' : '') + '>' + text + '</a>';
+    });
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    return s;
+  }
+
+  function parseFrontMatter(md) {
+    var meta = {};
+    md = md.replace(/\r/g, '').replace(/<!--[\s\S]*?-->/g, '').replace(/^\s+/, '');
+    if (md.indexOf('---') === 0) {
+      var end = md.indexOf('\n---', 3);
+      if (end !== -1) {
+        md.slice(3, end).split('\n').forEach(function (lineStr) {
+          var mm = lineStr.match(/^([A-Za-z_-]+)\s*:\s*(.*)$/);
+          if (mm) meta[mm[1].toLowerCase()] = mm[2].trim();
+        });
+        md = md.slice(end + 4);
+      }
+    }
+    return { meta: meta, body: md };
+  }
+
+  function renderHead(meta) {
+    var h = '';
+    h += '<header class="frc-practice__head">';
+    if (meta.kicker) h += '<p class="frc-practice__kicker">' + escapeHtml(meta.kicker) + '</p>';
+    if (meta.title) h += '<h1 class="frc-practice__title">' + escapeHtml(meta.title) + '</h1>';
+    h += '</header>';
+
+    var SPEC = [['project', 'PROJECT'], ['client', 'CLIENT'],
+                ['year', 'YEAR'], ['location', 'LOCATION']];
+    var cells = '';
+    SPEC.forEach(function (pair) {
+      if (meta[pair[0]]) {
+        cells += '<div><dt>' + pair[1] + '</dt><dd>' +
+                 escapeHtml(meta[pair[0]]) + '</dd></div>';
+      }
+    });
+    if (cells) h += '<dl class="frc-practice__spec">' + cells + '</dl>';
+    return h;
+  }
+
+  function renderBody(body) {
+    var blocks = body.split(/\n\s*\n/);
+    var out = '';
+    var open = false;        /* an frc-practice__body div is open */
+    var leadDone = false;    /* first paragraph becomes the lead */
+    var firstImg = true;     /* first image is the eager hero */
+
+    function closeBody() { if (open) { out += '</div>'; open = false; } }
+
+    blocks.forEach(function (raw) {
+      var b = raw.trim();
+      if (!b) return;
+
+      /* image: ![alt](url) or ![alt](url "caption") */
+      var img = b.match(/^!\[([^\]]*)\]\(\s*(\S+?)(?:\s+"([^"]*)")?\s*\)$/);
+      if (img) {
+        closeBody();
+        out += '<figure class="frc-practice__media">' +
+               '<img src="' + escapeHtml(img[2]) + '" alt="' + escapeHtml(img[1]) + '"' +
+               ' loading="' + (firstImg ? 'eager' : 'lazy') + '" decoding="async">';
+        if (img[3]) out += '<figcaption>' + escapeHtml(img[3]) + '</figcaption>';
+        out += '</figure>';
+        firstImg = false;
+        return;
+      }
+
+      /* section heading: ## KICKER | Title  (kicker optional) */
+      if (/^##\s+/.test(b)) {
+        closeBody();
+        var parts = b.replace(/^##\s+/, '').split('|');
+        var kicker = parts.length > 1 ? parts[0].trim() : '';
+        var title = (parts.length > 1 ? parts[1] : parts[0]).trim();
+        out += '<div class="frc-practice__section-head">';
+        if (kicker) out += '<p class="frc-practice__kicker frc-practice__kicker--dim">' +
+                           escapeHtml(kicker) + '</p>';
+        out += '<h2 class="frc-practice__section-title">' + escapeHtml(title) + '</h2></div>';
+        return;
+      }
+
+      /* interview question: > text */
+      if (/^>/.test(b)) {
+        closeBody();
+        var q = b.split('\n').map(function (l) {
+          return l.replace(/^>\s?/, '');
+        }).join(' ').trim();
+        out += '<p class="frc-practice__question">' + inline(escapeHtml(q)) + '</p>';
+        return;
+      }
+
+      /* paragraph (single newlines inside a block are soft wraps) */
+      var text = inline(escapeHtml(b.split('\n').join(' ')));
+      if (!leadDone) {
+        closeBody();
+        out += '<p class="frc-practice__lead">' + text + '</p>';
+        leadDone = true;
+        return;
+      }
+      if (!open) { out += '<div class="frc-practice__body">'; open = true; }
+      out += '<p>' + text + '</p>';
+    });
+
+    closeBody();
+    return out;
+  }
+
+  function fail(msg) {
+    if (bodyBox) bodyBox.innerHTML = '<p class="frc-practice__note">' + msg + '</p>';
+  }
+
+  /* the loader's mount div names the article */
+  var mount = document.querySelector('[data-article]');
+  var articleName = mount ? mount.getAttribute('data-article') : '';
+
+  if (!articleName) {
+    fail('NO ARTICLE SET - ADD data-article="NAME" TO THE LOADER');
+    return;
+  }
+
+  fetch(ARTICLES_BASE + encodeURIComponent(articleName + '.md'), { cache: 'no-cache' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function (md) {
+      var parsed = parseFrontMatter(md);
+      if (headBox) headBox.innerHTML = renderHead(parsed.meta);
+      if (bodyBox) bodyBox.innerHTML = renderBody(parsed.body);
+      if (parsed.meta.title) document.title = parsed.meta.title + ' - Forma Rosa Creative';
+      update();
+    })
+    .catch(function (err) {
+      fail('COULD NOT LOAD ARTICLE (' + escapeHtml(String(err.message || err)) +
+           ') - CHECK THE data-article NAME');
+    });
+})();
+</script>
