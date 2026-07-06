@@ -33,9 +33,12 @@
   <!-- Background animation - scrubbed by scroll position (experimental).
        Remove this <video> tag to go back to the plain grid background. -->
   <video class="frc-practice__bg-video"
-         src="https://videos.files.wordpress.com/shknN8mc/frames.mov"
          muted playsinline preload="auto"
-         tabindex="-1" aria-hidden="true" data-frc-bg-video></video>
+         tabindex="-1" aria-hidden="true" data-frc-bg-video>
+    <source src="https://videos.files.wordpress.com/shknN8mc/frames_hd.mp4" type="video/mp4">
+    <source src="https://videos.files.wordpress.com/shknN8mc/frames.mp4" type="video/mp4">
+    <source src="https://videos.files.wordpress.com/shknN8mc/frames.mov" type="video/quicktime">
+  </video>
 
   <!-- --- Fixed far-left rail -------------------------------- -->
   <aside class="frc-practice__rail" aria-label="Site navigation">
