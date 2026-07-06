@@ -59,6 +59,29 @@ Rules the template applies automatically:
 - Subscribe forms, CTA, footer, rail: come from the template,
   never written in the .md.
 
+## THE ARTICLE EDITOR (RECOMMENDED WAY TO EDIT)
+
+A visual editor lives at _TECH Articles/ARTICLE EDITOR.html
+(next to this project folder). Start it with launch.bat there -
+or make a desktop shortcut: right-click launch.bat > Send to >
+Desktop. Requires internet + Chrome or Edge.
+
+- It loads the live page design from GitHub, then you OPEN an .md
+  from HTML/Articles/ - you edit the article looking exactly like
+  the real page, images included.
+- Click a text block to select it: switch its style (PARAGRAPH /
+  QUESTION / SECTION HEADING), or DELETE it. The first paragraph
+  is always the lead, automatically.
+- Right-click an image to replace its URL, edit alt text, or
+  remove it. Click under an image to add/edit its caption.
+- + TEXT / + IMAGE insert after the selected block. Enter starts
+  a new paragraph. Ctrl+S saves.
+- SAVE writes straight back to the .md. SAVE AS creates a new
+  article file (save into HTML/Articles/, name it
+  <CATEGORY> - <NAME>.md). Then push and set the loader's
+  data-article as described above.
+- Saving auto-fixes smart quotes / em dashes to ASCII.
+
 ## EDITING IN GOOGLE DOCS - CAUTION
 
 Round-tripping .md through Google Docs can silently break things:

@@ -381,13 +381,12 @@
   }
 
   /* --- media (not full width - capped at the reading column) -
-     !important on the horizontal margins: WordPress themes commonly
-     reset figure margins to 0, which un-centers the images. */
+     !important on ALL margins: WordPress/theme CSS resets figure
+     margins to 0, which un-centers the images AND kills the
+     vertical spacing around them. */
   .frc-practice__media {
     max-width: var(--frame-w);
-    margin: clamp(52px, 8vh, 88px) auto;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin: clamp(52px, 8vh, 88px) auto !important;
     background: #1a1a1a;
   }
   .frc-practice__media img {
