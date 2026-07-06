@@ -34,12 +34,13 @@ To update an article later: edit the .md, push. Nothing else.
 
 Front matter (between the two --- lines):
 
-    kicker: PRACTICE - 02          top label
+    kicker: PRACTICE               top label
     title: New Project             big italic title
-    project: New Project           spec strip - omit any line
-    client: Client Name            to hide that cell
-    year: 2026
-    location: City, Country
+    subtitle: One line under it    dek line (optional)
+    author: Santiago Braby Brown   byline name
+    photo: https://...jpg          byline photo url (round, 44px)
+    date: Jul 06, 2026             byline date
+    Omit any line to hide that part of the header.
 
 Body - blocks separated by ONE blank line:
 

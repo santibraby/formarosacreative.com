@@ -32,8 +32,8 @@
      Design changes made HERE propagate to every article page.
 
      -- MD SYNTAX (parsed by the script below) ------------------
-     Front matter between --- lines: kicker, title, project,
-     client, year, location.
+     Front matter between --- lines: kicker, title, subtitle,
+     author, photo (url of the byline picture), date.
      Body: blank-line separated blocks.
        ![alt](url)            image   (first image = eager hero)
        ![alt](url "caption")  image with caption
@@ -81,7 +81,7 @@
 
     <article class="frc-practice__article">
 
-      <!-- TITLE BLOCK + SPEC (rendered from the .md front matter) -->
+      <!-- TITLE BLOCK + BYLINE (rendered from the .md front matter) -->
       <div data-frc-art-head></div>
 
       <!-- SUBSCRIBE (top). Falls back to opening an email with the
@@ -321,7 +321,6 @@
   /* all content sits in a centered reading column; the frame
      itself is much wider (Substack-style) */
   .frc-practice__head,
-  .frc-practice__spec,
   .frc-practice__lead,
   .frc-practice__body,
   .frc-practice__section-head,
@@ -355,29 +354,44 @@
     color: var(--ink);
   }
 
-  /* --- spec strip ------------------------------------------- */
-  .frc-practice__spec {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    margin: 0 auto clamp(32px, 5vh, 48px);
-  }
-  .frc-practice__spec > div {
-    padding: 4px 14px;
-    text-align: center;
-    border-right: 1px solid #2a2a2a;
-  }
-  .frc-practice__spec > div:last-child { border-right: 0; }
-  .frc-practice__spec dt {
-    margin: 0 0 6px;
-    font-size: 9px;
-    letter-spacing: 0.2em;
+  /* --- subtitle + byline (Substack-style, replaces the old
+     spec strip): dek line under the title, then photo circle,
+     author name and date */
+  .frc-practice__subtitle {
+    margin: 16px 0 0;
+    font-family: var(--font-serif);
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.55;
     color: var(--ink-dim);
   }
-  .frc-practice__spec dd {
-    margin: 0;
-    font-family: var(--font-serif);
-    font-size: 15px;
+  .frc-practice__byline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 22px;
+  }
+  .frc-practice__byline-photo {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #1a1a1a;
+    flex: none;
+  }
+  .frc-practice__byline-name {
+    margin: 0 0 5px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     color: var(--ink);
+  }
+  .frc-practice__byline-date {
+    margin: 0;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
   }
 
   /* --- media (not full width - capped at the reading column) -
@@ -387,12 +401,13 @@
   .frc-practice__media {
     max-width: var(--frame-w);
     margin: clamp(52px, 8vh, 88px) auto !important;
-    background: #1a1a1a;
+    background: transparent;
   }
   .frc-practice__media img {
     display: block;
     width: 100%;
     height: auto;
+    background: #1a1a1a;  /* loading placeholder - image area only */
   }
   .frc-practice__media figcaption {
     padding: 12px clamp(20px, 3vw, 32px) 0;
@@ -440,7 +455,7 @@
     margin-top: clamp(48px, 7vh, 72px);
     margin-bottom: 0;
   }
-  /* top subscribe: hairline rule above, sits between spec and hero */
+  /* top subscribe: hairline rule above, sits between byline and hero */
   .frc-practice__subscribe--top {
     border-top: 1px solid #2a2a2a;
     padding-top: clamp(28px, 4vh, 40px);
@@ -653,8 +668,7 @@
     }
 
     .frc-practice__close { top: 104px; left: 24px; width: 32px; height: 32px; }
-    .frc-practice__spec { grid-template-columns: 1fr 1fr; row-gap: 14px; }
-    .frc-practice__spec > div:nth-child(2) { border-right: 0; }
+    .frc-practice__subtitle { font-size: 16px; }
 
     /* comfortable reading + touch targets on small screens */
     .frc-practice__article { padding-top: 48px; }
@@ -684,8 +698,6 @@
       text-align: center;
     }
     .frc-practice__subscribe-form button { border-radius: 2px; padding: 14px 20px; }
-    .frc-practice__spec { grid-template-columns: 1fr; }
-    .frc-practice__spec > div { border-right: 0 !important; }
   }
 </style>
 
@@ -805,18 +817,19 @@
     h += '<header class="frc-practice__head">';
     if (meta.kicker) h += '<p class="frc-practice__kicker">' + escapeHtml(meta.kicker) + '</p>';
     if (meta.title) h += '<h1 class="frc-practice__title">' + escapeHtml(meta.title) + '</h1>';
-    h += '</header>';
-
-    var SPEC = [['project', 'PROJECT'], ['client', 'CLIENT'],
-                ['year', 'YEAR'], ['location', 'LOCATION']];
-    var cells = '';
-    SPEC.forEach(function (pair) {
-      if (meta[pair[0]]) {
-        cells += '<div><dt>' + pair[1] + '</dt><dd>' +
-                 escapeHtml(meta[pair[0]]) + '</dd></div>';
+    if (meta.subtitle) h += '<p class="frc-practice__subtitle">' + escapeHtml(meta.subtitle) + '</p>';
+    if (meta.author || meta.photo || meta.date) {
+      h += '<div class="frc-practice__byline">';
+      if (meta.photo) {
+        h += '<img class="frc-practice__byline-photo" src="' + escapeHtml(meta.photo) + '"' +
+             ' alt="' + escapeHtml(meta.author || 'Author') + '" width="44" height="44">';
       }
-    });
-    if (cells) h += '<dl class="frc-practice__spec">' + cells + '</dl>';
+      h += '<div class="frc-practice__byline-meta">';
+      if (meta.author) h += '<p class="frc-practice__byline-name">' + escapeHtml(meta.author) + '</p>';
+      if (meta.date) h += '<p class="frc-practice__byline-date">' + escapeHtml(meta.date) + '</p>';
+      h += '</div></div>';
+    }
+    h += '</header>';
     return h;
   }
 
