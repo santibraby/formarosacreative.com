@@ -46,6 +46,8 @@
   .frc-covers {
     /* local tokens - do not leak */
     --bg: #111111;
+    --grid-size: 32px;
+    --grid-line: rgba(240, 201, 180, 0.05);
     --ink-head: #d4c4b5;
     --ink-dim: #8e8578;
     --hover: #e5d6c6;
@@ -53,7 +55,12 @@
 
     position: relative;
     width: 100%;
-    background: var(--bg);
+    /* same faint 32px grid background as the article pages */
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
     color: var(--ink-head);
     font-family: var(--font-mono);
     box-sizing: border-box;
