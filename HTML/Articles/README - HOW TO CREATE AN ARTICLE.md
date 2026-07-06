@@ -34,7 +34,11 @@ To update an article later: edit the .md, push. Nothing else.
 
 Front matter (between the two --- lines):
 
-    kicker: PRACTICE               top label
+    kicker: PRACTICE               the article tag - ONLY
+                                   PRACTICE / INSPIRATION / CONTEXT
+                                   (a locked dropdown in the editor;
+                                   name the file with the same
+                                   prefix - filters use the name)
     title: New Project             big italic title
     subtitle: One line under it    dek line (optional)
     author: Santiago Braby Brown   byline name

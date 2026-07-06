@@ -22,6 +22,9 @@
 
      Filtering: category comes from the file-name prefix in the
      index (PRACTICE / INSPIRATION / CONTEXT). ALL is default.
+     The ONLY filter control is the header's FILTERS accordion
+     (HOME - 1 - HEADER.html), which broadcasts frc:filter-change;
+     this section has no filter row of its own.
      ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,12 +33,8 @@
 
 <section class="frc-covers" data-frc-covers aria-label="Project covers">
 
-  <nav class="frc-covers__filters" aria-label="Filter covers by category">
-    <button type="button" class="frc-covers__filter is-active" data-frc-filter="all" aria-pressed="true"><span class="frc-covers__mark" aria-hidden="true"></span>ALL</button>
-    <button type="button" class="frc-covers__filter" data-frc-filter="practice" aria-pressed="false"><span class="frc-covers__mark" aria-hidden="true"></span>PRACTICE</button>
-    <button type="button" class="frc-covers__filter" data-frc-filter="inspiration" aria-pressed="false"><span class="frc-covers__mark" aria-hidden="true"></span>INSPIRATION</button>
-    <button type="button" class="frc-covers__filter" data-frc-filter="context" aria-pressed="false"><span class="frc-covers__mark" aria-hidden="true"></span>CONTEXT</button>
-  </nav>
+  <!-- Filtering is controlled by the header's FILTERS accordion
+       (frc:filter-change window event) - no filter row here. -->
 
   <p class="frc-covers__empty" data-frc-loading>LOADING PROJECTS ...</p>
   <p class="frc-covers__empty" data-frc-empty hidden>NO ENTRIES YET</p>
@@ -60,50 +59,16 @@
     box-sizing: border-box;
 
     /* Top padding clears the fixed header (tagline + bar ~= 120-150px),
-       + breathing room. Side padding keeps images off the edge on desktop.
+       + breathing room. Includes the space the old in-section filter
+       row used to occupy, so the grid starts where it always did.
+       Side padding keeps images off the edge on desktop.
        Bottom padding feels like a portfolio terminus. */
-    padding: clamp(140px, 16vh, 200px) clamp(16px, 2.5vw, 40px) clamp(80px, 14vh, 180px);
+    padding: clamp(208px, 24vh, 316px) clamp(16px, 2.5vw, 40px) clamp(80px, 14vh, 180px);
   }
 
   .frc-covers *,
   .frc-covers *::before,
   .frc-covers *::after { box-sizing: border-box; }
-
-  /* -- Category filter row ----------------------------------- */
-  .frc-covers__filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: clamp(18px, 2.4vw, 36px);
-    margin: 0 0 clamp(48px, 8vh, 96px);
-  }
-
-  .frc-covers__filter {
-    appearance: none;
-    background: none;
-    border: 0;
-    padding: 0;
-    cursor: pointer;
-    font-family: var(--font-mono);
-    font-weight: 400;
-    font-size: clamp(12px, 0.9vw, 14px);
-    letter-spacing: 0.02em;
-    color: var(--ink-dim);
-    transition: color 260ms ease;
-  }
-
-  .frc-covers__filter:hover,
-  .frc-covers__filter:focus-visible { color: var(--hover); }
-
-  .frc-covers__filter:focus-visible {
-    outline: 1px dotted currentColor;
-    outline-offset: 4px;
-  }
-
-  .frc-covers__filter.is-active { color: var(--ink-head); }
-
-  /* [X]/[ ] state marks - matches the header's SCROLL/COVERS notation */
-  .frc-covers__mark::before { content: "[ ] "; white-space: pre; }
-  .frc-covers__filter.is-active .frc-covers__mark::before { content: "[X] "; }
 
   /* Empty / loading state notes */
   .frc-covers__empty {
@@ -243,17 +208,12 @@
       animation: none !important;
     }
     .frc-covers__label { transition: none !important; }
-    .frc-covers__filter { transition: none !important; }
   }
 
   /* mobile - single column, tighter spacing */
   @media (max-width: 719px) {
     .frc-covers {
       padding: clamp(120px, 14vh, 160px) clamp(14px, 4vw, 20px) clamp(64px, 10vh, 100px);
-    }
-    .frc-covers__filters {
-      gap: 16px 20px;
-      margin-bottom: clamp(40px, 6vh, 64px);
     }
     .frc-covers__grid { row-gap: clamp(192px, 32vh, 288px); }  /* doubled */
     /* Touch devices can't hover, so the hover-only label reveal never
@@ -333,8 +293,8 @@
       }
     });
 
-    /* Category filter (ALL / PRACTICE / INSPIRATION / CONTEXT) */
-    var filterBtns = widget.querySelectorAll('[data-frc-filter]');
+    /* Category filtering - driven ONLY by the header's FILTERS
+       accordion via the frc:filter-change window event */
     var items = widget.querySelectorAll('.frc-covers__item');
 
     function applyFilter(cat) {
@@ -345,22 +305,8 @@
         if (show) visible++;
       });
       if (emptyMsg) emptyMsg.hidden = (visible !== 0);
-      filterBtns.forEach(function (btn) {
-        var active = (btn.dataset.frcFilter === cat);
-        btn.classList.toggle('is-active', active);
-        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-      });
     }
 
-    filterBtns.forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        applyFilter(btn.dataset.frcFilter);
-        /* keep the header's FILTERS accordion in sync */
-        window.dispatchEvent(new CustomEvent('frc:filter-change', { detail: { cat: btn.dataset.frcFilter } }));
-      });
-    });
-
-    /* filter picked in the header's FILTERS accordion */
     window.addEventListener('frc:filter-change', function (ev) {
       if (ev && ev.detail && ev.detail.cat) applyFilter(ev.detail.cat);
     });
