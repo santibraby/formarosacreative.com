@@ -49,21 +49,21 @@ The spatial concept is a nod to the [picturesque movement](https://www.tate.org.
 
 A continuous podium wraps the room's perimeter, and the backing undulates in a wave form echoing the column's own feminine silhouette. The hand-applied tadelakt, pigmented from deep green into sandy beige then into dark blue, runs from the ground all the way up, covering the podiums, walls and ceilings - signaling pasture, dry earth, dusk sky, and centering your view to the horizon.
 
-![Wave Exhibit - interior lounge with standing lamp](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_03.jpg)
+![Wave Exhibit - the Wave Column in modular configuration](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_08.jpg "natures gradient, green pastures as dusk")
 
 ![Wave Exhibit - the room interior with podium and plaster wall](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_05.jpg "Window display design")
 
+![Wave Exhibit - interior lounge with standing lamp](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_03.jpg "Interior experience")
+
 Mirrored walls kaleidoscope, expanding your view into what Jay Appleton calls prospect: an unbroken sightline deep into the distance.
-
-![Wave Exhibit - the Wave Column in modular configuration](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_08.jpg "natures gradient, green pastures as dusk")
-
-## IN CONFIGURATION | The Wave Column
 
 ![Wave Exhibit - pendants and standing lamp from the same ceramic module](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_06.png "3D diagram showing spatial layout")
 
+## IN CONFIGURATION | The Wave Column
+
 Three Wave Columns in various modular configurations anchor the gallery, while three more pull visitors in from the window display. Pendants and a standing lamp showcase the different functions of the collection, built around a ceramic module.
 
-![Wave Exhibit - Wave Column configuration study](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_07.png)
+![Wave Exhibit - Wave Column configuration study](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_07.png "Detail section through the soil pan at window display")
 
 ![Wave Exhibit - tadelakt benches and a scattering of spotlight minis at dusk](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_11.jpg "window display, wave column configuration")
 
@@ -71,9 +71,7 @@ Real dirt mixed with fall leaves, the scent of a walk in the park in the fall, i
 
 A scattering of spotlight minis brings another dimension to the evening window display: a memory of stars at dusk over a campsite in the San Juan Islands, carried indoors.
 
-![Wave Exhibit - evening window display detail](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_10.jpg)
-
-![Wave Exhibit - closing view at dusk](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_09.jpg)
+![Wave Exhibit - closing view at dusk](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_09.jpg "window display, wave column configuration")
 
 ## INTERVIEW | In Conversation
 
@@ -93,7 +91,7 @@ The forms and shapes, the textures and patterns, they feel familiar because they
 
 Fast forward 20 years and this might just be a memory of a long lost culture. But I don't think it will be. I think we are heading backwards, I think the isolation from nature in cities, is drawing people back out, and this past will once again become more and more our present. I hope we can share these experiences with those around us, and show how healing these spaces can be.
 
-![Wave Exhibit - room view with podium and columns](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_04.jpg)
+![Wave Exhibit - evening window display detail](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_10.jpg)
 
 > Who is the person moving through this space - and what do they feel?
 
