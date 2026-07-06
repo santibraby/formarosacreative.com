@@ -55,12 +55,13 @@
 
      FILTERS (sidebar accordion, under ABOUT):
        ALL / PRACTICE / INSPIRATION / CONTEXT with [X]/[ ] marks.
-       Clicking one switches to the COVERS view and dispatches
-       `frc:filter-change` {cat} on window; the covers grid
-       (HOME - 3 - GRID.html) listens and filters itself. The
-       grid's own filter row broadcasts the same event back, so
-       both controls stay in sync. Hidden on mobile (mobile locks
-       to SCROLL view).
+       Clicking one dispatches `frc:filter-change` {cat} on window.
+       BOTH views listen and filter themselves in place:
+         - SCROLL (HOME - 2 - SCROLL.html) rebuilds its image stack
+         - COVERS (HOME - 3 - GRID.html) shows/hides its cards
+       The grid's own filter row broadcasts the same event back, so
+       all controls stay in sync. Works on mobile too (filters the
+       SCROLL view there).
      ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -917,9 +918,8 @@
      !important beats any theme rule targeting <button> or <nav>. */
   .frc-header.frc-header .frc-header__views { display: none !important; }
 
-  /* -- FILTERS accordion: hidden on mobile (the covers grid it
-     controls is unavailable there - mobile locks to SCROLL). */
-  .frc-header.frc-header .frc-header__acc--filters { display: none !important; }
+  /* FILTERS accordion stays visible on mobile - it filters the
+     SCROLL view there (mobile locks to SCROLL). */
 
   /* -- Left sidebar on mobile -----------------------------------
      The aside is shown on mobile (users asked for CONTACT/ABOUT
@@ -1152,9 +1152,8 @@
     btn.addEventListener('click', function () {
       var cat = btn.getAttribute('data-frc-cat');
       markFilters(cat);
-      if (!isMobile() && document.documentElement.getAttribute('data-view') !== 'covers') {
-        setView('covers');   /* the filters act on the covers grid */
-      }
+      /* both views (SCROLL stack + COVERS grid) listen and filter
+         themselves, so the current view stays as-is */
       window.dispatchEvent(new CustomEvent('frc:filter-change', { detail: { cat: cat } }));
     });
   });

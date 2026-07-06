@@ -33,6 +33,14 @@
      tall ((N+1) x 100dvh) so the sticky stage stays pinned through
      all N scale-down transitions. Auto-hides when
      html[data-view="covers"].
+
+     AUTO-UPDATING: the image stack is generated from
+       HTML/Articles/ARTICLES - INDEX.md  (fetched from GitHub) -
+     the same index the covers grid uses, so only published
+     articles appear, in index order, using each article's cover.
+     Category filtering: listens for `frc:filter-change` (from the
+     header's FILTERS accordion) and rebuilds the stack with only
+     matching articles, restarting the cycle from image 1.
      ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -44,65 +52,12 @@
   <!-- Sticky stage: image stack + label + scroll cue -->
   <div class="frc-hero-scroll__stage">
 
-    <!-- Stacked images. DOM order = visual stacking: first = top.
-         JS sets z-index on init so image 0 sits on top of image 1, etc. -->
-    <div class="frc-hero-scroll__stack" data-hero-stack aria-hidden="true">
-      <img class="frc-hero-scroll__img" data-hero-img data-num="01" data-title="Library"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-library-nyc-01.jpg"
-           alt="NYC Library visualization, Brooklyn design atelier" loading="eager" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="02" data-title="Coexist"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/Coexist-at-Alcova-Milan-scaled.jpg"
-           alt="Coexist at Alcova Milan" loading="eager" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="03" data-title="Wave Exhibit"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wave-column-01.png"
-           alt="Wave Exhibit" loading="eager" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="04" data-title="Cocktail Bar"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-nyc-mansion-cocktail-02.jpg"
-           alt="Cocktail Bar" loading="eager" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="05" data-title="Uncharted at Alcova"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-uncharted-scaled.jpg"
-           alt="Uncharted at Alcova" loading="eager" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="06" data-title="Soft Witness"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-soft-witness-scaled.jpg"
-           alt="Soft Witness" loading="lazy" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="07" data-title="Coexist"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-coexist.jpg"
-           alt="Coexist (render)" loading="lazy" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="08" data-title="Greenhouse"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-greenhouse-01.jpg"
-           alt="Greenhouse" loading="lazy" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="09" data-title="Natura Oscura"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/Natura-Oscura-at-Alcova-Milan-scaled.jpg"
-           alt="Natura Oscura at Alcova Milan" loading="lazy" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="10" data-title="Paracas"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wave-column-03.jpg"
-           alt="Paracas" loading="lazy" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="11" data-title="Jewel"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-jewel-02.jpg"
-           alt="Jewel" loading="lazy" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="12" data-title="Wallpaper"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wallpaper-projects-nydw.jpg"
-           alt="Wallpaper Projects NYDW" loading="lazy" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="13" data-title="Greenhouse Pavilion"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-pavilion-01-scaled.jpg"
-           alt="Greenhouse Pavilion" loading="lazy" decoding="async">
-
-      <img class="frc-hero-scroll__img" data-hero-img data-num="14" data-title="Wanted Design"
-           src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wanted-01.jpg"
-           alt="Wanted Design" loading="lazy" decoding="async">
-    </div>
+    <!-- Stacked images - GENERATED from HTML/Articles/ARTICLES -
+         INDEX.md (same index as the covers grid, so only published
+         articles appear). DOM order = visual stacking: first = top.
+         JS builds the stack, sets z-index, and rebuilds it when a
+         category filter is picked (frc:filter-change). -->
+    <div class="frc-hero-scroll__stack" data-hero-stack aria-hidden="true"></div>
 
     <!-- Bottom scrim for label readability over bright images -->
     <div class="frc-hero-scroll__scrim" aria-hidden="true"></div>
@@ -139,7 +94,7 @@
     --font-mono:     "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     --font-display:  "Cormorant Garamond", Georgia, "Times New Roman", serif;
 
-    --project-count: 14;    /* keep in sync with number of <img> children */
+    --project-count: 1;     /* placeholder - JS sets the real count from the index */
 
     position: relative;
     width: 100%;
@@ -465,11 +420,10 @@
 
   var stage      = widget.querySelector('.frc-hero-scroll__stage');
   var stack      = widget.querySelector('[data-hero-stack]');
-  var imgs       = widget.querySelectorAll('[data-hero-img]');
   var labelNum   = widget.querySelector('[data-hero-num]');
   var labelTitle = widget.querySelector('[data-hero-title]');
   var track      = widget.querySelector('[data-hero-track]');
-  if (!stage || !stack || !imgs.length || !labelNum || !labelTitle || !track) return;
+  if (!stage || !stack || !labelNum || !labelTitle || !track) return;
 
   // -- Containing-block trap self-diagnostic ------------------
   // If any ancestor has transform/filter/etc., position: sticky
@@ -509,23 +463,89 @@
     }
   } catch (e) { /* diagnostic only, never throw */ }
 
-  var N = imgs.length;
+  /* --- INDEX-DRIVEN STACK -------------------------------------
+     Images come from ARTICLES - INDEX.md (one line per published
+     article: FILE NAME | Label | page link | cover url). The stack
+     is (re)built from the index - fully on load, filtered when a
+     frc:filter-change event arrives from the header's FILTERS. */
+  var INDEX_URL = 'https://raw.githubusercontent.com/santibraby/formarosacreative.com/main/HTML/Articles/ARTICLES%20-%20INDEX.md';
 
-  // --- Keep CSS --project-count in sync with actual image count ---
-  widget.style.setProperty('--project-count', N);
-
-  // --- Project data + z-order (image 0 on top, N-1 on bottom) ---
+  var imgs = [];          /* live array - rebuilt by buildStack() */
+  var N = 0;
   var projects = [];
-  for (var i = 0; i < N; i++) {
-    var el = imgs[i];
-    projects.push({ num: el.dataset.num, title: el.dataset.title });
-    el.style.zIndex = String(1000 - i);
+  var lastLabelIdx = 0;
+  var entries = [];       /* every published article, index order */
+  var pendingCat = 'all';
+
+  function parseIndex(text) {
+    var out = [];
+    text.replace(/\r/g, '').split('\n').forEach(function (line) {
+      var t = line.trim();
+      if (!t || t.charAt(0) === '#') return;
+      var parts = t.split('|').map(function (p) { return p.trim(); });
+      if (parts.length < 4 || !parts[2] || !parts[3]) return;
+      out.push({
+        label: parts[1] || parts[0],
+        img: parts[3],
+        category: parts[0].split(' - ')[0].trim().toLowerCase()
+      });
+    });
+    return out;
   }
 
-  // --- Initial label ---
-  labelNum.textContent   = projects[0].num;
-  labelTitle.textContent = projects[0].title;
-  var lastLabelIdx = 0;
+  function buildStack(cat, fromFilter) {
+    var list = entries.filter(function (e) {
+      return cat === 'all' || e.category === cat;
+    });
+
+    stack.innerHTML = '';
+    imgs = [];
+    projects = [];
+    N = list.length;
+
+    list.forEach(function (e, i) {
+      var img = document.createElement('img');
+      img.className = 'frc-hero-scroll__img';
+      img.setAttribute('data-hero-img', '');
+      img.src = e.img;
+      img.alt = e.label;
+      img.loading = i < 4 ? 'eager' : 'lazy';
+      img.decoding = 'async';
+      img.style.zIndex = String(1000 - i);
+      img.addEventListener('load', computeFillScales);
+      stack.appendChild(img);
+      imgs.push(img);
+      projects.push({ num: (i + 1 < 10 ? '0' : '') + (i + 1), title: e.label });
+    });
+
+    widget.style.setProperty('--project-count', String(Math.max(N, 1)));
+
+    lastLabelIdx = 0;
+    if (N) {
+      labelNum.textContent   = projects[0].num;
+      labelTitle.textContent = projects[0].title;
+    } else {
+      labelNum.textContent   = '--';
+      labelTitle.textContent = 'No entries yet';
+    }
+
+    computeFillScales();
+
+    /* filter change while the scroll view is visible: restart the
+       cycle from the top of the section so image 01 leads */
+    if (fromFilter && document.documentElement.getAttribute('data-view') !== 'covers') {
+      window.scrollTo(0, widget.getBoundingClientRect().top + window.scrollY);
+    }
+    update();
+  }
+
+  /* category picked in the header's FILTERS accordion (or the
+     covers grid's filter row - both broadcast the same event) */
+  window.addEventListener('frc:filter-change', function (ev) {
+    if (!ev || !ev.detail || !ev.detail.cat) return;
+    pendingCat = ev.detail.cat;
+    if (entries.length) buildStack(pendingCat, true);
+  });
 
   // --- Reduced-motion preference ---
   // [!] DESIGN DECISION: the scroll-scale effect is the hero of this page,
@@ -574,18 +594,22 @@
       img.dataset.fillScale = fillScale.toFixed(4);
     }
   }
-  // Initial pass + listen for images still loading.
-  computeFillScales();
-  for (var fi = 0; fi < N; fi++) {
-    if (!imgs[fi].complete || !imgs[fi].naturalWidth) {
-      imgs[fi].addEventListener('load', computeFillScales, { once: false });
-    }
-  }
+  // (initial fill-scale pass + per-image load listeners happen in
+  //  buildStack(), which owns the stack contents)
   var cueHidden = false;
   var loopLock  = false;        // prevents repeat-fire of the loop reset
 
   function update() {
     var rect = widget.getBoundingClientRect();
+
+    // Stack empty (index still loading, or a filter with no
+    // entries): keep the mobile stage visibility correct and skip
+    // the scroll math (it would divide by zero).
+    if (!N) {
+      widget.classList.toggle('is-in-view', (rect.bottom > 0) && (rect.top < vh));
+      return;
+    }
+
     // How far has widget top moved above the viewport top?
     // At section start (widget top == viewport top): scrolled = 0.
     var scrolled = -rect.top;
@@ -783,7 +807,21 @@
     ? prefersReduce.addEventListener('change', update)
     : prefersReduce.addListener(update);  // Safari <14 fallback
 
-  // Initial paint
-  update();
+  // --- Fetch the article index, then build the stack -----------
+  // pendingCat buffers a filter picked before the fetch finishes.
+  update();   /* paints the empty/loading state */
+  fetch(INDEX_URL, { cache: 'no-cache' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function (text) {
+      entries = parseIndex(text);
+      buildStack(pendingCat, false);
+    })
+    .catch(function (e) {
+      labelNum.textContent   = '--';
+      labelTitle.textContent = 'Could not load projects';
+    });
 })();
 </script>
