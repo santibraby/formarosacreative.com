@@ -275,6 +275,13 @@
   var loadingMsg = widget.querySelector('[data-frc-loading]');
   var emptyMsg = widget.querySelector('[data-frc-empty]');
 
+  /* Remember a category picked in the header's FILTERS accordion
+     even if it arrives while the index is still being fetched. */
+  var pendingCat = 'all';
+  window.addEventListener('frc:filter-change', function (ev) {
+    if (ev && ev.detail && ev.detail.cat) pendingCat = ev.detail.cat;
+  });
+
   function esc(s) {
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -348,10 +355,17 @@
     filterBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
         applyFilter(btn.dataset.frcFilter);
+        /* keep the header's FILTERS accordion in sync */
+        window.dispatchEvent(new CustomEvent('frc:filter-change', { detail: { cat: btn.dataset.frcFilter } }));
       });
     });
 
-    applyFilter('all');
+    /* filter picked in the header's FILTERS accordion */
+    window.addEventListener('frc:filter-change', function (ev) {
+      if (ev && ev.detail && ev.detail.cat) applyFilter(ev.detail.cat);
+    });
+
+    applyFilter(pendingCat);
   }
 
   fetch(INDEX_URL, { cache: 'no-cache' })

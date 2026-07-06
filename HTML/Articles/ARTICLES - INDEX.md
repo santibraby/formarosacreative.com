@@ -5,11 +5,11 @@
 # Reorder lines to reorder the home page.
 #
 # Format (4 parts separated by | ):
-#   FILE NAME | Label on hover | page link | cover image url
+# FILE NAME | Label on hover | page link | cover image url
 #
 # - FILE NAME = the .md file in HTML/Articles (without .md).
-#   Its prefix (PRACTICE / INSPIRATION / CONTEXT) drives the
-#   category filter on the home page.
+# Its prefix (PRACTICE / INSPIRATION / CONTEXT) drives the
+# category filter on the home page.
 # - Label = the text shown over the cover (auto-numbered).
 # - page link = the WordPress page for the article.
 # - cover image = any image url; swap it to change the cover.

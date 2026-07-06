@@ -52,6 +52,15 @@
        Active view is stored on <html data-view="..."> and a
        custom event `frc:view-change` is dispatched on window so
        the Hero/Covers widgets can respond.
+
+     FILTERS (sidebar accordion, under ABOUT):
+       ALL / PRACTICE / INSPIRATION / CONTEXT with [X]/[ ] marks.
+       Clicking one switches to the COVERS view and dispatches
+       `frc:filter-change` {cat} on window; the covers grid
+       (HOME - 3 - GRID.html) listens and filters itself. The
+       grid's own filter row broadcasts the same event back, so
+       both controls stay in sync. Hidden on mobile (mobile locks
+       to SCROLL view).
      ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -199,6 +208,19 @@
         </div>
 
       </div>
+    </details>
+
+    <details class="frc-header__acc frc-header__acc--filters">
+      <summary>
+        <span class="frc-header__bracket" aria-hidden="true"></span>
+        <span class="frc-header__label">FILTERS</span>
+      </summary>
+      <ul class="frc-header__list frc-header__filterlist">
+        <li><button type="button" class="frc-header__filter is-active" data-frc-cat="all" aria-pressed="true"><span class="frc-header__fbox" aria-hidden="true"></span>ALL</button></li>
+        <li><button type="button" class="frc-header__filter" data-frc-cat="practice" aria-pressed="false"><span class="frc-header__fbox" aria-hidden="true"></span>PRACTICE</button></li>
+        <li><button type="button" class="frc-header__filter" data-frc-cat="inspiration" aria-pressed="false"><span class="frc-header__fbox" aria-hidden="true"></span>INSPIRATION</button></li>
+        <li><button type="button" class="frc-header__filter" data-frc-cat="context" aria-pressed="false"><span class="frc-header__fbox" aria-hidden="true"></span>CONTEXT</button></li>
+      </ul>
     </details>
 
     <details class="frc-header__acc" open>
@@ -576,6 +598,39 @@
 .frc-header__list a:hover,
 .frc-header__list a:focus-visible { color: var(--hover); outline: none; }
 
+/* --- FILTERS accordion (covers grid categories) ---------------
+   [X]/[ ] buttons matching the COVERS/SCROLL toggle notation.
+   Clicking one switches to the COVERS view (if needed), filters
+   the grid via the `frc:filter-change` window event, and stays
+   in sync with the grid's own filter row. */
+.frc-header__filterlist { list-style: none; }
+.frc-header__filterlist li { padding: 0; }
+.frc-header__filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  background: transparent !important;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none !important;
+  padding: 0.18em 0;
+  font-family: var(--font-mono);
+  font-size: 1em;
+  letter-spacing: 0.05em;
+  line-height: 1.9;
+  color: var(--ink-body);
+  cursor: pointer;
+  text-transform: uppercase;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: color 200ms ease;
+}
+.frc-header__filter:hover { color: var(--hover); }
+.frc-header__filter.is-active { color: var(--ink-head); }
+.frc-header__fbox::before { content: "[ ]"; }
+.frc-header__filter.is-active .frc-header__fbox::before { content: "[X]"; }
+
 /* --- FEATURED thumbnail (4:3 small thumbnail with caption) ---
    Sits inside the accordion when expanded. Image is a link to a
    project page on WordPress. The frame enforces a 4:3 aspect ratio
@@ -862,6 +917,10 @@
      !important beats any theme rule targeting <button> or <nav>. */
   .frc-header.frc-header .frc-header__views { display: none !important; }
 
+  /* -- FILTERS accordion: hidden on mobile (the covers grid it
+     controls is unavailable there - mobile locks to SCROLL). */
+  .frc-header.frc-header .frc-header__acc--filters { display: none !important; }
+
   /* -- Left sidebar on mobile -----------------------------------
      The aside is shown on mobile (users asked for CONTACT/ABOUT
      accordion back on phones). Stretch it nearly full-width so
@@ -1072,6 +1131,37 @@
   }
   if (mq.addEventListener) mq.addEventListener('change', onMqChange);
   else if (mq.addListener) mq.addListener(onMqChange);
+
+  /* -- FILTERS accordion (covers grid categories) --------------
+     Clicking a category: marks it [X], switches to the COVERS
+     view if needed, and broadcasts `frc:filter-change` on window.
+     The covers grid listens and filters itself; when the grid's
+     own filter row is clicked it broadcasts the same event, which
+     keeps these buttons in sync. */
+  var catBtns = widget.querySelectorAll('[data-frc-cat]');
+
+  function markFilters(cat) {
+    catBtns.forEach(function (b) {
+      var active = b.getAttribute('data-frc-cat') === cat;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+  }
+
+  catBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var cat = btn.getAttribute('data-frc-cat');
+      markFilters(cat);
+      if (!isMobile() && document.documentElement.getAttribute('data-view') !== 'covers') {
+        setView('covers');   /* the filters act on the covers grid */
+      }
+      window.dispatchEvent(new CustomEvent('frc:filter-change', { detail: { cat: cat } }));
+    });
+  });
+
+  window.addEventListener('frc:filter-change', function (ev) {
+    if (ev && ev.detail && ev.detail.cat) markFilters(ev.detail.cat);
+  });
 
   /* -- Hamburger menu (mobile) ------------------------------- */
   var menuBtn    = widget.querySelector('[data-frc-menu-btn]');

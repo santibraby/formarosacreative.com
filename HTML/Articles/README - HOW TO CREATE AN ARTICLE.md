@@ -100,8 +100,9 @@ this folder. One line per article:
   (PRACTICE / INSPIRATION / CONTEXT).
 - New article checklist: publish the WordPress page, then add
   one line here and push. The home page updates itself.
-- Edit this file in Notepad (NOT the article editor - it is a
-  list, not an article).
+- Edit it with the ADJUST COVERS button in the article editor
+  (plain-text panel), or in Notepad. Do NOT open it as an
+  article - it is a list, not an article.
 
 ## EDITING IN GOOGLE DOCS - CAUTION
 
