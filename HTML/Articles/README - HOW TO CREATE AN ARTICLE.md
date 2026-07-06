@@ -81,6 +81,10 @@ Desktop. Requires internet + Chrome or Edge.
   article file (save into HTML/Articles/, name it
   <CATEGORY> - <NAME>.md). Then push and set the loader's
   data-article as described above.
+- RECENT > lists the last 5 files; click one to reopen it.
+- PUSH LIVE (orange) runs PUSH-UPDATES.bat for you. One-time
+  setup: double-click _TECH Articles/setup-push-button.reg,
+  then allow the frcpush link when the browser asks.
 - Saving auto-fixes smart quotes / em dashes to ASCII.
 
 ## EDITING IN GOOGLE DOCS - CAUTION

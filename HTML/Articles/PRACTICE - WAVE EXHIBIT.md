@@ -33,7 +33,7 @@
 ---
 kicker: PRACTICE
 title: Wave Exhibit
-subtitle:
+subtitle: The forms and shapes, the textures and patterns, they feel familiar because they are. They are the first time you visited a cornfield and saw the dark green stalks, beige tips, and deep blue sky above, and the smell of manure surrounded you.
 author: Santiago Braby Brown
 photo: https://formarosacreative.com/wp-content/uploads/2026/07/SANTI-BLONDE-3.png
 date: Jul 06, 2026
