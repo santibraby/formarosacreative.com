@@ -84,14 +84,15 @@
       <!-- TITLE BLOCK + BYLINE (rendered from the .md front matter) -->
       <div data-frc-art-head></div>
 
-      <!-- SUBSCRIBE (top). Falls back to opening an email with the
-           subscriber's address. TODO: when a newsletter platform is
-           picked (Mailchimp, Substack, etc.), swap the JS handler
-           for its form action. -->
+      <!-- SUBSCRIBE (top). Posts the email to this site's own
+           collector endpoint (/wp-json/frc/v1/subscribe - see
+           Subscribers/FRC_Subscribe_Snippet.php in the project
+           folder). Falls back to a mailto if unreachable. -->
       <div class="frc-practice__subscribe frc-practice__subscribe--top">
         <p class="frc-practice__subscribe-line">SUBSCRIBE FOR NEW PROJECTS</p>
         <form class="frc-practice__subscribe-form" data-frc-subscribe>
           <input type="email" name="email" required placeholder="Type your email..." aria-label="Email address">
+          <input type="text" name="website" class="frc-practice__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit">SUBSCRIBE</button>
         </form>
       </div>
@@ -106,6 +107,7 @@
         <p class="frc-practice__subscribe-line">SUBSCRIBE FOR NEW PROJECTS</p>
         <form class="frc-practice__subscribe-form" data-frc-subscribe>
           <input type="email" name="email" required placeholder="Type your email..." aria-label="Email address">
+          <input type="text" name="website" class="frc-practice__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button type="submit">SUBSCRIBE</button>
         </form>
       </div>
@@ -503,6 +505,17 @@
   }
   .frc-practice__subscribe-form button:hover,
   .frc-practice__subscribe-form button:focus-visible { background: var(--peach-75); outline: none; }
+  .frc-practice__subscribe-form button:disabled { opacity: 0.6; cursor: default; }
+
+  /* honeypot field - invisible to people, tempting to bots */
+  .frc-practice__hp {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
 
   /* body copy - serif, narrower measure for comfortable reading
      (matches the style of the old "Three Wave Columns" note) */
@@ -743,15 +756,49 @@
   window.addEventListener('resize', onScroll, { passive: true });
   update();
 
-  /* Subscribe forms (top + bottom): mailto fallback until a
-     newsletter platform is wired up */
+  /* Subscribe forms (top + bottom): POST to this site's own
+     collector endpoint (Subscribers/FRC_Subscribe_Snippet.php,
+     installed via the Code Snippets plugin). On success the form
+     becomes a thank-you line; if the endpoint is unreachable it
+     falls back to opening an email. */
+  var SUBSCRIBE_URL = 'https://formarosacreative.com/wp-json/frc/v1/subscribe';
+
   widget.querySelectorAll('[data-frc-subscribe]').forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var email = form.querySelector('input[name="email"]').value;
-      window.location.href = 'mailto:creative@formarosastudio.com'
-        + '?subject=' + encodeURIComponent('Newsletter subscription')
-        + '&body=' + encodeURIComponent('Please add me to the newsletter: ' + email);
+      var input = form.querySelector('input[name="email"]');
+      var hp = form.querySelector('input[name="website"]');
+      var btn = form.querySelector('button');
+      var email = input ? input.value.trim() : '';
+      if (!email) return;
+      if (btn) { btn.disabled = true; btn.textContent = '...'; }
+
+      var srcEl = document.querySelector('[data-article]');
+      fetch(SUBSCRIBE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          website: hp ? hp.value : '',
+          source: (srcEl && srcEl.getAttribute('data-article')) || location.pathname
+        })
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function () {
+          var note = document.createElement('p');
+          note.className = 'frc-practice__subscribe-line';
+          note.textContent = 'YOU ARE ON THE LIST - THANK YOU';
+          form.replaceWith(note);
+        })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'SUBSCRIBE'; }
+          window.location.href = 'mailto:creative@formarosastudio.com'
+            + '?subject=' + encodeURIComponent('Newsletter subscription')
+            + '&body=' + encodeURIComponent('Please add me to the newsletter: ' + email);
+        });
     });
   });
 

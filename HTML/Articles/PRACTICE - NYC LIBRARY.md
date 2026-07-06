@@ -49,7 +49,7 @@ date: MAY 15, 2025
 
 ...
 
-![Wave Exhibit - interior lounge with standing lamp](https://formarosacreative.com/wp-content/uploads/2026/07/Practice-NYC-Library-4.jpg)
+![Wave Exhibit - interior lounge with standing lamp](https://formarosacreative.com/wp-content/uploads/2026/07/Practice-NYC-Library-4.jpg "Detail of Chair")
 
 ![Wave Exhibit - the room interior with podium and plaster wall](https://formarosacreative.com/wp-content/uploads/2026/07/Practice-NYC-Library-2.jpg "Window display design")
 
