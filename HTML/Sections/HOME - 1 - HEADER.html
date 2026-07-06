@@ -224,7 +224,7 @@
       </ul>
     </details>
 
-    <details class="frc-header__acc" open>
+    <details class="frc-header__acc frc-header__acc--featured" open>
       <summary>
         <span class="frc-header__bracket" aria-hidden="true"></span>
         <span class="frc-header__label">FEATURED</span>
@@ -1097,6 +1097,14 @@
     btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
   });
 
+  /* FEATURED accordion auto-closes in the COVERS view - its big
+     thumbnail would sit on top of the covers grid */
+  var featuredAcc = widget.querySelector('.frc-header__acc--featured');
+  function syncFeatured(view) {
+    if (view === 'covers' && featuredAcc) featuredAcc.removeAttribute('open');
+  }
+  syncFeatured(initial);
+
   function setView(view) {
     if (!view) return;
     document.documentElement.setAttribute('data-view', view);
@@ -1105,6 +1113,7 @@
       b.classList.toggle('is-active', active);
       b.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
+    syncFeatured(view);
     window.dispatchEvent(new CustomEvent('frc:view-change', { detail: { view: view } }));
   }
 
