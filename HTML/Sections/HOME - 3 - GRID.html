@@ -1,5 +1,5 @@
 <!-- ============================================================
-     Section: COVERS view - 2-column masonry of all portfolio images
+     Section: COVERS view - 2-column grid of article covers
      Class:   frc-covers
      Notes:   Elementor section settings:
                 - Template: Elementor Canvas (globals off)
@@ -14,9 +14,14 @@
               Do NOT apply transform/filter/will-change to the parent section.
               (The header's position:fixed would break.)
 
-     Filtering: each cover carries data-category="practice|inspiration|context".
-              The filter row above the grid (ALL default) shows/hides covers.
-              To tag a cover, change its data-category attribute.
+     AUTO-UPDATING: the covers are generated from
+       HTML/Articles/ARTICLES - INDEX.md  (fetched from GitHub).
+     One line per article there: FILE NAME | Label | link | cover.
+     Line order = display order. Edit the index + push; this
+     section never needs touching for new articles.
+
+     Filtering: category comes from the file-name prefix in the
+     index (PRACTICE / INSPIRATION / CONTEXT). ALL is default.
      ============================================================ -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,109 +37,10 @@
     <button type="button" class="frc-covers__filter" data-frc-filter="context" aria-pressed="false"><span class="frc-covers__mark" aria-hidden="true"></span>CONTEXT</button>
   </nav>
 
-  <p class="frc-covers__empty" hidden>NO ENTRIES YET</p>
+  <p class="frc-covers__empty" data-frc-loading>LOADING PROJECTS ...</p>
+  <p class="frc-covers__empty" data-frc-empty hidden>NO ENTRIES YET</p>
 
-  <div class="frc-covers__grid">
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">01. Library</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-library-nyc-01.jpg" alt="Library NYC" loading="eager" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">02. Cocktail Bar</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-nyc-mansion-cocktail-02.jpg" alt="Cocktail Bar" loading="eager" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">03. Uncharted at Alcova</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-uncharted-scaled.jpg" alt="Uncharted at Alcova" loading="eager" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">04. Wave Exhibit</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wave-column-01.png" alt="Wave Exhibit" loading="eager" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">05. Coexist</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/Coexist-at-Alcova-Milan-scaled.jpg" alt="Coexist at Alcova Milan" loading="eager" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="">
-      <figcaption class="frc-covers__label">06. Jewel</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-jewel-02.jpg" alt="Jewel" loading="lazy" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">07. Coexist</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-coexist.jpg" alt="Coexist (render)" loading="lazy" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">08. Greenhouse</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-greenhouse-01.jpg" alt="Greenhouse" loading="lazy" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">09. Natura Oscura</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/Natura-Oscura-at-Alcova-Milan-scaled.jpg" alt="Natura Oscura at Alcova Milan" loading="lazy" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="">
-      <figcaption class="frc-covers__label">10. Paracas</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wave-column-03.jpg" alt="Paracas" loading="lazy" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="">
-      <figcaption class="frc-covers__label">11. Soft Witness</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-soft-witness-scaled.jpg" alt="Soft Witness" loading="lazy" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="">
-      <figcaption class="frc-covers__label">12. Wallpaper</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wallpaper-projects-nydw.jpg" alt="Wallpaper Projects NYDW" loading="lazy" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">13. Greenhouse Pavilion</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-pavilion-01-scaled.jpg" alt="Greenhouse Pavilion" loading="lazy" decoding="async">
-      </div>
-    </figure>
-
-    <figure class="frc-covers__item" data-category="practice">
-      <figcaption class="frc-covers__label">14. Wanted Design</figcaption>
-      <div class="frc-covers__frame">
-        <img class="frc-covers__img" src="https://formarosastudio.com/wp-content/uploads/2026/04/creative-wanted-01.jpg" alt="Wanted Design" loading="lazy" decoding="async">
-      </div>
-    </figure>
-
-  </div>
+  <div class="frc-covers__grid"></div>
 </section>
 
 <style>
@@ -199,7 +105,7 @@
   .frc-covers__mark::before { content: "[ ] "; white-space: pre; }
   .frc-covers__filter.is-active .frc-covers__mark::before { content: "[X] "; }
 
-  /* Empty state - shown when the active category has no covers yet */
+  /* Empty / loading state notes */
   .frc-covers__empty {
     margin: 0;
     font-family: var(--font-mono);
@@ -210,7 +116,7 @@
 
   /* CSS Grid - deterministic row-by-row ordering (1 top-left,
      2 top-right, 3 second-row-left, 4 second-row-right, ...) so the
-     curated sequence is respected. align-items: start means each row
+     index order is respected. align-items: start means each row
      height = max of its two items, with no stretching. */
   .frc-covers__grid {
     display: grid;
@@ -224,10 +130,15 @@
     .frc-covers__grid { grid-template-columns: 1fr 1fr; }
   }
 
+  /* items are links to the article pages (index-driven) */
   .frc-covers__item {
     margin: 0;
     display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
   }
+  .frc-covers__itemfig { margin: 0; display: block; }
 
   /* Filtered-out covers */
   .frc-covers__item.is-hidden { display: none; }
@@ -295,9 +206,8 @@
   }
 
   /* Per-item variety: different keyframe, duration, and negative delay
-     so each cover is at a different phase of its own cycle. Durations
-     shortened to 16-24s so the more dramatic motion feels alive but
-     still editorial, not frantic. */
+     so each cover is at a different phase of its own cycle. Items past
+     14 fall back to the base 30s variant, which is fine. */
   .frc-covers__item:nth-child(1)  .frc-covers__img { animation-name: frc-kb-a; animation-duration: 18s; animation-delay: -3s;  }
   .frc-covers__item:nth-child(2)  .frc-covers__img { animation-name: frc-kb-b; animation-duration: 22s; animation-delay: -12s; }
   .frc-covers__item:nth-child(3)  .frc-covers__img { animation-name: frc-kb-c; animation-duration: 20s; animation-delay: -7s;  }
@@ -316,8 +226,10 @@
   /* hover - label fades in, image un-desaturates. Animation continues;
      pausing on hover would jitter as it resumes. */
   .frc-covers__item:hover .frc-covers__label,
-  .frc-covers__item:focus-within .frc-covers__label { color: var(--hover); opacity: 1; }
+  .frc-covers__item:focus-within .frc-covers__label,
+  .frc-covers__item:focus-visible .frc-covers__label { color: var(--hover); opacity: 1; }
   .frc-covers__item:hover .frc-covers__img { filter: saturate(1.05); }
+  .frc-covers__item:focus-visible { outline: 1px dotted var(--hover); outline-offset: 6px; }
 
   /* Hide COVERS when SCROLL view is active (header sets this attr) */
   html[data-view="scroll"] .frc-covers { display: none; }
@@ -357,42 +269,103 @@
   if (!widget || widget.dataset.initialized === '1') return;
   widget.dataset.initialized = '1';
 
-  var imgs = widget.querySelectorAll('.frc-covers__img');
+  var INDEX_URL = 'https://raw.githubusercontent.com/santibraby/formarosacreative.com/main/HTML/Articles/ARTICLES%20-%20INDEX.md';
 
-  // Fade/rise each image in as it loads (independent of scroll)
-  imgs.forEach(function (img) {
-    if (img.complete && img.naturalWidth > 0) {
-      img.classList.add('is-loaded');
-    } else {
-      img.addEventListener('load', function () { img.classList.add('is-loaded'); }, { once: true });
-      img.addEventListener('error', function () { img.classList.add('is-loaded'); }, { once: true });
-    }
-  });
+  var grid = widget.querySelector('.frc-covers__grid');
+  var loadingMsg = widget.querySelector('[data-frc-loading]');
+  var emptyMsg = widget.querySelector('[data-frc-empty]');
 
-  // -- Category filter (ALL / PRACTICE / INSPIRATION / CONTEXT) --
-  var filterBtns = widget.querySelectorAll('[data-frc-filter]');
-  var items = widget.querySelectorAll('.frc-covers__item');
-  var emptyMsg = widget.querySelector('.frc-covers__empty');
-
-  function applyFilter(cat) {
-    var visible = 0;
-    items.forEach(function (item) {
-      var show = (cat === 'all') || (item.dataset.category === cat);
-      item.classList.toggle('is-hidden', !show);
-      if (show) visible++;
-    });
-    if (emptyMsg) emptyMsg.hidden = (visible !== 0);
-    filterBtns.forEach(function (btn) {
-      var active = (btn.dataset.frcFilter === cat);
-      btn.classList.toggle('is-active', active);
-      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-    });
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
-  filterBtns.forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      applyFilter(btn.dataset.frcFilter);
+  /* one line per article: FILE NAME | Label | page link | cover url
+     line order = display order; # lines and blanks are ignored */
+  function parseIndex(text) {
+    var out = [];
+    text.replace(/\r/g, '').split('\n').forEach(function (line) {
+      var t = line.trim();
+      if (!t || t.charAt(0) === '#') return;
+      var parts = t.split('|').map(function (p) { return p.trim(); });
+      if (parts.length < 4 || !parts[2] || !parts[3]) return;
+      out.push({
+        name: parts[0],
+        label: parts[1] || parts[0],
+        link: parts[2],
+        img: parts[3],
+        category: parts[0].split(' - ')[0].trim().toLowerCase()
+      });
     });
-  });
+    return out;
+  }
+
+  function render(entries) {
+    var html = '';
+    entries.forEach(function (e, i) {
+      var num = (i + 1 < 10 ? '0' : '') + (i + 1);
+      html += '<a class="frc-covers__item" data-category="' + esc(e.category) + '" href="' + esc(e.link) + '">' +
+              '<figure class="frc-covers__itemfig">' +
+              '<figcaption class="frc-covers__label">' + num + '. ' + esc(e.label) + '</figcaption>' +
+              '<div class="frc-covers__frame">' +
+              '<img class="frc-covers__img" src="' + esc(e.img) + '" alt="' + esc(e.label) + '"' +
+              ' loading="' + (i < 4 ? 'eager' : 'lazy') + '" decoding="async">' +
+              '</div></figure></a>';
+    });
+    grid.innerHTML = html;
+  }
+
+  function initCovers() {
+    /* Fade/rise each image in as it loads (independent of scroll) */
+    widget.querySelectorAll('.frc-covers__img').forEach(function (img) {
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.add('is-loaded');
+      } else {
+        img.addEventListener('load', function () { img.classList.add('is-loaded'); }, { once: true });
+        img.addEventListener('error', function () { img.classList.add('is-loaded'); }, { once: true });
+      }
+    });
+
+    /* Category filter (ALL / PRACTICE / INSPIRATION / CONTEXT) */
+    var filterBtns = widget.querySelectorAll('[data-frc-filter]');
+    var items = widget.querySelectorAll('.frc-covers__item');
+
+    function applyFilter(cat) {
+      var visible = 0;
+      items.forEach(function (item) {
+        var show = (cat === 'all') || (item.dataset.category === cat);
+        item.classList.toggle('is-hidden', !show);
+        if (show) visible++;
+      });
+      if (emptyMsg) emptyMsg.hidden = (visible !== 0);
+      filterBtns.forEach(function (btn) {
+        var active = (btn.dataset.frcFilter === cat);
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        applyFilter(btn.dataset.frcFilter);
+      });
+    });
+
+    applyFilter('all');
+  }
+
+  fetch(INDEX_URL, { cache: 'no-cache' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function (text) {
+      render(parseIndex(text));
+      if (loadingMsg) loadingMsg.remove();
+      initCovers();
+    })
+    .catch(function (e) {
+      if (loadingMsg) loadingMsg.textContent = 'COULD NOT LOAD PROJECTS (' + (e && e.message ? e.message : e) + ')';
+    });
 })();
 </script>

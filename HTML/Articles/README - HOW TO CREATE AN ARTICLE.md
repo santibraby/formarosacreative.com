@@ -87,6 +87,22 @@ Desktop. Requires internet + Chrome or Edge.
   then allow the frcpush link when the browser asks.
 - Saving auto-fixes smart quotes / em dashes to ASCII.
 
+## HOME PAGE COVERS (AUTO-UPDATING)
+
+The home covers grid builds itself from ARTICLES - INDEX.md in
+this folder. One line per article:
+
+    FILE NAME | Label on hover | page link | cover image url
+
+- Line order = display order (top line shows first).
+- Swap the last field to change an article's cover image.
+- The category filter uses the file-name prefix
+  (PRACTICE / INSPIRATION / CONTEXT).
+- New article checklist: publish the WordPress page, then add
+  one line here and push. The home page updates itself.
+- Edit this file in Notepad (NOT the article editor - it is a
+  list, not an article).
+
 ## EDITING IN GOOGLE DOCS - CAUTION
 
 Round-tripping .md through Google Docs can silently break things:
