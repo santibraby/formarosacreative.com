@@ -86,6 +86,10 @@ Desktop. Requires internet + Chrome or Edge.
   <CATEGORY> - <NAME>.md). Then push and set the loader's
   data-article as described above.
 - RECENT > lists the last 5 files; click one to reopen it.
+- CREATE NEWSLETTER converts the open (saved) article into an
+  email-ready file: NEWSLETTER - <name>.html in HTML/Newsletters.
+  First use asks you to pick that folder, then it is remembered.
+  The READ ON THE SITE button link comes from the covers index.
 - PUSH LIVE (orange) runs PUSH-UPDATES.bat for you. One-time
   setup: double-click _TECH Articles/setup-push-button.reg,
   then allow the frcpush link when the browser asks.
