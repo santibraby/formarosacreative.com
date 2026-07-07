@@ -73,6 +73,6 @@ The architecture itself was also carefully curated in natural materials: dark-st
 
 Forma Rosa Creative took on the library as a typology with the explicit intent of creating a moody, dark, yet eclectic and lounge-like feel. The library is an interesting typology because it is a gathering space. A space where you want to sit and rest, introspect, and perceive the goals of the typology itself; A library is to contain information. It is to expand the mind. It is to generate new experiences.
 
-![Wave Exhibit - tadelakt benches and a scattering of spotlight minis at dusk](https://formarosacreative.com/wp-content/uploads/2026/07/Practice-NYC-Library-3.jpg "Strange lamp lurking in the coridors")
-
 So, in this sense, I decided to go back into my memories and find a place of a young child exploring a library for the first time. I envisioned myself exploring the depths of novels, fiction, fairy tales, and knowledge of the past. I envision myself peering and walking through long corridors, looking for the new and novel. The lighting in the space, of course, was warm and moody, primarily using wall sconces and low lamps. In contrast, the large rock light gives a natural 5,000K light.
+
+![Wave Exhibit - tadelakt benches and a scattering of spotlight minis at dusk](https://formarosacreative.com/wp-content/uploads/2026/07/Practice-NYC-Library-3.jpg "Strange lamp lurking in the coridors")
