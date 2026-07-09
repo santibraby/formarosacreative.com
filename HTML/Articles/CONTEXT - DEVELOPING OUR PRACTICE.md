@@ -41,6 +41,8 @@ date: JULY, 09, 2025
 
 Okay, so while my background might seem a little unorganized or discontinuous there's actually a very clear progression to my career towards experiential design.
 
+![GRAPH](https://formarosacreative.com/wp-content/uploads/2026/07/Graph3.jpg)
+
 ![Wave Exhibit - immersive gallery environment built around the Wave Column](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_05.jpg "Forma Rosa Creative - Wave Exhbit")
 
 ![](https://formarosacreative.com/wp-content/uploads/2026/07/pinkproportion-example.jpg "Drawing from my first brand pink Proportion")
