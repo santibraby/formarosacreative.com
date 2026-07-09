@@ -33,7 +33,7 @@
 ---
 kicker: CONTEXT
 title: Developing a Creative Practice
-subtitle: From architecture, to facade fabrication, to interior design, to exhibit design and experiential - the path may not seem linear my growth compounded.
+subtitle: From architecture, to facade fabrication, to interior design, to exhibit design and experiential - the path may not seem linear, but my growth compounded.
 author: Santiago Braby Brown
 photo: https://formarosacreative.com/wp-content/uploads/2026/07/SANTI-BLONDE-3.png
 date: JULY, 09, 2025
