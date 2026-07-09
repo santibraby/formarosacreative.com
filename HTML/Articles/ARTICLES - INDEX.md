@@ -19,3 +19,4 @@
 
 PRACTICE - NYC LIBRARY | NYC Library | /practice-nyc-library/ | https://formarosacreative.com/wp-content/uploads/2026/07/Practice-NYC-Library-1.jpg
 PRACTICE - WAVE EXHIBIT | Wave Exhibit | /practice-wave-exhibit/ | https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_01.png
+CONTEXT - DEVELOPING A CREATIVE PRACTICE | Developing a Creative Practice | /context-developing-practice/ | https://formarosacreative.com/wp-content/uploads/2026/07/SANTI-BLONDE-3.png
