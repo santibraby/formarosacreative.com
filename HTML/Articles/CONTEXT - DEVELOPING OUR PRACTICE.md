@@ -39,11 +39,11 @@ photo: https://formarosacreative.com/wp-content/uploads/2026/07/SANTI-BLONDE-3.p
 date: JULY, 09, 2025
 ---
 
+Okay, so while my background might seem a little unorganized or discontinuous there's actually a very clear progression to my career towards experiential design.
+
 ![Wave Exhibit - immersive gallery environment built around the Wave Column](https://formarosacreative.com/wp-content/uploads/2026/07/practice_wave-exhibit_05.jpg "Forma Rosa Creative - Wave Exhbit")
 
 ![](https://formarosacreative.com/wp-content/uploads/2026/07/pinkproportion-example.jpg "Drawing from my first brand pink Proportion")
-
-Okay, so while my background might seem a little unorganized or discontinuous there's actually a very clear progression to my career towards experiential design.
 
 ## Architectural Design
 
@@ -65,21 +65,23 @@ So I switched paths and I went to work at Island Facades as a facade designer. T
 
 ## Product Design
 
-Meanwhile, my wife and I started our product design studio. And this felt like experimentation, felt like art, it felt really creative, exploring what we can do with the design tools that we have, and pushing the boundaries of what we could create.
+Meanwhile, my wife and I started our product design studio. And this felt like experimentation, felt like art, felt like we were building our own brand -- and it felt really creative, exploring what we can do with the design tools that we have, and pushing the boundaries of what we could create.
 
 ![FORMA ROSA STUDIO](https://formarosacreative.com/wp-content/uploads/2025/06/LIGHTING_TABLE-LAMPS_Botryoidal-Lamp_Charcoal_Insitu_02_On_sm.jpg "Forma Rosa Studio - Botryoidal Lamp in Charcoal")
 
 ## Exhibit Design
 
-However, the other part of it was that we were putting together exhibitions. And these exhibitions needed a designer. So of course, with my background in architecture and fabrication, I jumped on this opportunity and started putting together 3D renderings, diagrams, lighting plans, floor plans, everything that we need to put together are successful, exhibit. And because it was out of our own inspiration and out of our own creativity, we were really pushing the concepts and experiences to fit with the narrative of our brand, which was this idea of coexisting with our natural environment and having this sublime counter with nature.
+However, the other part of it was that we were putting together exhibitions. And these exhibitions needed a designer. So of course, with my background in architecture and fabrication, I jumped on this opportunity and started putting together 3D renderings, diagrams, lighting plans, floor plans, everything that we need to put together a successful, design exhibit. And because it was out of our own inspiration and out of our own creativity, we were really pushing the exhibit concepts and experiences to fit with the narrative of our brand, which was this idea of coexisting with our natural environment and having this sublime counter with nature.
+
+> "we were really pushing the exhibit concepts to fit the narrative of our brand -- this idea of coexisting with our natural environment"
 
 ![Forma Rosa Studio - Coxesit Exhibition at Alcova Milano](https://formarosacreative.com/wp-content/uploads/2025/06/COEXIST-Exhibit-by-Forma-Rosa-Studio-Credit-Piergiorgio-Sorgetti-10_sm.jpg "Forma Rosa Studio - Coexist Exhibition at Alcova Milan 2025")
+
+## Interior Design
 
 But I still felt like I had more to learn and I really wanted to know better how to put together these interior spaces. And I had been drawn to interior design because a lot of our clients that were buying our lighting products were interior designers.
 
 So of course my first thought was let's work in interior design. And so I started working with OAD interiors as a project manager. And it was such a small team that it was literally, I was doing everything, but I was focusing mostly on the architectural interiors. So putting together the Revit model and documenting the interior designs. But as also putting together 3D visualizations, it was also on-site managing contractors and working directly with the clients to make sure that they are on the same page with what our design vision is. And this felt a little bit more of the same speed that I've been working with former OSU studio. I was able to wear a bunch of different hats. I was able to put my hands on many different aspects of the project and have ownership which felt good. And it also felt like I had trust to make the decisions because I was the one that had the experience in architecture.
-
-## Interior Design
 
 ![OAD](https://formarosacreative.com/wp-content/uploads/2026/07/KITCHEN-A06-e1783620071123.png "OAD Interiors - Kitchen Design")
 
@@ -89,8 +91,12 @@ And as I got deeper and deeper into luxury residential architecture, while it wa
 
 So I started helping friends and other designers put together their exhibits, their renderings, and designing group shows that we could be part of. And these exhibits and these concepts were always in a very specific style or vision. And I was also producing concepts on the side just to kind of help develop tools and help develop the vocabulary to really work at this level. And what I noticed is that there was a certain aesthetic and a certain style that was coming through that felt like my own. And when I started realizing that, I decided that I should rebrand my design services as a creative agency and offer services that way.
 
+> "And what I noticed is that there was a certain aesthetic and a certain style that was coming through that felt like my own."
+
 ![UNCHARTED](https://formarosacreative.com/wp-content/uploads/2024/02/uncharted_hero-render_alcova-miami_room-208_credit_-forma-rosa-studio-1.jpg "Uncharted Group Show - Miami Art Week '23")
 
-And so our creative agency was started. And so far we have produced visualizations that have ended up in the New York Times, put together group shows for Miami Art Week that had over 5,000 visitors and half of the exhibit was sold to a private collection. We also have put together three Milan design week exhibitions from the design production installation as well as of course product design, logistics, everything branding, physical touch points, and branded assets, including newspapers, business cards, and digital assets including website design, social media and others. We have amast almost 10,000 followers on socials, a very strong network of designers in New York City and Milan. We have created partnerships with three global galleries, and fabricators around the world, and sold our lighting designs to some of the wallpaper 400 top interior designers that work in hospitality and residential interiors.
+And so our Creative Agency was started. And so far we have produced visualizations that have ended up in the New York Times, put together group shows for Miami Art Week that had over 5,000 visitors and half of the exhibit was sold to a private collection. We also have put together three Milan design week exhibitions from the design production installation as well as of course product design, logistics, everything branding, physical touch points, and branded assets, including newspapers, business cards, and digital assets including website design, social media and others. We have amast almost 10,000 followers on socials, a very strong network of designers in New York City and Milan. We have created partnerships with three global galleries, and fabricators around the world, and sold our lighting designs to some of the wallpaper 400 top interior designers that work in hospitality and residential interiors.
+
+After introspecting on the path of my career, while it may seem discontinuous, I have realized that I have been taking a journey towards this goal: Forma Rosa Creative
 
 ![FORMA ROSA CREATIVE](https://formarosacreative.com/wp-content/uploads/2026/07/Practice-NYC-Library-1.jpg "Forma Rosa Creative - NYC Library")
