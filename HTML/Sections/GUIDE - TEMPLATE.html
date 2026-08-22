@@ -152,16 +152,16 @@
   .frc-guide__wordmark:hover,
   .frc-guide__wordmark:focus-visible { color: var(--peach-50); outline: none; }
 
-  /* clean rectangle in full-saturation brand orange, dark text */
+  /* plain kicker line in full-saturation brand orange, no box */
   .frc-guide__badge {
-    display: table;
+    display: block;
     margin: 0 auto clamp(26px, 4vh, 38px);
-    padding: 9px 22px;
-    background: var(--peach-100);
-    font-size: 10px;
-    letter-spacing: 0.28em;
+    padding: 0;
+    background: transparent;
+    font-size: 11px;
+    letter-spacing: 0.3em;
     font-weight: 600;
-    color: #111111;
+    color: var(--peach-100);
   }
 
   .frc-guide__title {
@@ -404,6 +404,7 @@
   /* which guide? the loader's mount div names it */
   var mount = document.querySelector('[data-guide]');
   var guideId = mount ? (mount.getAttribute('data-guide') || '') : '';
+  var guide = null;   /* the matched index row, once loaded */
 
   function parseIndex(text) {
     var out = [];
@@ -415,7 +416,8 @@
       out.push({
         id: parts[0], title: parts[1], pitch: parts[2],
         link: parts[3], img: parts[4],
-        intro: parts[5] || '', items: parts[6] || ''
+        intro: parts[5] || '', items: parts[6] || '',
+        file: parts[7] || ''
       });
     });
     return out;
@@ -437,6 +439,7 @@
         var g = null;
         parseIndex(text).forEach(function (row) { if (row.id === guideId) g = row; });
         if (!g) { fail('GUIDE "' + guideId + '" NOT IN GUIDES - INDEX.md'); return; }
+        guide = g;
         if (titleEl) titleEl.textContent = g.title;
         if (pitchEl) pitchEl.textContent = g.pitch;
         if (imgEl) { imgEl.src = g.img; imgEl.alt = g.title; }
@@ -492,8 +495,19 @@
           return r.json();
         })
         .then(function () {
-          try { sessionStorage.setItem('frc-sub-email', email); } catch (err) {}
-          window.location.href = THANKYOU_URL + '?e=' + encodeURIComponent(email);
+          /* hand the thank-you page what it needs (Welsh-style
+             query params + sessionStorage belt-and-braces) */
+          try {
+            sessionStorage.setItem('frc-sub-email', email);
+            sessionStorage.setItem('frc-sub-guide-id', guideId);
+            if (guide) {
+              sessionStorage.setItem('frc-sub-guide-title', guide.title);
+              sessionStorage.setItem('frc-sub-guide-file', guide.file || '');
+            }
+          } catch (err) {}
+          window.location.href = THANKYOU_URL
+            + '?e=' + encodeURIComponent(email)
+            + '&g=' + encodeURIComponent(guideId);
         })
         .catch(function () {
           if (btn) { btn.disabled = false; btn.textContent = 'SEND ME THE GUIDE'; }
