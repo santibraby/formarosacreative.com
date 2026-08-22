@@ -1,0 +1,497 @@
+<!-- ============================================================
+     Section: SUBSCRIBE thank-you page (survey + services pitch)
+     Class:   frc-thanks
+     The funnel's step 2: subscriber lands here right after the
+     landing page. Their guide is already on its way by email.
+
+     FLOW ON THIS PAGE:
+       1. "Thank you for joining" + 3 multiple-choice questions,
+          one at a time ([X] notation, QUESTION N / 3 progress).
+       2. Last step: optional LinkedIn URL (+ email field only if
+          we could not carry it over) -> POST /wp-json/frc/v1/survey
+          (answers land on the subscriber's row in the CSV).
+       3. Then the services pitch + BOOK A DISCOVERY CALL button.
+       A "skip" link jumps straight to the services.
+
+     The email carries over from the landing page via
+     sessionStorage + the ?e= query param.
+
+     Elementor page settings: Elementor Canvas, Full Width,
+     Stretch ON, padding 0. Paste
+     LOADER - SUBSCRIBE - 2 - THANKYOU.html into the HTML widget.
+
+     [EDIT] BEFORE GOING LIVE:
+       - QUESTIONS in the script: Q1 is yours; its last two
+         options and all of Q2/Q3 are placeholders.
+       - CALL_URL: your scheduling link (Calendly etc). Until
+         then it points at /collab.
+       - Services list + copy in the [EDIT] SLOT blocks.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<section class="frc-thanks" data-frc-thanks aria-label="Thank you for subscribing">
+
+  <a class="frc-thanks__wordmark" href="https://formarosacreative.com">FORMA ROSA CREATIVE</a>
+
+  <!-- [EDIT] SLOT: badge -->
+  <p class="frc-thanks__badge">YOUR GUIDE IS ON ITS WAY</p>
+
+  <!-- [EDIT] SLOT: title + intro (intro wording is yours) -->
+  <h1 class="frc-thanks__title">Thank you for joining.</h1>
+  <p class="frc-thanks__subtitle">Answer these few questions to help me better understand your needs in this industry.</p>
+
+  <!-- survey -->
+  <div class="frc-thanks__panel" data-frc-survey>
+    <p class="frc-thanks__progress" data-frc-progress>QUESTION 1 / 3</p>
+    <h2 class="frc-thanks__question" data-frc-question></h2>
+    <div class="frc-thanks__options" data-frc-options></div>
+
+    <!-- final step: linkedin (+ email fallback), hidden until Q3 done -->
+    <div class="frc-thanks__final" data-frc-final hidden>
+      <p class="frc-thanks__final-line">Last one - drop your LinkedIn so I can put a face to the name. Optional.</p>
+      <input type="url" name="linkedin" class="frc-thanks__input" placeholder="https://linkedin.com/in/..." aria-label="Your LinkedIn URL">
+      <input type="email" name="email" class="frc-thanks__input" placeholder="your email (to match your answers)" aria-label="Your email" data-frc-email hidden>
+      <input type="text" name="website" class="frc-thanks__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="button" class="frc-thanks__finish" data-frc-finish>FINISH</button>
+    </div>
+
+    <button type="button" class="frc-thanks__skip" data-frc-skip>skip the questions</button>
+  </div>
+
+  <!-- services pitch (revealed after the survey or skip) -->
+  <div class="frc-thanks__services" data-frc-services hidden>
+    <div class="frc-thanks__rule" aria-hidden="true"></div>
+
+    <!-- [EDIT] SLOT: services copy - list assembled from your bio -->
+    <p class="frc-thanks__kicker">WHAT I DO</p>
+    <h2 class="frc-thanks__services-title">Here are the services I provide.</h2>
+    <ul class="frc-thanks__list">
+      <li>Creative direction</li>
+      <li>Design development</li>
+      <li>Experiential design and spatial concepts</li>
+      <li>Custom furniture and lighting</li>
+    </ul>
+
+    <!-- [EDIT] SLOT: CTA line -->
+    <p class="frc-thanks__cta-line">Have a project in mind? Book a discovery call and let us talk it through.</p>
+    <a class="frc-thanks__cta" data-frc-call href="#">BOOK A DISCOVERY CALL</a>
+    <a class="frc-thanks__mail" href="mailto:creative@formarosastudio.com">creative@formarosastudio.com</a>
+  </div>
+
+</section>
+
+<style>
+  .frc-thanks {
+    --bg: #111111;
+    --grid-size: 32px;
+    --grid-line: rgba(240, 201, 180, 0.05);
+    --panel: #171614;
+    --card-line: #29251f;
+    --peach-100: #F05300;
+    --peach-75:  #F07A3C;
+    --peach-50:  #F0A178;
+    --peach-25:  #F0C9B4;
+    --grey-0:    #F0F0F0;
+    --ink-dim: rgba(240, 240, 240, 0.5);
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --font-serif: Georgia, "Times New Roman", serif;
+
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 40px) clamp(80px, 12vh, 140px);
+    text-align: center;
+    color: var(--grey-0);
+    font-family: var(--font-mono);
+
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+  }
+  .frc-thanks *,
+  .frc-thanks *::before,
+  .frc-thanks *::after { box-sizing: border-box; }
+
+  .frc-thanks__wordmark {
+    display: inline-block;
+    margin: 0 auto clamp(40px, 7vh, 80px);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(17px, 1.6vw, 22px);
+    letter-spacing: 0.18em;
+    color: #d4c4b5;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .frc-thanks__wordmark:hover,
+  .frc-thanks__wordmark:focus-visible { color: var(--peach-50); outline: none; }
+
+  .frc-thanks__badge {
+    display: table;
+    margin: 0 auto clamp(24px, 3.5vh, 36px);
+    padding: 9px 22px;
+    border: 1px solid var(--card-line);
+    border-radius: 999px;
+    background: rgba(23, 22, 20, 0.7);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: var(--peach-25);
+  }
+
+  .frc-thanks__title {
+    margin: 0 auto;
+    max-width: 18ch;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(34px, 4.8vw, 56px);
+    line-height: 1.12;
+    color: var(--grey-0);
+  }
+  .frc-thanks__subtitle {
+    margin: clamp(16px, 2.4vh, 24px) auto 0;
+    max-width: 54ch;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.6;
+    color: var(--peach-25);
+  }
+
+  /* --- survey panel ------------------------------------------ */
+  .frc-thanks__panel {
+    max-width: 560px;
+    margin: clamp(40px, 6vh, 64px) auto 0;
+    padding: clamp(22px, 3vw, 32px);
+    background: rgba(23, 22, 20, 0.7);
+    border: 1px solid var(--card-line);
+    border-radius: 8px;
+    box-shadow: 0 10px 44px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4);
+    text-align: left;
+  }
+  .frc-thanks__progress {
+    margin: 0 0 14px;
+    font-size: 9.5px;
+    letter-spacing: 0.24em;
+    color: var(--ink-dim);
+  }
+  .frc-thanks__question {
+    margin: 0 0 20px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.5;
+    color: var(--grey-0);
+  }
+  .frc-thanks__options { display: flex; flex-direction: column; gap: 8px; }
+  .frc-thanks__opt {
+    display: block;
+    width: 100%;
+    padding: 13px 16px;
+    background: transparent;
+    border: 1px solid var(--card-line);
+    border-radius: 3px;
+    color: var(--peach-25);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    line-height: 1.5;
+    text-align: left;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+  }
+  .frc-thanks__opt::before { content: "[ ] "; white-space: pre; }
+  .frc-thanks__opt:hover,
+  .frc-thanks__opt:focus-visible {
+    background: var(--peach-50);
+    border-color: var(--peach-50);
+    color: #0a0a0a;
+    outline: none;
+  }
+
+  .frc-thanks__final-line {
+    margin: 0 0 14px;
+    font-size: 11px;
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+    color: var(--ink-dim);
+  }
+  .frc-thanks__input {
+    display: block;
+    width: 100%;
+    margin: 0 0 10px;
+    padding: 13px 14px;
+    background: #111111;
+    border: 1px solid var(--card-line);
+    border-radius: 3px;
+    color: var(--grey-0);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    outline: none;
+  }
+  .frc-thanks__input::placeholder { color: var(--ink-dim); }
+  .frc-thanks__input:focus { border-color: var(--peach-50); }
+  .frc-thanks__finish {
+    display: block;
+    width: 100%;
+    margin-top: 4px;
+    padding: 14px 20px;
+    background: var(--peach-50);
+    border: 0;
+    border-radius: 3px;
+    color: #0a0a0a;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 200ms ease;
+  }
+  .frc-thanks__finish:hover,
+  .frc-thanks__finish:focus-visible { background: var(--peach-75); outline: none; }
+  .frc-thanks__finish:disabled { opacity: 0.6; cursor: default; }
+
+  .frc-thanks__hp {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .frc-thanks__skip {
+    display: block;
+    margin: 18px auto 0;
+    padding: 4px;
+    background: transparent;
+    border: 0;
+    color: var(--ink-dim);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-decoration: underline;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .frc-thanks__skip:hover { color: var(--peach-50); }
+
+  /* --- services pitch ---------------------------------------- */
+  .frc-thanks__rule {
+    max-width: 760px;
+    margin: clamp(56px, 9vh, 96px) auto clamp(44px, 7vh, 72px);
+    border-top: 1px solid var(--card-line);
+  }
+  .frc-thanks__kicker {
+    margin: 0 0 14px;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: var(--ink-dim);
+  }
+  .frc-thanks__services-title {
+    margin: 0 auto clamp(24px, 4vh, 36px);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(26px, 3vw, 34px);
+    line-height: 1.2;
+    color: var(--grey-0);
+  }
+  .frc-thanks__list {
+    list-style: none;
+    margin: 0 auto clamp(32px, 5vh, 48px);
+    padding: 0;
+    max-width: 420px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 2.1;
+    color: var(--grey-0);
+  }
+  .frc-thanks__list li { border-bottom: 1px solid var(--card-line); padding: 6px 0; }
+  .frc-thanks__list li:last-child { border-bottom: 0; }
+  .frc-thanks__cta-line {
+    margin: 0 auto 24px;
+    max-width: 48ch;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--peach-25);
+  }
+  .frc-thanks__cta {
+    display: inline-block;
+    padding: 16px 42px;
+    background: var(--peach-100);
+    color: #0a0a0a;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: background 200ms ease;
+  }
+  .frc-thanks__cta:hover,
+  .frc-thanks__cta:focus-visible { background: var(--peach-75); outline: none; }
+  .frc-thanks__mail {
+    display: block;
+    margin: 24px auto 0;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: var(--grey-0);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .frc-thanks__mail:hover,
+  .frc-thanks__mail:focus-visible { color: var(--peach-50); outline: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frc-thanks * { transition: none !important; }
+  }
+  @media (max-width: 719px) {
+    .frc-thanks__title { font-size: clamp(30px, 8.5vw, 38px); }
+    .frc-thanks__input { font-size: 16px; }  /* prevents iOS zoom */
+  }
+</style>
+
+<script>
+(function () {
+  var widget = document.querySelector('.frc-thanks');
+  if (!widget || widget.dataset.initialized === '1') return;
+  widget.dataset.initialized = '1';
+
+  var SURVEY_URL = 'https://formarosacreative.com/wp-json/frc/v1/survey';
+
+  /* your discovery-call booking link */
+  var CALL_URL = 'https://calendar.app.google/Jbpo3Pk74vMQL9rA6';
+
+  /* the three questions. Q1's last two options are editable
+     suggestions - trim or reword freely. */
+  var QUESTIONS = [
+    {
+      q: 'What is the hardest part of delivering a design package to a client?',
+      opts: [
+        'Documenting the design in plan / elevation',
+        'Meeting project budgets',
+        'Coordinating fabricators and vendors',
+        'Client revisions and approvals'
+      ]
+    },
+    {
+      q: 'Do you run your own business?',
+      opts: [
+        'Yes',
+        'No'
+      ]
+    },
+    {
+      q: 'What other guides would you be interested in seeing?',
+      opts: [
+        'Workflow apps',
+        'Design documentation tutorials',
+        'Project management tips'
+      ]
+    }
+  ];
+
+  var progressEl = widget.querySelector('[data-frc-progress]');
+  var questionEl = widget.querySelector('[data-frc-question]');
+  var optionsEl  = widget.querySelector('[data-frc-options]');
+  var finalEl    = widget.querySelector('[data-frc-final]');
+  var finishBtn  = widget.querySelector('[data-frc-finish]');
+  var skipBtn    = widget.querySelector('[data-frc-skip]');
+  var surveyEl   = widget.querySelector('[data-frc-survey]');
+  var servicesEl = widget.querySelector('[data-frc-services]');
+  var emailInput = widget.querySelector('[data-frc-email]');
+  var callBtn    = widget.querySelector('[data-frc-call]');
+  if (callBtn) callBtn.setAttribute('href', CALL_URL);
+
+  /* email carried over from the landing page */
+  var email = '';
+  try { email = sessionStorage.getItem('frc-sub-email') || ''; } catch (e) {}
+  if (!email) {
+    var m = location.search.match(/[?&]e=([^&]+)/);
+    if (m) { try { email = decodeURIComponent(m[1]); } catch (e) {} }
+  }
+  if (!email && emailInput) emailInput.hidden = false;
+
+  var answers = ['', '', ''];
+  var step = 0;
+
+  function showStep() {
+    if (step < QUESTIONS.length) {
+      if (progressEl) progressEl.textContent = 'QUESTION ' + (step + 1) + ' / ' + QUESTIONS.length;
+      if (questionEl) questionEl.textContent = QUESTIONS[step].q;
+      if (optionsEl) {
+        optionsEl.innerHTML = '';
+        QUESTIONS[step].opts.forEach(function (opt) {
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.className = 'frc-thanks__opt';
+          b.textContent = opt;
+          b.addEventListener('click', function () {
+            answers[step] = opt;
+            step++;
+            showStep();
+          });
+          optionsEl.appendChild(b);
+        });
+      }
+    } else {
+      /* questions done - the optional last step */
+      if (progressEl) progressEl.textContent = 'LAST STEP';
+      if (questionEl) questionEl.textContent = 'Thank you - that helps a lot.';
+      if (optionsEl) optionsEl.innerHTML = '';
+      if (finalEl) finalEl.hidden = false;
+    }
+  }
+
+  function showServices() {
+    if (surveyEl) surveyEl.hidden = true;
+    if (skipBtn) skipBtn.hidden = true;
+    if (servicesEl) servicesEl.hidden = false;
+    try { servicesEl.scrollIntoView({ behavior: 'smooth', block: 'start' }); } catch (e) {}
+  }
+
+  function submitSurvey() {
+    var li = '';
+    var liInput = finalEl ? finalEl.querySelector('input[name="linkedin"]') : null;
+    if (liInput) li = liInput.value.trim();
+    var hp = finalEl ? finalEl.querySelector('input[name="website"]') : null;
+    if (emailInput && !emailInput.hidden) email = emailInput.value.trim();
+
+    if (!email) { showServices(); return; }   /* nothing to attach answers to */
+
+    if (finishBtn) { finishBtn.disabled = true; finishBtn.textContent = '...'; }
+    fetch(SURVEY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        website: hp ? hp.value : '',
+        q1: answers[0],
+        q2: answers[1],
+        q3: answers[2],
+        linkedin: li
+      })
+    })
+      .then(function () { showServices(); })
+      .catch(function () { showServices(); });   /* never block the pitch */
+  }
+
+  if (finishBtn) finishBtn.addEventListener('click', submitSurvey);
+  if (skipBtn) skipBtn.addEventListener('click', showServices);
+
+  showStep();
+})();
+</script>

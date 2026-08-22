@@ -1,0 +1,465 @@
+<!-- ============================================================
+     Section: SUBSCRIBE landing page (single full page)
+     Class:   frc-sub
+     Layout reference: justinwelsh.me - wordmark, pill badge, big
+     serif headline, italic subline, join label, email form, fine
+     print, then a divider and three cards. Rebuilt in the FRC
+     brand system: #111 + 32px grid, Cormorant/Georgia serifs,
+     JetBrains Mono labels, peach saturation scale.
+
+     Elementor page settings:
+       - Template: Elementor Canvas (globals off)
+       - Layout: Full Width, Stretch section: ON
+       - Section padding: 0, Column padding: 0
+       - Paste LOADER - SUBSCRIBE - 1 - LANDING.html into the
+         page's HTML widget.
+
+     THE FUNNEL (LinkedIn post -> this page -> thank-you page):
+       1. Visitor picks one of the FREE GUIDES below (cards are
+          selectable - first one is preselected).
+       2. Submits their email. The form posts to
+          /wp-json/frc/v1/subscribe with {email, magnet, ref} -
+          the Subscribers snippet stores the row AND emails them
+          the chosen guide automatically.
+       3. Success -> redirected to the thank-you page (THANKYOU_URL
+          below) which runs the 3-question survey.
+       "ref" = document.referrer + the query string, so tag your
+       LinkedIn post links like  .../subscribe/?src=li-post-1
+       and the CSV will show which post converted each subscriber.
+
+     [EDIT] BEFORE GOING LIVE:
+       - MAGNETS in the script below: ids must match
+         frc_sub_magnets() in Subscribers/FRC_Subscribe_Snippet.php;
+         set real titles + cover images.
+       - THANKYOU_URL: the WordPress page carrying
+         LOADER - SUBSCRIBE - 2 - THANKYOU.html.
+       - Headline, subline, badge, fine print: placeholder copy
+         in the [EDIT] SLOT blocks - rewrite in your voice.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<section class="frc-sub" data-frc-sub aria-label="Subscribe to Forma Rosa Creative">
+
+  <!-- wordmark -->
+  <a class="frc-sub__wordmark" href="https://formarosacreative.com">FORMA ROSA CREATIVE</a>
+
+  <!-- pill badge -->
+  <!-- [EDIT] SLOT: badge line -->
+  <p class="frc-sub__badge">MONUMENTS TO NATURE</p>
+
+  <!-- headline + subline -->
+  <!-- [EDIT] SLOT: headline + subline copy -->
+  <h1 class="frc-sub__title">New projects and essays from the studio, first.</h1>
+  <p class="frc-sub__subtitle">Design practice, inspiration, and context - straight from Brooklyn.</p>
+
+  <!-- join label -->
+  <p class="frc-sub__join" aria-hidden="true"><span class="frc-sub__join-line"></span>SUBSCRIBE FOR NEW PROJECTS<span class="frc-sub__join-line"></span></p>
+
+  <!-- form -->
+  <form class="frc-sub__form" data-frc-sub-form>
+    <input type="email" name="email" required placeholder="name@email.com" aria-label="Email address">
+    <input type="text" name="website" class="frc-sub__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit">SUBSCRIBE</button>
+  </form>
+
+  <!-- fine print -->
+  <!-- [EDIT] SLOT: fine print -->
+  <p class="frc-sub__fine">Drop your email and you are in. Your free guide lands in your inbox right away, and new projects follow as they go live. Unsubscribe anytime.</p>
+
+  <!-- divider -->
+  <div class="frc-sub__rule" aria-hidden="true"></div>
+
+  <!-- free guide(s) - the picked one is emailed. With one guide
+       it shows preselected; add more to MAGNETS and this becomes
+       a picker automatically. -->
+  <!-- [EDIT] SLOT: guides section title + hint -->
+  <h2 class="frc-sub__cards-title">Your free guide, the moment you join.</h2>
+  <p class="frc-sub__cards-hint">Drop your email above and it lands in your inbox as a zip file.</p>
+
+  <div class="frc-sub__cards" data-frc-sub-cards></div>
+
+</section>
+
+<style>
+  .frc-sub {
+    /* local tokens - the FRC system */
+    --bg: #111111;
+    --grid-size: 32px;
+    --grid-line: rgba(240, 201, 180, 0.05);
+    --panel: #171614;
+    --card-line: #29251f;
+    --peach-100: #F05300;
+    --peach-75:  #F07A3C;
+    --peach-50:  #F0A178;
+    --peach-25:  #F0C9B4;
+    --grey-0:    #F0F0F0;
+    --ink-dim: rgba(240, 240, 240, 0.5);
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --font-serif: Georgia, "Times New Roman", serif;
+
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 40px) clamp(80px, 12vh, 140px);
+    text-align: center;
+    color: var(--grey-0);
+    font-family: var(--font-mono);
+
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+  }
+  .frc-sub *,
+  .frc-sub *::before,
+  .frc-sub *::after { box-sizing: border-box; }
+
+  /* --- wordmark --------------------------------------------- */
+  .frc-sub__wordmark {
+    display: inline-block;
+    margin: 0 auto clamp(48px, 8vh, 96px);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(17px, 1.6vw, 22px);
+    letter-spacing: 0.18em;
+    color: #d4c4b5;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .frc-sub__wordmark:hover,
+  .frc-sub__wordmark:focus-visible { color: var(--peach-50); outline: none; }
+
+  /* --- pill badge ------------------------------------------- */
+  .frc-sub__badge {
+    display: table;
+    margin: 0 auto clamp(28px, 4vh, 40px);
+    padding: 9px 22px;
+    border: 1px solid var(--card-line);
+    border-radius: 999px;
+    background: rgba(23, 22, 20, 0.7);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: var(--peach-25);
+  }
+
+  /* --- headline --------------------------------------------- */
+  .frc-sub__title {
+    margin: 0 auto;
+    max-width: 17ch;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(38px, 5.4vw, 64px);
+    line-height: 1.12;
+    color: var(--grey-0);
+  }
+
+  .frc-sub__subtitle {
+    margin: clamp(18px, 2.6vh, 26px) auto 0;
+    max-width: 52ch;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(16px, 1.6vw, 19px);
+    line-height: 1.6;
+    color: var(--peach-25);
+  }
+
+  /* --- join label (dash - text - dash) ----------------------- */
+  .frc-sub__join {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: clamp(44px, 7vh, 72px) auto 18px;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: var(--ink-dim);
+  }
+  .frc-sub__join-line {
+    display: inline-block;
+    width: clamp(24px, 3vw, 44px);
+    height: 1px;
+    background: var(--card-line);
+  }
+
+  /* --- form ------------------------------------------------- */
+  .frc-sub__form {
+    display: flex;
+    justify-content: center;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .frc-sub__form input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    padding: 15px 18px;
+    background: var(--panel);
+    border: 1px solid var(--card-line);
+    border-right: 0;
+    border-radius: 2px 0 0 2px;
+    color: var(--grey-0);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    outline: none;
+  }
+  .frc-sub__form input[type="email"]::placeholder { color: var(--ink-dim); }
+  .frc-sub__form input[type="email"]:focus { border-color: var(--ink-dim); }
+  .frc-sub__form button {
+    padding: 15px 28px;
+    background: var(--peach-50);
+    border: 0;
+    border-radius: 0 2px 2px 0;
+    color: #0a0a0a;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 200ms ease;
+  }
+  .frc-sub__form button:hover,
+  .frc-sub__form button:focus-visible { background: var(--peach-75); outline: none; }
+  .frc-sub__form button:disabled { opacity: 0.6; cursor: default; }
+
+  /* honeypot - invisible to people, tempting to bots */
+  .frc-sub__hp {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* success line (form is replaced by this) */
+  .frc-sub__done {
+    margin: 0 auto;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--peach-50);
+  }
+
+  .frc-sub__fine {
+    margin: 22px auto 0;
+    max-width: 52ch;
+    font-size: 11px;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+    color: var(--ink-dim);
+  }
+
+  /* --- divider ---------------------------------------------- */
+  .frc-sub__rule {
+    max-width: 760px;
+    margin: clamp(56px, 9vh, 96px) auto clamp(48px, 8vh, 80px);
+    border-top: 1px solid var(--card-line);
+  }
+
+  /* --- latest cards ----------------------------------------- */
+  .frc-sub__cards-title {
+    margin: 0 auto clamp(36px, 5vh, 56px);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(26px, 3vw, 34px);
+    line-height: 1.2;
+    color: var(--grey-0);
+  }
+
+  .frc-sub__cards-hint {
+    margin: -24px auto clamp(28px, 4vh, 40px);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-dim);
+  }
+
+  .frc-sub__cards {
+    display: grid;
+    /* centers 1 card today, becomes a 2-3 column picker as more
+       guides are added to MAGNETS */
+    grid-template-columns: repeat(auto-fit, minmax(240px, 290px));
+    justify-content: center;
+    gap: clamp(16px, 2vw, 28px);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .frc-sub__card {
+    display: block;
+    width: 100%;
+    padding: 14px 14px 16px;
+    background: var(--panel);
+    border: 1px solid var(--card-line);
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+    font: inherit;
+    text-align: center;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color 200ms ease, transform 200ms ease;
+  }
+  .frc-sub__card:hover,
+  .frc-sub__card:focus-visible {
+    border-color: var(--peach-50);
+    transform: translateY(-3px);
+    outline: none;
+  }
+  /* picked state - brand [X] notation + vivid border */
+  .frc-sub__card-mark::before { content: "[ ] "; white-space: pre; }
+  .frc-sub__card.is-picked { border-color: var(--peach-100); }
+  .frc-sub__card.is-picked .frc-sub__card-mark::before { content: "[X] "; }
+  .frc-sub__card.is-picked .frc-sub__card-label { color: var(--peach-75); }
+  .frc-sub__card-frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #1a1a1a;
+  }
+  .frc-sub__card-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.95);
+    transition: filter 300ms ease;
+  }
+  .frc-sub__card:hover .frc-sub__card-img { filter: saturate(1.05); }
+  .frc-sub__card-label {
+    display: block;
+    margin-top: 12px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--peach-25);
+  }
+
+  /* --- reduced motion --------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .frc-sub * { transition: none !important; }
+    .frc-sub__card:hover { transform: none; }
+  }
+
+  /* --- mobile ----------------------------------------------- */
+  @media (max-width: 719px) {
+    .frc-sub__cards { grid-template-columns: 1fr; max-width: 340px; }
+    .frc-sub__title { font-size: clamp(32px, 9vw, 40px); }
+    .frc-sub__form { max-width: 100%; }
+    .frc-sub__form input[type="email"] { font-size: 16px; } /* prevents iOS zoom */
+  }
+  @media (max-width: 400px) {
+    .frc-sub__form { flex-direction: column; gap: 8px; }
+    .frc-sub__form input[type="email"] {
+      border-right: 1px solid var(--card-line);
+      border-radius: 2px;
+      text-align: center;
+    }
+    .frc-sub__form button { border-radius: 2px; padding: 15px 20px; }
+  }
+</style>
+
+<script>
+(function () {
+  var widget = document.querySelector('.frc-sub');
+  if (!widget || widget.dataset.initialized === '1') return;
+  widget.dataset.initialized = '1';
+
+  var SUBSCRIBE_URL = 'https://formarosacreative.com/wp-json/frc/v1/subscribe';
+
+  /* [EDIT] SLOT: the thank-you page (carries the survey) */
+  var THANKYOU_URL = 'https://formarosacreative.com/thank-you/';
+
+  /* the free guides. ids MUST match frc_sub_magnets() in
+     Subscribers/FRC_Subscribe_Snippet.php. Add more entries as
+     more guides exist - the grid becomes a picker automatically. */
+  var MAGNETS = [
+    { id: 'texture-maps', label: 'Right-Click an Image to Generate Texture Maps',
+      img: 'https://formarosacreative.com/wp-content/uploads/2026/08/TextureMaps-Poster-1.jpg' }
+  ];
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  /* --- selectable guide cards -------------------------------- */
+  var cardsBox = widget.querySelector('[data-frc-sub-cards]');
+  var picked = MAGNETS.length ? MAGNETS[0].id : '';
+
+  function renderCards() {
+    if (!cardsBox) return;
+    var html = '';
+    MAGNETS.forEach(function (m) {
+      html += '<button type="button" class="frc-sub__card' + (m.id === picked ? ' is-picked' : '') + '" data-magnet="' + esc(m.id) + '">'
+        + '<span class="frc-sub__card-frame">'
+        + '<img class="frc-sub__card-img" src="' + esc(m.img) + '" alt="' + esc(m.label) + '" loading="lazy" decoding="async">'
+        + '</span>'
+        + '<span class="frc-sub__card-label"><span class="frc-sub__card-mark" aria-hidden="true"></span>' + esc(m.label) + '</span>'
+        + '</button>';
+    });
+    cardsBox.innerHTML = html;
+    cardsBox.querySelectorAll('[data-magnet]').forEach(function (card) {
+      card.addEventListener('click', function () {
+        picked = card.getAttribute('data-magnet');
+        cardsBox.querySelectorAll('[data-magnet]').forEach(function (c) {
+          c.classList.toggle('is-picked', c === card);
+        });
+      });
+    });
+  }
+  renderCards();
+
+  /* --- where did they come from? -----------------------------
+     referrer origin + this page's query string. Tag your LinkedIn
+     post links (.../subscribe/?src=li-post-1) and the CSV shows
+     which post converted each subscriber. */
+  var ref = (document.referrer || '') + (location.search ? ' | ' + location.search : '');
+
+  /* --- subscribe form ---------------------------------------- */
+  var form = widget.querySelector('[data-frc-sub-form]');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = form.querySelector('input[name="email"]');
+      var hp = form.querySelector('input[name="website"]');
+      var btn = form.querySelector('button');
+      var email = input ? input.value.trim() : '';
+      if (!email) return;
+      if (btn) { btn.disabled = true; btn.textContent = '...'; }
+
+      fetch(SUBSCRIBE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          website: hp ? hp.value : '',
+          source: 'SUBSCRIBE - LANDING',
+          magnet: picked,
+          ref: ref.slice(0, 480)
+        })
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function () {
+          /* guide is on its way by email - continue to the survey */
+          try { sessionStorage.setItem('frc-sub-email', email); } catch (err) {}
+          window.location.href = THANKYOU_URL + '?e=' + encodeURIComponent(email);
+        })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'SUBSCRIBE'; }
+          window.location.href = 'mailto:creative@formarosastudio.com'
+            + '?subject=' + encodeURIComponent('Newsletter subscription')
+            + '&body=' + encodeURIComponent('Please add me to the newsletter: ' + email);
+        });
+    });
+  }
+})();
+</script>
