@@ -84,6 +84,14 @@
 </section>
 
 <style>
+  /* This section IS the whole page - kill any theme/body gap so
+     no background ring shows around the full-bleed dark canvas. */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #111111 !important;
+  }
+
   .frc-thanks {
     --bg: #111111;
     --grid-size: 32px;
