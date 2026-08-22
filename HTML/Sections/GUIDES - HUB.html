@@ -230,6 +230,23 @@
   var cardsBox = widget.querySelector('[data-frc-ghub-cards]');
   var loadingMsg = widget.querySelector('[data-frc-ghub-loading]');
 
+  /* count the click - one ping per browser session per page */
+  try {
+    var vkey = 'frc-visited-' + location.pathname;
+    if (!sessionStorage.getItem(vkey)) {
+      sessionStorage.setItem(vkey, '1');
+      var srcM = location.search.match(/[?&]src=([^&]+)/);
+      fetch('https://formarosacreative.com/wp-json/frc/v1/visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page: location.pathname,
+          src: srcM ? decodeURIComponent(srcM[1]) : ''
+        })
+      }).catch(function () {});
+    }
+  } catch (e) {}
+
   function esc(s) {
     return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;')
                     .replace(/>/g, '&gt;').replace(/"/g, '&quot;');

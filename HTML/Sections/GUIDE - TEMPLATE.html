@@ -479,6 +479,24 @@
   /* where did they come from? referrer + ?src= tag */
   var ref = (document.referrer || '') + (location.search ? ' | ' + location.search : '');
 
+  /* count the click - one ping per browser session per page, so
+     refreshes do not inflate the numbers */
+  try {
+    var vkey = 'frc-visited-' + location.pathname;
+    if (!sessionStorage.getItem(vkey)) {
+      sessionStorage.setItem(vkey, '1');
+      var srcM = location.search.match(/[?&]src=([^&]+)/);
+      fetch('https://formarosacreative.com/wp-json/frc/v1/visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page: location.pathname,
+          src: srcM ? decodeURIComponent(srcM[1]) : ''
+        })
+      }).catch(function () {});
+    }
+  } catch (e) {}
+
   forms.forEach(function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
