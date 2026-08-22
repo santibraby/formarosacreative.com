@@ -1,0 +1,382 @@
+<!-- ============================================================
+     Section: GUIDE page template (one template for ALL guides)
+     Class:   frc-guide
+     Layout reference: justinwelsh.me guide pages - wordmark,
+     "A FREE GUIDE" badge, the guide's title as the headline, an
+     italic pitch line, the email form, fine print, then the big
+     cover card. Rebuilt in the FRC brand system.
+
+     HOW IT WORKS (same pattern as ARTICLE - TEMPLATE):
+       - The loader's mount div carries data-guide="<guide-id>".
+       - This template fetches HTML/Guides/GUIDES - INDEX.md,
+         finds that row, and renders title / pitch / cover.
+       - The form posts {email, magnet: guide-id, ref} to
+         /wp-json/frc/v1/subscribe - WordPress emails the zip -
+         then redirects to the thank-you page (survey).
+       - Tag LinkedIn post links: .../guides/<slug>/?src=li-post-1
+
+     NEW GUIDE = add a line to GUIDES - INDEX.md + a magnet in the
+     Subscribers snippet + duplicate a guide page in WordPress and
+     change its data-guide. This file never needs touching.
+
+     Elementor page settings: Elementor Canvas, Full Width,
+     Stretch ON, padding 0. Paste LOADER - GUIDE.html into the
+     page's HTML widget and set its data-guide.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<section class="frc-guide" data-frc-guide aria-label="Free guide">
+
+  <a class="frc-guide__wordmark" href="https://formarosacreative.com">FORMA ROSA CREATIVE</a>
+
+  <p class="frc-guide__badge">A FREE GUIDE</p>
+
+  <h1 class="frc-guide__title" data-frc-g-title></h1>
+  <p class="frc-guide__pitch" data-frc-g-pitch></p>
+
+  <form class="frc-guide__form" data-frc-g-form>
+    <input type="email" name="email" required placeholder="name@email.com" aria-label="Email address">
+    <input type="text" name="website" class="frc-guide__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <!-- [EDIT] SLOT: button label -->
+    <button type="submit">SEND ME THE GUIDE</button>
+  </form>
+
+  <!-- [EDIT] SLOT: fine print -->
+  <p class="frc-guide__fine">Delivered straight to your inbox as a zip file. You will also hear about new projects and guides as they go live. Unsubscribe anytime.</p>
+
+  <div class="frc-guide__cover" data-frc-g-cover hidden>
+    <img class="frc-guide__cover-img" data-frc-g-img src="" alt="">
+  </div>
+
+  <p class="frc-guide__note" data-frc-g-note>LOADING ...</p>
+
+  <a class="frc-guide__all" href="https://formarosacreative.com/guides/">SEE ALL FREE GUIDES</a>
+
+</section>
+
+<style>
+  /* This section IS the whole page - kill any theme/body gap and
+     Elementor flex-container default padding so the dark canvas
+     runs edge to edge. Safe: the widget is the entire page. */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #111111 !important;
+  }
+  .elementor,
+  .elementor .e-con,
+  .elementor .e-con-inner,
+  .elementor-widget-html,
+  .elementor-widget-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .frc-guide {
+    --bg: #111111;
+    --grid-size: 32px;
+    --grid-line: rgba(240, 201, 180, 0.05);
+    --panel: #171614;
+    --card-line: #29251f;
+    --peach-100: #F05300;
+    --peach-75:  #F07A3C;
+    --peach-50:  #F0A178;
+    --peach-25:  #F0C9B4;
+    --grey-0:    #F0F0F0;
+    --ink-dim: rgba(240, 240, 240, 0.5);
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --font-serif: Georgia, "Times New Roman", serif;
+
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 40px) clamp(80px, 12vh, 140px);
+    text-align: center;
+    color: var(--grey-0);
+    font-family: var(--font-mono);
+
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+  }
+  .frc-guide *,
+  .frc-guide *::before,
+  .frc-guide *::after { box-sizing: border-box; }
+
+  .frc-guide__wordmark {
+    display: inline-block;
+    margin: 0 auto clamp(44px, 7vh, 84px);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(17px, 1.6vw, 22px);
+    letter-spacing: 0.18em;
+    color: #d4c4b5;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .frc-guide__wordmark:hover,
+  .frc-guide__wordmark:focus-visible { color: var(--peach-50); outline: none; }
+
+  /* clean rectangle in full-saturation brand orange, dark text */
+  .frc-guide__badge {
+    display: table;
+    margin: 0 auto clamp(26px, 4vh, 38px);
+    padding: 9px 22px;
+    background: var(--peach-100);
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    font-weight: 600;
+    color: #111111;
+  }
+
+  .frc-guide__title {
+    margin: 0 auto;
+    max-width: 20ch;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(36px, 5vw, 58px);
+    line-height: 1.14;
+    color: var(--grey-0);
+  }
+
+  .frc-guide__pitch {
+    margin: clamp(16px, 2.4vh, 24px) auto 0;
+    max-width: 56ch;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(15px, 1.6vw, 19px);
+    line-height: 1.6;
+    color: var(--peach-25);
+  }
+
+  .frc-guide__form {
+    display: flex;
+    justify-content: center;
+    max-width: 460px;
+    margin: clamp(36px, 5.5vh, 56px) auto 0;
+  }
+  .frc-guide__form input[type="email"] {
+    flex: 1;
+    min-width: 0;
+    padding: 15px 18px;
+    background: var(--panel);
+    border: 1px solid var(--card-line);
+    border-right: 0;
+    border-radius: 2px 0 0 2px;
+    color: var(--grey-0);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    outline: none;
+  }
+  .frc-guide__form input[type="email"]::placeholder { color: var(--ink-dim); }
+  .frc-guide__form input[type="email"]:focus { border-color: var(--ink-dim); }
+  .frc-guide__form button {
+    padding: 15px 24px;
+    background: var(--peach-50);
+    border: 0;
+    border-radius: 0 2px 2px 0;
+    color: #0a0a0a;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 200ms ease;
+  }
+  .frc-guide__form button:hover,
+  .frc-guide__form button:focus-visible { background: var(--peach-75); outline: none; }
+  .frc-guide__form button:disabled { opacity: 0.6; cursor: default; }
+
+  .frc-guide__hp {
+    position: absolute !important;
+    left: -9999px !important;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .frc-guide__done {
+    margin: clamp(36px, 5.5vh, 56px) auto 0;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--peach-50);
+  }
+
+  .frc-guide__fine {
+    margin: 20px auto 0;
+    max-width: 52ch;
+    font-size: 11px;
+    line-height: 1.9;
+    letter-spacing: 0.04em;
+    color: var(--ink-dim);
+  }
+
+  /* the big cover card (Welsh-style single document below) */
+  .frc-guide__cover {
+    max-width: 460px;
+    margin: clamp(48px, 8vh, 88px) auto 0;
+    padding: 14px;
+    background: var(--panel);
+    border: 1px solid var(--card-line);
+    border-radius: 6px;
+    box-shadow: 0 10px 44px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4);
+  }
+  .frc-guide__cover-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: #1a1a1a;
+  }
+
+  .frc-guide__note {
+    margin: clamp(48px, 8vh, 88px) auto 0;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--ink-dim);
+  }
+
+  .frc-guide__all {
+    display: inline-block;
+    margin-top: clamp(40px, 6vh, 64px);
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: var(--ink-dim);
+    text-decoration: underline;
+    transition: color 200ms ease;
+  }
+  .frc-guide__all:hover,
+  .frc-guide__all:focus-visible { color: var(--peach-50); outline: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frc-guide * { transition: none !important; }
+  }
+  @media (max-width: 719px) {
+    .frc-guide__title { font-size: clamp(30px, 8.5vw, 40px); }
+    .frc-guide__form { max-width: 100%; }
+    .frc-guide__form input[type="email"] { font-size: 16px; } /* prevents iOS zoom */
+  }
+  @media (max-width: 400px) {
+    .frc-guide__form { flex-direction: column; gap: 8px; }
+    .frc-guide__form input[type="email"] {
+      border-right: 1px solid var(--card-line);
+      border-radius: 2px;
+      text-align: center;
+    }
+    .frc-guide__form button { border-radius: 2px; padding: 15px 20px; }
+  }
+</style>
+
+<script>
+(function () {
+  var widget = document.querySelector('.frc-guide');
+  if (!widget || widget.dataset.initialized === '1') return;
+  widget.dataset.initialized = '1';
+
+  var SUBSCRIBE_URL = 'https://formarosacreative.com/wp-json/frc/v1/subscribe';
+  var INDEX_URL = 'https://raw.githubusercontent.com/santibraby/formarosacreative.com/main/HTML/Guides/GUIDES%20-%20INDEX.md';
+  var THANKYOU_URL = 'https://formarosacreative.com/thank-you/';
+
+  var titleEl = widget.querySelector('[data-frc-g-title]');
+  var pitchEl = widget.querySelector('[data-frc-g-pitch]');
+  var coverEl = widget.querySelector('[data-frc-g-cover]');
+  var imgEl   = widget.querySelector('[data-frc-g-img]');
+  var noteEl  = widget.querySelector('[data-frc-g-note]');
+  var form    = widget.querySelector('[data-frc-g-form]');
+
+  /* which guide? the loader's mount div names it */
+  var mount = document.querySelector('[data-guide]');
+  var guideId = mount ? (mount.getAttribute('data-guide') || '') : '';
+
+  function parseIndex(text) {
+    var out = [];
+    text.replace(/\r/g, '').split('\n').forEach(function (line) {
+      var t = line.trim();
+      if (!t || t.charAt(0) === '#') return;
+      var parts = t.split('|').map(function (p) { return p.trim(); });
+      if (parts.length < 5) return;
+      out.push({ id: parts[0], title: parts[1], pitch: parts[2], link: parts[3], img: parts[4] });
+    });
+    return out;
+  }
+
+  function fail(msg) {
+    if (noteEl) { noteEl.hidden = false; noteEl.textContent = msg; }
+  }
+
+  if (!guideId) {
+    fail('NO GUIDE SET - ADD data-guide="ID" TO THE LOADER');
+  } else {
+    fetch(INDEX_URL, { cache: 'no-cache' })
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function (text) {
+        var g = null;
+        parseIndex(text).forEach(function (row) { if (row.id === guideId) g = row; });
+        if (!g) { fail('GUIDE "' + guideId + '" NOT IN GUIDES - INDEX.md'); return; }
+        if (titleEl) titleEl.textContent = g.title;
+        if (pitchEl) pitchEl.textContent = g.pitch;
+        if (imgEl) { imgEl.src = g.img; imgEl.alt = g.title; }
+        if (coverEl) coverEl.hidden = false;
+        if (noteEl) noteEl.remove();
+        document.title = g.title + ' - Forma Rosa Creative';
+      })
+      .catch(function (e) {
+        fail('COULD NOT LOAD THE GUIDE (' + (e && e.message ? e.message : e) + ')');
+      });
+  }
+
+  /* where did they come from? referrer + ?src= tag */
+  var ref = (document.referrer || '') + (location.search ? ' | ' + location.search : '');
+
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var input = form.querySelector('input[name="email"]');
+      var hp = form.querySelector('input[name="website"]');
+      var btn = form.querySelector('button');
+      var email = input ? input.value.trim() : '';
+      if (!email) return;
+      if (btn) { btn.disabled = true; btn.textContent = '...'; }
+
+      fetch(SUBSCRIBE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          website: hp ? hp.value : '',
+          source: 'GUIDE - ' + guideId,
+          magnet: guideId,
+          ref: ref.slice(0, 480)
+        })
+      })
+        .then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function () {
+          try { sessionStorage.setItem('frc-sub-email', email); } catch (err) {}
+          window.location.href = THANKYOU_URL + '?e=' + encodeURIComponent(email);
+        })
+        .catch(function () {
+          if (btn) { btn.disabled = false; btn.textContent = 'SEND ME THE GUIDE'; }
+          window.location.href = 'mailto:creative@formarosastudio.com'
+            + '?subject=' + encodeURIComponent('Free guide request')
+            + '&body=' + encodeURIComponent('Please send me the guide (' + guideId + '): ' + email);
+        });
+    });
+  }
+})();
+</script>

@@ -1,0 +1,43 @@
+<!-- ============================================================
+     GENERIC GUIDE LOADER - works for EVERY guide page.
+     Paste this ONCE into the Elementor HTML widget on any guide
+     page (a child page of /guides).
+
+     >>> THE ONLY THING TO EDIT PER PAGE: <<<
+     the data-guide value below. It must match a guide-id in
+     HTML/Guides/GUIDES - INDEX.md (and frc_sub_magnets() in the
+     Subscribers snippet).
+       e.g. data-guide="texture-maps"
+
+     Everything else (layout, form, behavior) comes from
+     HTML/Sections/GUIDE - TEMPLATE.html, shared by all guide
+     pages. Do not edit the URL below.
+
+     Parent section: Full Width, Stretch ON, padding 0,
+     Template: Elementor Canvas.
+     Live ~5 min after PUSH-UPDATES.bat.
+     ============================================================ -->
+<div id="frc-load-guide" data-guide="texture-maps"></div>
+<script>
+(function () {
+  var m = document.getElementById('frc-load-guide');
+  if (!m || m.dataset.initialized === '1') return;
+  m.dataset.initialized = '1';
+
+  fetch('https://raw.githubusercontent.com/santibraby/formarosacreative.com/main/HTML/Sections/GUIDE%20-%20TEMPLATE.html', { cache: 'no-cache' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function (html) {
+      m.innerHTML = html;
+      // innerHTML does not execute script tags - recreate them so they run
+      m.querySelectorAll('script').forEach(function (old) {
+        var s = document.createElement('script');
+        if (old.src) { s.src = old.src; } else { s.textContent = old.textContent; }
+        old.parentNode.replaceChild(s, old);
+      });
+    })
+    .catch(function (e) { console.error('FRC loader (GUIDE):', e); });
+})();
+</script>
