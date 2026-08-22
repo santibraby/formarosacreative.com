@@ -91,6 +91,20 @@
     padding: 0 !important;
     background: #111111 !important;
   }
+  /* Elementor FLEX CONTAINERS ship a default 10px padding (the
+     "Default" value under Container -> Layout) plus a boxed
+     content width - flatten every wrapper so this page truly
+     runs edge to edge. Safe: the widget is the entire page. */
+  .elementor,
+  .elementor .e-con,
+  .elementor .e-con-inner,
+  .elementor-widget-html,
+  .elementor-widget-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
 
   .frc-thanks {
     --bg: #111111;
