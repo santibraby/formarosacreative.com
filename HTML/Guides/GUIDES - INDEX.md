@@ -27,4 +27,4 @@
 # Lines starting with # are ignored. Push to go live (~5 min).
 # ============================================================
 
-texture-maps | Right-Click an Image to Generate Texture Maps | EDIT ME - one line on what is inside the zip and why it is useful | /guides/generate-texture-maps/ | https://formarosacreative.com/wp-content/uploads/2026/08/TextureMaps-Poster-1.jpg | EDIT ME - a sentence introducing what the zip contains | EDIT ME item one; EDIT ME item two; EDIT ME item three
+texture-maps | Right-Click an Image to Generate Texture Maps | Generate texturemaps from a single image. Turn an image into all 6 PBR maps in a folder next to it, and save yourself the hours in Photoshop. | /guides/generate-texture-maps/ | https://formarosacreative.com/wp-content/uploads/2026/08/TextureMaps-Poster-1.jpg | Six maps the generator builds from a single image, in the order it creates them. Each one is saved as its own file in a folder next to your original, so by the end you have a full PBR texture set ready to drop straight into your material. | Normal; Bump / Height; Roughness; Metallic; Ambient Occlusion; Albedo
