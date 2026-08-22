@@ -35,6 +35,7 @@
   <p class="frc-guide__badge">MONUMENTS TO NATURE</p>
 
   <h1 class="frc-guide__title" data-frc-g-title></h1>
+  <p class="frc-guide__platforms" data-frc-g-plat hidden></p>
   <p class="frc-guide__pitch" data-frc-g-pitch></p>
 
   <form class="frc-guide__form" data-frc-g-form>
@@ -172,6 +173,13 @@
     font-size: clamp(40px, 5.6vw, 64px);
     line-height: 1.12;
     color: var(--grey-0);
+  }
+
+  .frc-guide__platforms {
+    margin: clamp(16px, 2.2vh, 22px) auto 0;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: var(--ink-dim);
   }
 
   .frc-guide__pitch {
@@ -417,7 +425,7 @@
         id: parts[0], title: parts[1], pitch: parts[2],
         link: parts[3], img: parts[4],
         intro: parts[5] || '', items: parts[6] || '',
-        file: parts[7] || ''
+        file: parts[7] || '', plat: parts[9] || ''
       });
     });
     return out;
@@ -441,6 +449,8 @@
         if (!g) { fail('GUIDE "' + guideId + '" NOT IN GUIDES - INDEX.md'); return; }
         guide = g;
         if (titleEl) titleEl.textContent = g.title;
+        var platEl = widget.querySelector('[data-frc-g-plat]');
+        if (platEl && g.plat) { platEl.textContent = g.plat; platEl.hidden = false; }
         if (pitchEl) pitchEl.textContent = g.pitch;
         if (imgEl) { imgEl.src = g.img; imgEl.alt = g.title; }
         if (coverEl) coverEl.hidden = false;
