@@ -1,0 +1,287 @@
+<!-- ============================================================
+     Section: guide DOWNLOAD pages - /guides/download-<guide-id>/
+     Class:   frc-dl
+     ONE shared template serves EVERY download page: the page
+     reads the guide id from its own slug (download-texture-maps
+     -> texture-maps), looks it up in HTML/Guides/GUIDES -
+     INDEX.md and shows a big DOWNLOAD button for its zip.
+
+     Why it exists: emailing a direct .zip link is a spam signal.
+     The delivery email links here instead; the zip link only
+     lives here, on the site.
+
+     Elementor page settings: child of Guides, slug
+     "download-<guide-id>", Elementor Canvas, Full Width,
+     Stretch ON, padding 0. Paste LOADER - DOWNLOAD.html into
+     the page's HTML widget - nothing to edit per guide.
+
+     [EDIT] SLOT: the kicker, subline and help note copy below.
+     ============================================================ -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<section class="frc-dl" data-frc-dl aria-label="Download your guide">
+
+  <a class="frc-dl__wordmark" href="https://formarosacreative.com">FORMA ROSA CREATIVE</a>
+
+  <!-- [EDIT] SLOT: kicker -->
+  <p class="frc-dl__kicker">YOUR FREE GUIDE</p>
+
+  <h1 class="frc-dl__title" data-frc-dl-title>&nbsp;</h1>
+
+  <!-- [EDIT] SLOT: subline -->
+  <p class="frc-dl__subtitle" data-frc-dl-sub>Your download is ready.</p>
+
+  <p class="frc-dl__note" data-frc-dl-loading>LOADING ...</p>
+
+  <a class="frc-dl__btn" data-frc-dl-btn href="#" hidden>DOWNLOAD THE GUIDE</a>
+
+  <!-- [EDIT] SLOT: help note -->
+  <p class="frc-dl__help" data-frc-dl-help hidden>Trouble downloading? Reply to the delivery email and I will send it over directly.</p>
+
+  <a class="frc-dl__all" href="https://formarosacreative.com/guides/">SEE ALL FREE GUIDES</a>
+
+</section>
+
+<style>
+  /* This section IS the whole page - kill any theme/body gap and
+     Elementor flex-container default padding so the dark canvas
+     runs edge to edge. Safe: the widget is the entire page. */
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #111111 !important;
+  }
+  .elementor,
+  .elementor .e-con,
+  .elementor .e-con-inner,
+  .elementor-widget-html,
+  .elementor-widget-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .frc-dl {
+    --bg: #111111;
+    --grid-size: 32px;
+    --grid-line: rgba(240, 201, 180, 0.05);
+    --peach-100: #F05300;
+    --peach-75:  #F07A3C;
+    --peach-50:  #F0A178;
+    --peach-25:  #F0C9B4;
+    --grey-0:    #F0F0F0;
+    --ink-dim: rgba(240, 240, 240, 0.5);
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+    --font-serif: Georgia, "Times New Roman", serif;
+
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100dvh;
+    box-sizing: border-box;
+    padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 40px) clamp(80px, 12vh, 140px);
+    text-align: center;
+    color: var(--grey-0);
+    font-family: var(--font-mono);
+
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
+  }
+  .frc-dl *,
+  .frc-dl *::before,
+  .frc-dl *::after { box-sizing: border-box; }
+
+  .frc-dl__wordmark {
+    display: inline-block;
+    margin: 0 auto clamp(44px, 8vh, 96px);
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(17px, 1.6vw, 22px);
+    letter-spacing: 0.18em;
+    color: #d4c4b5;
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .frc-dl__wordmark:hover,
+  .frc-dl__wordmark:focus-visible { color: var(--peach-50); outline: none; }
+
+  /* plain orange kicker - no box, same treatment as the guide page */
+  .frc-dl__kicker {
+    margin: 0 0 clamp(22px, 3.5vh, 32px);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    font-weight: 600;
+    color: var(--peach-100);
+  }
+
+  .frc-dl__title {
+    margin: 0 auto;
+    max-width: 20ch;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(34px, 4.8vw, 56px);
+    line-height: 1.12;
+    color: var(--grey-0);
+  }
+  .frc-dl__subtitle {
+    margin: clamp(16px, 2.4vh, 24px) auto 0;
+    max-width: 46ch;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(15px, 1.5vw, 18px);
+    line-height: 1.6;
+    color: var(--peach-25);
+  }
+
+  .frc-dl__note {
+    margin: clamp(36px, 6vh, 56px) auto 0;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--ink-dim);
+  }
+
+  .frc-dl__btn {
+    display: inline-block;
+    margin: clamp(36px, 6vh, 56px) auto 0;
+    padding: 20px 44px;
+    background: var(--peach-100);
+    color: #111111;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-decoration: none;
+    transition: background 200ms ease, transform 200ms ease;
+  }
+  .frc-dl__btn:hover,
+  .frc-dl__btn:focus-visible {
+    background: var(--peach-75);
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .frc-dl__btn[hidden] { display: none; }
+
+  .frc-dl__help {
+    margin: clamp(20px, 3vh, 28px) auto 0;
+    max-width: 44ch;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ink-dim);
+  }
+  .frc-dl__help[hidden] { display: none; }
+
+  .frc-dl__all {
+    display: inline-block;
+    margin: clamp(48px, 8vh, 80px) auto 0;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--peach-25);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .frc-dl__all:hover,
+  .frc-dl__all:focus-visible { color: var(--peach-75); outline: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .frc-dl * { transition: none !important; }
+    .frc-dl__btn:hover { transform: none; }
+  }
+  @media (max-width: 719px) {
+    .frc-dl__title { font-size: clamp(30px, 8.5vw, 38px); }
+  }
+</style>
+
+<script>
+(function () {
+  var widget = document.querySelector('.frc-dl');
+  if (!widget || widget.dataset.initialized === '1') return;
+  widget.dataset.initialized = '1';
+
+  var INDEX_URL = 'https://raw.githubusercontent.com/santibraby/formarosacreative.com/main/HTML/Guides/GUIDES%20-%20INDEX.md';
+
+  var titleEl = widget.querySelector('[data-frc-dl-title]');
+  var subEl = widget.querySelector('[data-frc-dl-sub]');
+  var loadingMsg = widget.querySelector('[data-frc-dl-loading]');
+  var btn = widget.querySelector('[data-frc-dl-btn]');
+  var helpEl = widget.querySelector('[data-frc-dl-help]');
+
+  /* count the click - one ping per browser session per page, so
+     refreshes do not inflate the numbers. The email links here
+     with &src=email, so the TRAFFIC table shows email opens. */
+  try {
+    var vkey = 'frc-visited-' + location.pathname;
+    if (!sessionStorage.getItem(vkey)) {
+      sessionStorage.setItem(vkey, '1');
+      var srcM = location.search.match(/[?&]src=([^&]+)/);
+      fetch('https://formarosacreative.com/wp-json/frc/v1/visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          page: location.pathname,
+          src: srcM ? decodeURIComponent(srcM[1]) : ''
+        })
+      }).catch(function () {});
+    }
+  } catch (e) {}
+
+  function parseIndex(text) {
+    var out = [];
+    text.replace(/\r/g, '').split('\n').forEach(function (line) {
+      var t = line.trim();
+      if (!t || t.charAt(0) === '#') return;
+      var parts = t.split('|').map(function (p) { return p.trim(); });
+      if (parts.length < 5) return;
+      out.push({ id: parts[0], title: parts[1], zip: parts[7] || '' });
+    });
+    return out;
+  }
+
+  function fail(msg) {
+    if (loadingMsg) loadingMsg.textContent = msg;
+    if (titleEl) titleEl.textContent = 'Hmm, that guide is not here.';
+    if (subEl) subEl.textContent = 'Head to the guides page and pick it up there.';
+  }
+
+  /* guide id comes from the page slug (download-<guide-id>),
+     or a ?g= param can override it */
+  var gM = location.search.match(/[?&]g=([^&]+)/);
+  var gid = gM ? decodeURIComponent(gM[1]) : '';
+  if (!gid) {
+    var pM = location.pathname.match(/download-([a-z0-9-]+)/i);
+    gid = pM ? pM[1] : '';
+  }
+
+  fetch(INDEX_URL, { cache: 'no-cache' })
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function (text) {
+      var guides = parseIndex(text);
+      var guide = null;
+      guides.forEach(function (g) { if (g.id === gid) guide = g; });
+      if (!guide || !guide.zip) { fail('GUIDE NOT FOUND'); return; }
+      if (titleEl) titleEl.textContent = guide.title;
+      if (loadingMsg) loadingMsg.remove();
+      if (btn) {
+        btn.href = guide.zip;
+        btn.removeAttribute('hidden');
+      }
+      if (helpEl) helpEl.removeAttribute('hidden');
+      document.title = guide.title + ' - Forma Rosa Creative';
+    })
+    .catch(function (e) {
+      fail('COULD NOT LOAD (' + (e && e.message ? e.message : e) + ')');
+    });
+})();
+</script>

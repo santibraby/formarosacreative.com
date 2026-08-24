@@ -8,8 +8,10 @@
 # - platforms = small line above the pitch, e.g. "+Windows  +Mac"
 # (optional; leave empty to hide it).
 #
-# - zip/pdf url = the file that gets emailed AND the "grab the
-# zip right now" link on the thank-you page.
+# - zip/pdf url = the file behind the DOWNLOAD button on
+# /guides/download/ (the delivery email links there, never to
+# the zip directly - spam filters) AND the "grab the zip right
+# now" link on the thank-you page.
 # - email subject = the delivery email's subject line (optional;
 # falls back to a generic one).
 # - The WordPress snippet reads this file for the delivery email
@@ -32,6 +34,8 @@
 # 3. In WordPress: duplicate an existing guide page under the
 # Guides parent, set its slug, and change data-guide in its
 # HTML widget to the new guide-id.
+# 4. Also duplicate a download page under the Guides parent,
+# slug "download-<guide-id>" - nothing to edit inside it.
 #
 # Lines starting with # are ignored. Push to go live (~5 min).
 # ============================================================
