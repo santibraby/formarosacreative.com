@@ -5,7 +5,7 @@
 # One line per guide (10 parts separated by | ):
 # guide-id | Title | One-line pitch | page link | cover image url | What's-inside intro | Item one; Item two; Item three | zip/pdf url | email subject | platforms
 #
-# - platforms = small line above the pitch, e.g. "+Windows  +Mac"
+# - platforms = small line above the pitch, e.g. "+Windows +Mac"
 # (optional; leave empty to hide it).
 #
 # - zip/pdf url = the file behind the DOWNLOAD button on
@@ -40,4 +40,5 @@
 # Lines starting with # are ignored. Push to go live (~5 min).
 # ============================================================
 
-texture-maps | Right-Click an Image to Generate Texture Maps | Generate texturemaps from a single image. Turn an image into all 6 PBR maps in a folder next to it, and save yourself the hours in Photoshop. | /guides/generate-texture-maps/ | https://formarosacreative.com/wp-content/uploads/2026/08/TextureMaps-Poster-1.jpg | Six maps the generator builds from a single image, in the order it creates them. Each one is saved as its own file in a folder next to your original, so by the end you have a full PBR texture set ready to drop straight into your material. | Normal; Bump / Height; Roughness; Metallic; Ambient Occlusion; Albedo | https://formarosacreative.com/wp-content/uploads/2026/08/TextureMaps.zip | Your texture maps tool. | +Windows  +Mac
+texture-maps | Right-Click an Image to Generate Texture Maps | Generate texturemaps from a single image. Turn an image into all 6 PBR maps in a folder next to it, and save yourself the hours in Photoshop. | /guides/generate-texture-maps/ | https://formarosacreative.com/wp-content/uploads/2026/09/LEADING-TEXTURE-MAPS.jpg | Six maps the generator builds from a single image, in the order it creates them. Each one is saved as its own file in a folder next to your original, so by the end you have a full PBR texture set ready to drop straight into your material. | Normal; Bump / Height; Roughness; Metallic; Ambient Occlusion; Albedo | https://formarosacreative.com/wp-content/uploads/2026/08/TextureMaps.zip | Your texture maps tool. | +Windows +Mac
+pdf-to-dxf | Right-Click a PDF Convert to DXF | Convert a vector PDF from Rhino Layout into a DXF with all the text and layers intact. Skip the redraw and keep working. | /guides/pdf-to-dxf/ | https://formarosacreative.com/wp-content/uploads/2026/09/LEADING-PDF-TO-DXF.jpg | Everything the converter carries across from your PDF into the DXF, saved right next to the original file. If it was in your layout, it makes the trip - the drawing opens in CAD ready to edit, not ready to rebuild. | Vector linework as true curves and polylines; Text as editable text, not outlines; The full layer structure, names intact; Line colors and weights; True scale, 1 to 1 with your layout; Each page of a multi-page PDF as its own DXF | https://formarosacreative.com/wp-content/uploads/2026/09/PDF-TO-DXF.zip | Your PDF to DXF tool | +Windows +Mac
