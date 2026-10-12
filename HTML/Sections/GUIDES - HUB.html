@@ -19,7 +19,9 @@
 
 <section class="frc-ghub" data-frc-ghub aria-label="Free guides">
 
-  <a class="frc-ghub__wordmark" href="https://formarosacreative.com">FORMA ROSA CREATIVE</a>
+  <!-- shared sub-page header (tagline, brand, menu, contact) -
+       injected from SUBPAGE - HEADER.html -->
+  <div data-frc-subhead></div>
 
   <p class="frc-ghub__badge">FREE GUIDES</p>
 
@@ -103,20 +105,6 @@
   .frc-ghub *,
   .frc-ghub *::before,
   .frc-ghub *::after { box-sizing: border-box; }
-
-  .frc-ghub__wordmark {
-    display: inline-block;
-    margin: 0 auto clamp(44px, 7vh, 84px);
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(17px, 1.6vw, 22px);
-    letter-spacing: 0.18em;
-    color: #d4c4b5;
-    text-decoration: none;
-    transition: color 200ms ease;
-  }
-  .frc-ghub__wordmark:hover,
-  .frc-ghub__wordmark:focus-visible { color: var(--peach-50); outline: none; }
 
   /* clean rectangle in full-saturation brand orange, dark text */
   .frc-ghub__badge {
@@ -296,6 +284,21 @@
 
   var cardsBox = widget.querySelector('[data-frc-ghub-cards]');
   var loadingMsg = widget.querySelector('[data-frc-ghub-loading]');
+
+  /* inject the shared sub-page header and mark this page's
+     menu item (no scripts inside it - styles apply as-is) */
+  var headBox = widget.querySelector('[data-frc-subhead]');
+  if (headBox) {
+    fetch('https://raw.githubusercontent.com/santibraby/formarosacreative.com/main/HTML/Sections/SUBPAGE%20-%20HEADER.html', { cache: 'no-cache' })
+      .then(function (r) { return r.ok ? r.text() : ''; })
+      .then(function (html) {
+        if (!html) return;
+        headBox.innerHTML = html;
+        var here = headBox.querySelector('[data-frc-sub-link="guides"]');
+        if (here) here.classList.add('is-here');
+      })
+      .catch(function () {});
+  }
 
   /* count the click - one ping per browser session per page */
   try {

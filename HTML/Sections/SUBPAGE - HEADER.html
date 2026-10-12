@@ -1,0 +1,159 @@
+<!-- ============================================================
+     Section: SUB-PAGE HEADER - shared by /guides, /case-studies
+     (and any future sub page).
+     Class:   frc-sub
+
+     A light version of the home header, in normal page flow:
+       MONUMENTS TO NATURE tagline + hairline rule
+       FORMA ROSA CREATIVE (top left, links home)
+       menu top right: ARTICLES / GUIDES / CASE STUDIES / IG / COLLAB
+       [+] CONTACT accordion under the brand (native details -
+       no JS needed)
+
+     The portfolio homepage is called ARTICLES in this menu.
+
+     HOW IT IS USED: the hub sections fetch this file from GitHub
+     and inject it into their [data-frc-subhead] placeholder -
+     there is no separate loader and no WordPress widget for it.
+     The injecting page marks the current menu link with
+     .is-here (dimmed, not clickable-looking).
+
+     [EDIT] SLOT: tagline, contact lines, menu labels.
+     ============================================================ -->
+
+<div class="frc-sub" data-frc-sub>
+
+  <p class="frc-sub__tagline">MONUMENTS TO NATURE</p>
+  <div class="frc-sub__rule" aria-hidden="true"></div>
+
+  <div class="frc-sub__bar">
+    <a href="https://formarosacreative.com" class="frc-sub__logo" aria-label="Forma Rosa Creative - home">
+      FORMA ROSA CREATIVE
+    </a>
+    <nav class="frc-sub__menu" aria-label="Site">
+      <a href="https://formarosacreative.com" data-frc-sub-link="articles">ARTICLES</a>
+      <a href="https://formarosacreative.com/guides/" data-frc-sub-link="guides">GUIDES</a>
+      <a href="https://formarosacreative.com/case-studies/" data-frc-sub-link="case-studies">CASE STUDIES</a>
+      <a href="https://instagram.com/formarosacreative" target="_blank" rel="noopener">IG</a>
+      <a href="https://formarosacreative.com/collab" data-frc-sub-link="collab">COLLAB</a>
+    </nav>
+  </div>
+
+  <details class="frc-sub__acc">
+    <summary>
+      <span class="frc-sub__bracket" aria-hidden="true"></span>
+      <span class="frc-sub__label">CONTACT</span>
+    </summary>
+    <ul class="frc-sub__list">
+      <li>creative@formarosastudio.com</li>
+      <li>Brooklyn, NY</li>
+    </ul>
+  </details>
+
+</div>
+
+<style>
+  .frc-sub {
+    --sub-ink:      #e8e0d8;
+    --sub-head:     #d4c4b5;
+    --sub-dim:      #999999;
+    --sub-rule:     #3a3a3a;
+    --sub-hover:    #F0A178;
+    --sub-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sub-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+
+    text-align: left;
+    color: var(--sub-ink);
+    font-family: var(--sub-mono);
+    margin-bottom: clamp(40px, 7vh, 80px);
+  }
+  .frc-sub *,
+  .frc-sub *::before,
+  .frc-sub *::after { box-sizing: border-box; }
+
+  .frc-sub__tagline {
+    margin: 0;
+    padding: 0.25em 0 0.6em;
+    text-align: center;
+    font-size: clamp(10px, 0.85vw, 12px);
+    letter-spacing: 0.12em;
+    color: var(--sub-dim);
+    line-height: 1.5;
+  }
+  .frc-sub__rule {
+    border-top: 1px solid var(--sub-rule);
+  }
+
+  .frc-sub__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px 18px;
+    padding: 0.8rem 0 0.9rem;
+  }
+  .frc-sub__logo {
+    font-family: var(--sub-display);
+    font-weight: 600;
+    font-size: clamp(16px, 1.5vw, 21px);
+    letter-spacing: 0.18em;
+    color: var(--sub-head);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+  .frc-sub__logo:hover,
+  .frc-sub__logo:focus-visible { color: var(--sub-hover); outline: none; }
+
+  .frc-sub__menu {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+  }
+  .frc-sub__menu a {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--sub-ink);
+    text-decoration: none;
+    transition: color 200ms ease;
+    background: transparent !important;
+  }
+  .frc-sub__menu a:hover,
+  .frc-sub__menu a:focus-visible { color: var(--sub-hover); outline: none; }
+  .frc-sub__menu a.is-here {
+    color: var(--sub-dim);
+    pointer-events: none;
+  }
+
+  /* [+] CONTACT accordion - native details, no JS */
+  .frc-sub__acc { margin-top: 2px; }
+  .frc-sub__acc summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    list-style: none;
+    cursor: pointer;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--sub-ink);
+  }
+  .frc-sub__acc summary::-webkit-details-marker { display: none; }
+  .frc-sub__acc summary:hover { color: var(--sub-hover); }
+  .frc-sub__bracket::before { content: "[+]"; }
+  .frc-sub__acc[open] .frc-sub__bracket::before { content: "[-]"; }
+  .frc-sub__list {
+    margin: 10px 0 0;
+    padding: 0 0 0 30px;
+    list-style: none;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    line-height: 2;
+    color: var(--sub-dim);
+  }
+
+  @media (max-width: 719px) {
+    .frc-sub__bar { padding: 0.9rem 0; }
+    .frc-sub__menu { gap: 8px 14px; }
+    .frc-sub__menu a { font-size: 10px; }
+  }
+</style>
