@@ -277,13 +277,13 @@
     height: 44px;
     transform: translate(-50%, -50%);
     background: url("https://formarosacreative.com/wp-content/uploads/2026/10/WHITE-SHAPE-LOGO.png") center / contain no-repeat;
-    animation: frc-cs-rotate 1.4s linear infinite;
+    animation: frc-cs-breathe 1.6s ease-in-out infinite alternate;
     pointer-events: none;
   }
   .frc-cs__lb-spin[hidden] { display: none; }
-  @keyframes frc-cs-rotate {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
+  @keyframes frc-cs-breathe {
+    from { transform: translate(-50%, -50%) scale(1); }
+    to { transform: translate(-50%, -50%) scale(0.6); }
   }
   .frc-cs__lb-msg {
     font-family: var(--font-mono);
