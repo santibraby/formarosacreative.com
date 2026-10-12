@@ -1,8 +1,17 @@
 # ============================================================
 # CASE STUDIES INDEX - drives the /case-studies page.
 #
-# One line per case study (5 parts separated by | ):
-# case-id | Title | One-line blurb | poster image url | pdf url
+# One line per case study (7 parts separated by | ):
+# case-id | Project type | Project industry | Client | One-line blurb | poster image url | pdf url
+#
+# - Project type: e.g. Creative Direction, Design Development.
+# - Project industry: e.g. Experiential, Interior Design,
+#   Product Design.
+# - Client is OPTIONAL - leave it empty (nothing between the
+#   pipes) and the line does not show on the card. Keep it
+#   empty for NDA clients.
+# - Card layout: type is the title, industry + client sit on
+#   small lines below it, then the blurb.
 #
 # - The poster is the deck's first page, uploaded as an image.
 # The UPLOAD PDF button in the Articles app does this for you:
@@ -22,5 +31,5 @@
 # Lines starting with # are ignored. Push to go live (~5 min).
 # ============================================================
 
-CS 26-01 | CREATIVE DIRECTION - EXPERIENTIAL | Forma Rosa Creative Gallery Exhibit for the Wave Column | https://formarosacreative.com/wp-content/uploads/2026/10/CS-26-01-CREATIVE-DIRECTION-EXPERIENTIAL-poster.jpg | https://formarosacreative.com/wp-content/uploads/2026/10/CS-26-01-CREATIVE-DIRECTION-EXPERIENTIAL.pdf
-CS 26-03 | DESIGN DEVELOPMENT - INTERIOR ARCHITECTURE | Forma Rosa Creative Technical and Development for OAD Interiors | https://formarosacreative.com/wp-content/uploads/2026/10/CS-26-03-DESIGN-DEVELOPMENT-INTERIOR-ARCHITECTURE-poster.jpg | https://formarosacreative.com/wp-content/uploads/2026/10/CS-26-03-DESIGN-DEVELOPMENT-INTERIOR-ARCHITECTURE.pdf
+CS 26-01 | CREATIVE DIRECTION | EXPERIENTIAL |  | Forma Rosa Creative Gallery Exhibit for the Wave Column | https://formarosacreative.com/wp-content/uploads/2026/10/CS-26-01-CREATIVE-DIRECTION-EXPERIENTIAL-poster.jpg | https://formarosacreative.com/wp-content/uploads/2026/10/CS-26-01-CREATIVE-DIRECTION-EXPERIENTIAL.pdf
+CS 26-03 | DESIGN DEVELOPMENT | INTERIOR ARCHITECTURE |  | Forma Rosa Creative Technical and Development for OAD Interiors | https://formarosacreative.com/wp-content/uploads/2026/10/CS-26-03-DESIGN-DEVELOPMENT-INTERIOR-ARCHITECTURE-poster.jpg | https://formarosacreative.com/wp-content/uploads/2026/10/CS-26-03-DESIGN-DEVELOPMENT-INTERIOR-ARCHITECTURE.pdf

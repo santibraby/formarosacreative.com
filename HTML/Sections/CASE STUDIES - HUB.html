@@ -43,7 +43,6 @@
     <button class="frc-cs__lb-arrow is-prev" data-frc-cs-prev type="button" aria-label="Previous page">&lt;</button>
     <button class="frc-cs__lb-arrow is-next" data-frc-cs-next type="button" aria-label="Next page">&gt;</button>
     <span class="frc-cs__lb-count" data-frc-cs-count></span>
-    <p class="frc-cs__lb-hint">scroll to zoom &middot; drag to pan &middot; arrows flip pages</p>
     <span class="frc-cs__lb-zoom" data-frc-cs-zoom></span>
   </div>
 
@@ -202,6 +201,22 @@
     line-height: 1.3;
     color: var(--grey-0);
   }
+  .frc-cs__card-ind {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-dim);
+  }
+  .frc-cs__card-client {
+    display: block;
+    margin-top: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--peach-25);
+  }
   .frc-cs__card-blurb {
     display: block;
     margin-top: 8px;
@@ -339,24 +354,10 @@
     letter-spacing: 0.22em;
     color: var(--ink-dim);
   }
-  .frc-cs__lb-hint {
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    margin: 0;
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 12px;
-    color: var(--ink-dim);
-    pointer-events: none;
-  }
   @media (max-width: 719px) {
     .frc-cs__lb-stage { max-width: calc(100vw - 20px); }
     .frc-cs__lb-arrow.is-prev { left: 8px; }
     .frc-cs__lb-arrow.is-next { right: 8px; }
-    .frc-cs__lb-hint { display: none; }
   }
 
   /* --- theme armor: the WP theme paints button hovers with its
@@ -451,8 +452,11 @@
       var t = line.trim();
       if (!t || t.charAt(0) === '#') return;
       var parts = t.split('|').map(function (p) { return p.trim(); });
-      if (parts.length < 5) return;
-      out.push({ id: parts[0], title: parts[1], blurb: parts[2], img: parts[3], pdf: parts[4] });
+      if (parts.length < 7) return;
+      out.push({
+        id: parts[0], type: parts[1], ind: parts[2], client: parts[3],
+        blurb: parts[4], img: parts[5], pdf: parts[6]
+      });
     });
     return out;
   }
@@ -733,8 +737,13 @@
         var card = document.createElement('button');
         card.type = 'button';
         card.className = 'frc-cs__card';
-        card.innerHTML = '<img class="frc-cs__card-img" src="' + esc(c.img) + '" alt="' + esc(c.title) + '" loading="lazy" decoding="async">'
-          + '<span class="frc-cs__card-title">' + esc(c.title) + '</span>'
+        /* type is the title; industry and client stack on small
+           lines below it (client is optional - hides if empty) */
+        var alt = c.type + (c.type && c.ind ? ' - ' : '') + c.ind;
+        card.innerHTML = '<img class="frc-cs__card-img" src="' + esc(c.img) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">'
+          + '<span class="frc-cs__card-title">' + esc(c.type) + '</span>'
+          + (c.ind ? '<span class="frc-cs__card-ind">' + esc(c.ind) + '</span>' : '')
+          + (c.client ? '<span class="frc-cs__card-client">' + esc(c.client) + '</span>' : '')
           + '<span class="frc-cs__card-blurb">' + esc(c.blurb) + '</span>'
           + '<span class="frc-cs__card-cta">VIEW THE CASE STUDY</span>';
         card.addEventListener('click', function () { openCase(c); });
