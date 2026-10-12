@@ -17,7 +17,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <section class="frc-cs" data-frc-cs aria-label="Case studies">
 
@@ -28,7 +28,7 @@
   <!-- [EDIT] SLOT: label + title + subline (collab-page title format) -->
   <div class="frc-cs__head">
     <p class="frc-cs__label">CASE STUDIES</p>
-    <h1 class="frc-cs__title">Selected work, documented.</h1>
+    <h1 class="frc-cs__title">Selected work,<br><em>documented.</em></h1>
     <p class="frc-cs__subtitle">Full project walkthroughs from the practice. Click a cover to flip through the deck.</p>
   </div>
 
@@ -123,11 +123,12 @@
   .frc-cs *::before,
   .frc-cs *::after { box-sizing: border-box; }
 
-  /* collab-page title format: mono label over a large light
-     serif title, left aligned */
-  .frc-cs__head { text-align: left; }
+  /* the Disciplines-header format from the collab page, copied
+     exactly: centered mono label, light serif title with an
+     italic cream second line, sans intro */
+  .frc-cs__head { text-align: center; }
   .frc-cs__label {
-    margin: 0 0 16px;
+    margin: 0 0 20px;
     font-family: var(--font-mono);
     font-size: 11px;
     letter-spacing: 0.18em;
@@ -135,22 +136,27 @@
     color: #d4c4b5;
   }
   .frc-cs__title {
-    margin: 0;
+    margin: 0 0 20px;
     font-family: var(--font-display);
     font-weight: 300;
-    font-size: clamp(2rem, 4vw, 3.25rem);
-    line-height: 1.1;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.15;
     letter-spacing: -0.02em;
     color: #f5f1ec;
   }
-  .frc-cs__subtitle {
-    margin: 14px 0 0;
-    max-width: 52ch;
-    font-family: var(--font-serif);
+  .frc-cs__title em {
     font-style: italic;
-    font-size: clamp(15px, 1.5vw, 18px);
-    line-height: 1.6;
-    color: var(--peach-25);
+    font-weight: 400;   /* italic 400 (italic 300 is unreliable on Google Fonts) */
+    color: #d4c4b5;
+  }
+  .frc-cs__subtitle {
+    margin: 0 auto;
+    max-width: 560px;
+    font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #999999;
   }
 
   .frc-cs__note {
@@ -433,7 +439,9 @@
     .frc-cs__lb-spin { animation: none !important; }
   }
   @media (max-width: 719px) {
-    .frc-cs__title { font-size: 2rem; }
+    .frc-cs__label { font-size: 10px; }
+    .frc-cs__title { font-size: 1.875rem; }
+    .frc-cs__subtitle { font-size: 14px; }
   }
   /* --- site footer: one evenly spaced line -------------------- */
   .frc-cs__sitefoot {
