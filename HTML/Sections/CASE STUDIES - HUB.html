@@ -37,6 +37,7 @@
     <button class="frc-cs__lb-close" data-frc-cs-close type="button" aria-label="Close">CLOSE  X</button>
     <div class="frc-cs__lb-stage" data-frc-cs-stage>
       <canvas class="frc-cs__lb-canvas" data-frc-cs-canvas></canvas>
+      <div class="frc-cs__lb-spin" data-frc-cs-spin hidden></div>
       <p class="frc-cs__lb-msg" data-frc-cs-msg hidden></p>
     </div>
     <div class="frc-cs__lb-nav">
@@ -257,7 +258,21 @@
     max-width: 92vw;
     max-height: 80vh;
     box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
-    background: #ffffff;
+    /* dark while empty - the rendered pdf page paints its own
+       white, so there is no white flash between pages */
+    background: #111111;
+  }
+  .frc-cs__lb-spin {
+    width: 30px;
+    height: 30px;
+    border: 2px solid rgba(240, 240, 240, 0.18);
+    border-top-color: #F0F0F0;
+    border-radius: 50%;
+    animation: frc-cs-rotate 0.8s linear infinite;
+  }
+  .frc-cs__lb-spin[hidden] { display: none; }
+  @keyframes frc-cs-rotate {
+    to { transform: rotate(360deg); }
   }
   .frc-cs__lb-msg {
     font-family: var(--font-mono);
@@ -290,9 +305,41 @@
     color: var(--ink-dim);
   }
 
+  /* --- theme armor: the WP theme paints button hovers with its
+     own accent color - pin the background and text color of
+     every button in this section so it cannot bleed through --- */
+  .frc-cs button {
+    -webkit-appearance: none;
+    appearance: none;
+    box-shadow: none !important;
+    text-decoration: none !important;
+  }
+  .frc-cs__card,
+  .frc-cs__card:hover,
+  .frc-cs__card:focus,
+  .frc-cs__card:active {
+    background: var(--panel) !important;
+    color: var(--grey-0) !important;
+  }
+  .frc-cs__lb-close,
+  .frc-cs__lb-close:hover,
+  .frc-cs__lb-close:focus,
+  .frc-cs__lb-close:active,
+  .frc-cs__lb-arrow,
+  .frc-cs__lb-arrow:hover,
+  .frc-cs__lb-arrow:focus,
+  .frc-cs__lb-arrow:active {
+    background: transparent !important;
+  }
+  .frc-cs__lb-close:hover,
+  .frc-cs__lb-close:focus { color: var(--peach-75) !important; }
+  .frc-cs__lb-arrow:hover,
+  .frc-cs__lb-arrow:focus { color: var(--peach-50) !important; }
+
   @media (prefers-reduced-motion: reduce) {
     .frc-cs * { transition: none !important; }
     .frc-cs__card:hover { transform: none; }
+    .frc-cs__lb-spin { animation: none !important; }
   }
   @media (max-width: 719px) {
     .frc-cs__title { font-size: clamp(30px, 8.5vw, 38px); }
@@ -316,6 +363,7 @@
   var lbCanvas = widget.querySelector('[data-frc-cs-canvas]');
   var lbMsg = widget.querySelector('[data-frc-cs-msg]');
   var lbCount = widget.querySelector('[data-frc-cs-count]');
+  var lbSpin = widget.querySelector('[data-frc-cs-spin]');
 
   /* count the click - one ping per browser session per page */
   try {
@@ -375,33 +423,46 @@
   var pageNum = 1;
   var rendering = false;
 
+  function setSpin(on) {
+    if (!lbSpin) return;
+    if (on) lbSpin.removeAttribute('hidden');
+    else lbSpin.setAttribute('hidden', '');
+  }
   function showMsg(t) {
     lbMsg.textContent = t;
     lbMsg.removeAttribute('hidden');
     lbCanvas.setAttribute('hidden', '');
+    setSpin(false);
   }
   function showCanvas() {
     lbMsg.setAttribute('hidden', '');
     lbCanvas.removeAttribute('hidden');
+    setSpin(false);
   }
 
   function renderPage() {
     if (!doc || rendering) return;
     rendering = true;
+    var dpr = window.devicePixelRatio || 1;
     doc.getPage(pageNum).then(function (page) {
       var maxW = Math.min(window.innerWidth * 0.92, 1400);
       var maxH = window.innerHeight * 0.8;
       var v1 = page.getViewport({ scale: 1 });
       var scale = Math.min(maxW / v1.width, maxH / v1.height);
-      var dpr = window.devicePixelRatio || 1;
       var vp = page.getViewport({ scale: scale * dpr });
-      lbCanvas.width = vp.width;
-      lbCanvas.height = vp.height;
-      lbCanvas.style.width = Math.floor(vp.width / dpr) + 'px';
-      lbCanvas.style.height = Math.floor(vp.height / dpr) + 'px';
-      var ctx = lbCanvas.getContext('2d');
-      return page.render({ canvasContext: ctx, viewport: vp }).promise;
-    }).then(function () {
+      /* double buffer: render offscreen first, then swap - the
+         old page stays visible, so flips never flash */
+      var off = document.createElement('canvas');
+      off.width = vp.width;
+      off.height = vp.height;
+      return page.render({ canvasContext: off.getContext('2d'), viewport: vp }).promise
+        .then(function () { return { off: off, vp: vp }; });
+    }).then(function (r) {
+      lbCanvas.width = r.vp.width;
+      lbCanvas.height = r.vp.height;
+      lbCanvas.style.width = Math.floor(r.vp.width / dpr) + 'px';
+      lbCanvas.style.height = Math.floor(r.vp.height / dpr) + 'px';
+      lbCanvas.getContext('2d').drawImage(r.off, 0, 0);
       rendering = false;
       lbCount.textContent = 'PAGE ' + pageNum + ' OF ' + doc.numPages;
       showCanvas();
@@ -429,6 +490,7 @@
     lb.removeAttribute('hidden');
     document.body.style.overflow = 'hidden';
     showMsg('LOADING THE DECK ...');
+    setSpin(true);
     fetch(c.pdf, { cache: 'force-cache' })
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
