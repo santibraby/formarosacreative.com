@@ -23,11 +23,12 @@
        injected from SUBPAGE - HEADER.html -->
   <div data-frc-subhead></div>
 
-  <p class="frc-ghub__badge">FREE GUIDES</p>
-
-  <!-- [EDIT] SLOT: title + subline -->
-  <h1 class="frc-ghub__title">Guides from the studio.</h1>
-  <p class="frc-ghub__subtitle">Practical tools and workflows from the practice - free, straight to your inbox.</p>
+  <!-- [EDIT] SLOT: label + title + subline (collab-page title format) -->
+  <div class="frc-ghub__head">
+    <p class="frc-ghub__label">FREE GUIDES</p>
+    <h1 class="frc-ghub__title">Guides from the studio.</h1>
+    <p class="frc-ghub__subtitle">Practical tools and workflows from the practice - free, straight to your inbox.</p>
+  </div>
 
   <p class="frc-ghub__note" data-frc-ghub-loading>LOADING GUIDES ...</p>
   <div class="frc-ghub__cards" data-frc-ghub-cards></div>
@@ -106,29 +107,28 @@
   .frc-ghub *::before,
   .frc-ghub *::after { box-sizing: border-box; }
 
-  /* clean rectangle in full-saturation brand orange, dark text */
-  .frc-ghub__badge {
-    display: table;
-    margin: 0 auto clamp(26px, 4vh, 38px);
-    padding: 9px 22px;
-    background: var(--peach-100);
-    font-size: 10px;
-    letter-spacing: 0.28em;
-    font-weight: 600;
-    color: #111111;
+  /* collab-page title format: mono label over a large light
+     serif title, left aligned */
+  .frc-ghub__head { text-align: left; }
+  .frc-ghub__label {
+    margin: 0 0 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #d4c4b5;
   }
-
   .frc-ghub__title {
-    margin: 0 auto;
-    max-width: 18ch;
+    margin: 0;
     font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(34px, 4.8vw, 56px);
-    line-height: 1.12;
-    color: var(--grey-0);
+    font-weight: 300;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #f5f1ec;
   }
   .frc-ghub__subtitle {
-    margin: clamp(16px, 2.4vh, 24px) auto 0;
+    margin: 14px 0 0;
     max-width: 52ch;
     font-family: var(--font-serif);
     font-style: italic;
@@ -246,7 +246,7 @@
     .frc-ghub__card:hover { transform: none; }
   }
   @media (max-width: 719px) {
-    .frc-ghub__title { font-size: clamp(30px, 8.5vw, 38px); }
+    .frc-ghub__title { font-size: 2rem; }
     .frc-ghub__cards { grid-template-columns: 1fr; max-width: 340px; }
   }
   /* --- site footer: one evenly spaced line -------------------- */
