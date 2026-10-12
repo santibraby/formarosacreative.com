@@ -40,11 +40,9 @@
       <div class="frc-cs__lb-spin" data-frc-cs-spin hidden></div>
       <p class="frc-cs__lb-msg" data-frc-cs-msg hidden></p>
     </div>
-    <div class="frc-cs__lb-nav">
-      <button class="frc-cs__lb-arrow" data-frc-cs-prev type="button" aria-label="Previous page">&lt;</button>
-      <span class="frc-cs__lb-count" data-frc-cs-count></span>
-      <button class="frc-cs__lb-arrow" data-frc-cs-next type="button" aria-label="Next page">&gt;</button>
-    </div>
+    <button class="frc-cs__lb-arrow is-prev" data-frc-cs-prev type="button" aria-label="Previous page">&lt;</button>
+    <button class="frc-cs__lb-arrow is-next" data-frc-cs-next type="button" aria-label="Next page">&gt;</button>
+    <span class="frc-cs__lb-count" data-frc-cs-count></span>
   </div>
 
 </section>
@@ -226,12 +224,16 @@
     position: fixed;
     inset: 0;
     z-index: 9999;
-    background: rgba(17, 17, 17, 0.96);
+    /* the same grid canvas as the rest of the site */
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: var(--grid-size) var(--grid-size);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 0;
   }
   .frc-cs__lb[hidden] { display: none; }
   .frc-cs__lb-close {
@@ -248,31 +250,40 @@
   }
   .frc-cs__lb-close:hover { color: var(--peach-75); }
   .frc-cs__lb-stage {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 92vw;
-    max-height: 80vh;
+    max-width: calc(100vw - 150px);
+    max-height: calc(100vh - 48px);
+    min-width: 120px;
+    min-height: 120px;
   }
   .frc-cs__lb-canvas {
-    max-width: 92vw;
-    max-height: 80vh;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+    max-width: calc(100vw - 150px);
+    max-height: calc(100vh - 48px);
+    border-radius: 6px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
     /* dark while empty - the rendered pdf page paints its own
        white, so there is no white flash between pages */
     background: #111111;
   }
+  /* the white FRC shape logo, rotating, centered over the stage */
   .frc-cs__lb-spin {
-    width: 30px;
-    height: 30px;
-    border: 2px solid rgba(240, 240, 240, 0.18);
-    border-top-color: #F0F0F0;
-    border-radius: 50%;
-    animation: frc-cs-rotate 0.8s linear infinite;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 44px;
+    height: 44px;
+    transform: translate(-50%, -50%);
+    background: url("https://formarosacreative.com/wp-content/uploads/2026/10/WHITE-SHAPE-LOGO.png") center / contain no-repeat;
+    animation: frc-cs-rotate 1.4s linear infinite;
+    pointer-events: none;
   }
   .frc-cs__lb-spin[hidden] { display: none; }
   @keyframes frc-cs-rotate {
-    to { transform: rotate(360deg); }
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
   }
   .frc-cs__lb-msg {
     font-family: var(--font-mono);
@@ -280,29 +291,43 @@
     letter-spacing: 0.22em;
     color: var(--ink-dim);
   }
-  .frc-cs__lb-nav {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    margin-top: 18px;
-  }
+  /* arrows float mid-height on either side of the page */
   .frc-cs__lb-arrow {
-    background: transparent;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background: rgba(23, 22, 20, 0.88);
     border: 1px solid #29251f;
     border-radius: 3px;
-    padding: 8px 16px;
+    padding: 16px 16px;
     color: var(--peach-25);
     font-family: var(--font-mono);
-    font-size: 13px;
+    font-size: 16px;
+    line-height: 1;
     cursor: pointer;
     transition: border-color 150ms ease, color 150ms ease;
   }
+  .frc-cs__lb-arrow.is-prev { left: 18px; }
+  .frc-cs__lb-arrow.is-next { right: 18px; }
   .frc-cs__lb-arrow:hover { border-color: var(--peach-50); color: var(--peach-50); }
+  /* small counter pinned to the bottom edge - takes no layout space */
   .frc-cs__lb-count {
+    position: absolute;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.22em;
     color: var(--ink-dim);
+  }
+  @media (max-width: 719px) {
+    .frc-cs__lb-stage,
+    .frc-cs__lb-canvas { max-width: calc(100vw - 20px); }
+    .frc-cs__lb-arrow.is-prev { left: 8px; }
+    .frc-cs__lb-arrow.is-next { right: 8px; }
   }
 
   /* --- theme armor: the WP theme paints button hovers with its
@@ -324,12 +349,14 @@
   .frc-cs__lb-close,
   .frc-cs__lb-close:hover,
   .frc-cs__lb-close:focus,
-  .frc-cs__lb-close:active,
+  .frc-cs__lb-close:active {
+    background: transparent !important;
+  }
   .frc-cs__lb-arrow,
   .frc-cs__lb-arrow:hover,
   .frc-cs__lb-arrow:focus,
   .frc-cs__lb-arrow:active {
-    background: transparent !important;
+    background: rgba(23, 22, 20, 0.88) !important;
   }
   .frc-cs__lb-close:hover,
   .frc-cs__lb-close:focus { color: var(--peach-75) !important; }
@@ -439,14 +466,25 @@
     lbCanvas.removeAttribute('hidden');
     setSpin(false);
   }
+  function showLoading() {
+    lbMsg.setAttribute('hidden', '');
+    lbCanvas.setAttribute('hidden', '');
+    setSpin(true);
+  }
 
   function renderPage() {
     if (!doc || rendering) return;
     rendering = true;
+    /* instant feedback on every flip: blank the canvas to dark
+       and spin the logo until the new page is ready */
+    lbCanvas.width = lbCanvas.width;
+    setSpin(true);
     var dpr = window.devicePixelRatio || 1;
     doc.getPage(pageNum).then(function (page) {
-      var maxW = Math.min(window.innerWidth * 0.92, 1400);
-      var maxH = window.innerHeight * 0.8;
+      /* as big as fits: equal 24px top/bottom, room for the side
+         arrows (slimmer margins on phones) */
+      var maxW = window.innerWidth - (window.innerWidth < 720 ? 20 : 150);
+      var maxH = window.innerHeight - 48;
       var v1 = page.getViewport({ scale: 1 });
       var scale = Math.min(maxW / v1.width, maxH / v1.height);
       var vp = page.getViewport({ scale: scale * dpr });
@@ -489,8 +527,7 @@
     lbCount.textContent = '';
     lb.removeAttribute('hidden');
     document.body.style.overflow = 'hidden';
-    showMsg('LOADING THE DECK ...');
-    setSpin(true);
+    showLoading();
     fetch(c.pdf, { cache: 'force-cache' })
       .then(function (r) {
         if (!r.ok) throw new Error('HTTP ' + r.status);
