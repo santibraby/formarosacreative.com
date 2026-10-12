@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<section class="frc-ghub" data-frc-ghub aria-label="Free guides">
+<section class="frc-ghub" data-frc-ghub aria-label="Free workflows">
 
   <!-- shared sub-page header (tagline, brand, menu, contact) -
        injected from SUBPAGE - HEADER.html -->
@@ -25,19 +25,19 @@
 
   <!-- [EDIT] SLOT: label + title + subline (collab-page title format) -->
   <div class="frc-ghub__head">
-    <p class="frc-ghub__label">FREE GUIDES</p>
-    <h1 class="frc-ghub__title">Guides from<br><em>the studio.</em></h1>
+    <p class="frc-ghub__label">FREE WORKFLOWS</p>
+    <h1 class="frc-ghub__title">Workflows from<br><em>the studio.</em></h1>
     <p class="frc-ghub__subtitle">Practical tools and workflows from the practice - free, straight to your inbox.</p>
   </div>
 
-  <p class="frc-ghub__note" data-frc-ghub-loading>LOADING GUIDES ...</p>
+  <p class="frc-ghub__note" data-frc-ghub-loading>LOADING WORKFLOWS ...</p>
   <div class="frc-ghub__cards" data-frc-ghub-cards></div>
 
   <!-- footer bio -->
   <!-- [EDIT] SLOT: bio line -->
   <div class="frc-ghub__bio">
     <img class="frc-ghub__bio-photo" src="https://formarosacreative.com/wp-content/uploads/2026/08/PROFILE-ORANGE-BACKGROUND-01.png" alt="Santiago Braby Brown" loading="lazy" decoding="async">
-    <p class="frc-ghub__bio-text">I'm Santi. I run Forma Rosa Creative, and I've spent the last 15 years working in, while developing, workflows and design systems for the Architecture, Interior Design, and Product Design industries. These guides are what I wish I'd had at the start.</p>
+    <p class="frc-ghub__bio-text">I'm Santi. I run Forma Rosa Creative, and I've spent the last 15 years working in, while developing, workflows and design systems for the Architecture, Interior Design, and Product Design industries. These workflows are what I wish I'd had at the start.</p>
   </div>
 
   <!-- site footer -->
@@ -385,17 +385,17 @@
           + '</span>'
           + '<span class="frc-ghub__card-title">' + esc(g.title) + '</span>'
           + '<span class="frc-ghub__card-pitch">' + esc(g.pitch) + '</span>'
-          + '<span class="frc-ghub__card-cta">GET THE FREE GUIDE</span>'
+          + '<span class="frc-ghub__card-cta">GET THE FREE WORKFLOW</span>'
           + '</a>';
       });
       if (cardsBox) cardsBox.innerHTML = html;
       if (loadingMsg) {
         if (guides.length) loadingMsg.remove();
-        else loadingMsg.textContent = 'NO GUIDES YET';
+        else loadingMsg.textContent = 'NO WORKFLOWS YET';
       }
     })
     .catch(function (e) {
-      if (loadingMsg) loadingMsg.textContent = 'COULD NOT LOAD GUIDES (' + (e && e.message ? e.message : e) + ')';
+      if (loadingMsg) loadingMsg.textContent = 'COULD NOT LOAD WORKFLOWS (' + (e && e.message ? e.message : e) + ')';
     });
 })();
 </script>

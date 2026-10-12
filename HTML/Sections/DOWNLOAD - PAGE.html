@@ -22,12 +22,12 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<section class="frc-dl" data-frc-dl aria-label="Download your guide">
+<section class="frc-dl" data-frc-dl aria-label="Download your workflow">
 
   <a class="frc-dl__wordmark" href="https://formarosacreative.com">FORMA ROSA CREATIVE</a>
 
   <!-- [EDIT] SLOT: kicker -->
-  <p class="frc-dl__kicker">YOUR FREE GUIDE</p>
+  <p class="frc-dl__kicker">YOUR FREE WORKFLOW</p>
 
   <h1 class="frc-dl__title" data-frc-dl-title>&nbsp;</h1>
 
@@ -36,12 +36,12 @@
 
   <p class="frc-dl__note" data-frc-dl-loading>LOADING ...</p>
 
-  <a class="frc-dl__btn" data-frc-dl-btn href="#" hidden>DOWNLOAD THE GUIDE</a>
+  <a class="frc-dl__btn" data-frc-dl-btn href="#" hidden>DOWNLOAD THE WORKFLOW</a>
 
   <!-- [EDIT] SLOT: help note -->
   <p class="frc-dl__help" data-frc-dl-help hidden>Trouble downloading? Reply to the delivery email and I will send it over directly.</p>
 
-  <a class="frc-dl__all" href="https://formarosacreative.com/guides/">SEE ALL FREE GUIDES</a>
+  <a class="frc-dl__all" href="https://formarosacreative.com/guides/">SEE ALL FREE WORKFLOWS</a>
 
   <!-- site footer -->
   <footer class="frc-dl__sitefoot">
@@ -280,8 +280,8 @@
 
   function fail(msg) {
     if (loadingMsg) loadingMsg.textContent = msg;
-    if (titleEl) titleEl.textContent = 'Hmm, that guide is not here.';
-    if (subEl) subEl.textContent = 'Head to the guides page and pick it up there.';
+    if (titleEl) titleEl.textContent = 'Hmm, that workflow is not here.';
+    if (subEl) subEl.textContent = 'Head to the workflows page and pick it up there.';
   }
 
   /* guide id comes from the page slug (download-<guide-id>),
@@ -302,7 +302,7 @@
       var guides = parseIndex(text);
       var guide = null;
       guides.forEach(function (g) { if (g.id === gid) guide = g; });
-      if (!guide || !guide.zip) { fail('GUIDE NOT FOUND'); return; }
+      if (!guide || !guide.zip) { fail('WORKFLOW NOT FOUND'); return; }
       if (titleEl) titleEl.textContent = guide.title;
       if (loadingMsg) loadingMsg.remove();
       if (btn) {

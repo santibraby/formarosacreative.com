@@ -32,9 +32,11 @@
     </a>
     <nav class="frc-sub__menu" aria-label="Site">
       <a href="https://formarosacreative.com" data-frc-sub-link="articles">ARTICLES</a>
-      <a href="https://formarosacreative.com/guides/" data-frc-sub-link="guides">GUIDES</a>
+      <span class="frc-sub__sep" aria-hidden="true">/</span>
+      <a href="https://formarosacreative.com/guides/" data-frc-sub-link="guides">WORKFLOWS</a>
+      <span class="frc-sub__sep" aria-hidden="true">/</span>
       <a href="https://formarosacreative.com/case-studies/" data-frc-sub-link="case-studies">CASE STUDIES</a>
-      <a href="https://instagram.com/formarosacreative" target="_blank" rel="noopener">IG</a>
+      <span class="frc-sub__sep" aria-hidden="true">/</span>
       <a href="https://formarosacreative.com/collab" data-frc-sub-link="collab">COLLAB</a>
     </nav>
   </div>
@@ -127,8 +129,16 @@
   .frc-sub__menu a:hover,
   .frc-sub__menu a:focus-visible { color: var(--sub-head); outline: none; }
   .frc-sub__menu a.is-here {
+    color: #F05300;
+    pointer-events: none;
+  }
+  .frc-sub__sep {
+    font-size: clamp(0.75rem, 0.9vw, 0.85rem);
     color: #666666;
     pointer-events: none;
+  }
+  @media (max-width: 767px) {
+    .frc-sub__sep { display: none; }
   }
 
   /* [+] CONTACT accordion - native details, no JS */

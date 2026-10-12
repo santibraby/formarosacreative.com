@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<section class="frc-guide" data-frc-guide aria-label="Free guide">
+<section class="frc-guide" data-frc-guide aria-label="Free workflow">
 
   <a class="frc-guide__wordmark" href="https://formarosacreative.com">FORMA ROSA CREATIVE</a>
 
@@ -42,11 +42,11 @@
     <input type="email" name="email" required placeholder="name@email.com" aria-label="Email address">
     <input type="text" name="website" class="frc-guide__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
     <!-- [EDIT] SLOT: button label -->
-    <button type="submit">SEND ME THE GUIDE</button>
+    <button type="submit">SEND ME THE WORKFLOW</button>
   </form>
 
   <!-- [EDIT] SLOT: fine print -->
-  <p class="frc-guide__fine">Delivered straight to your inbox as a zip file. You will also hear about new projects and guides as they go live. Unsubscribe anytime.</p>
+  <p class="frc-guide__fine">Delivered straight to your inbox as a zip file. You will also hear about new projects and workflows as they go live. Unsubscribe anytime.</p>
 
   <div class="frc-guide__cover" data-frc-g-cover hidden>
     <img class="frc-guide__cover-img" data-frc-g-img src="" alt="">
@@ -64,7 +64,7 @@
   <!-- [EDIT] SLOT: bio line -->
   <div class="frc-guide__bio">
     <img class="frc-guide__bio-photo" src="https://formarosacreative.com/wp-content/uploads/2026/08/PROFILE-ORANGE-BACKGROUND-01.png" alt="Santiago Braby Brown" loading="lazy" decoding="async">
-    <p class="frc-guide__bio-text">I'm Santi. I run Forma Rosa Creative, and I've spent the last 15 years working in, while developing, workflows and design systems for the Architecture, Interior Design, and Product Design industries. This guide is what I wish I'd had at the start.</p>
+    <p class="frc-guide__bio-text">I'm Santi. I run Forma Rosa Creative, and I've spent the last 15 years working in, while developing, workflows and design systems for the Architecture, Interior Design, and Product Design industries. This workflow is what I wish I'd had at the start.</p>
   </div>
 
   <!-- closing repeat of the form -->
@@ -73,13 +73,13 @@
   <form class="frc-guide__form" data-frc-g-form>
     <input type="email" name="email" required placeholder="name@email.com" aria-label="Email address">
     <input type="text" name="website" class="frc-guide__hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-    <button type="submit">SEND ME THE GUIDE</button>
+    <button type="submit">SEND ME THE WORKFLOW</button>
   </form>
-  <p class="frc-guide__fine">Delivered straight to your inbox as a zip file. You will also hear about new projects and guides as they go live. Unsubscribe anytime.</p>
+  <p class="frc-guide__fine">Delivered straight to your inbox as a zip file. You will also hear about new projects and workflows as they go live. Unsubscribe anytime.</p>
 
   <p class="frc-guide__note" data-frc-g-note>LOADING ...</p>
 
-  <a class="frc-guide__all" href="https://formarosacreative.com/guides/">SEE ALL FREE GUIDES</a>
+  <a class="frc-guide__all" href="https://formarosacreative.com/guides/">SEE ALL FREE WORKFLOWS</a>
 
   <!-- site footer -->
   <footer class="frc-guide__sitefoot">
@@ -504,7 +504,7 @@
         document.title = g.title + ' - Forma Rosa Creative';
       })
       .catch(function (e) {
-        fail('COULD NOT LOAD THE GUIDE (' + (e && e.message ? e.message : e) + ')');
+        fail('COULD NOT LOAD THE WORKFLOW (' + (e && e.message ? e.message : e) + ')');
       });
   }
 
@@ -570,9 +570,9 @@
             + '&g=' + encodeURIComponent(guideId);
         })
         .catch(function () {
-          if (btn) { btn.disabled = false; btn.textContent = 'SEND ME THE GUIDE'; }
+          if (btn) { btn.disabled = false; btn.textContent = 'SEND ME THE WORKFLOW'; }
           window.location.href = 'mailto:creative@formarosastudio.com'
-            + '?subject=' + encodeURIComponent('Free guide request')
+            + '?subject=' + encodeURIComponent('Free workflow request')
             + '&body=' + encodeURIComponent('Please send me the guide (' + guideId + '): ' + email);
         });
     });

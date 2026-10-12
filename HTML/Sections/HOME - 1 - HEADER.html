@@ -111,23 +111,25 @@
         <div class="frc-header__meta-links"
              id="frc-header-menu"
              data-frc-menu-panel>
+          <a href="https://formarosacreative.com"
+             class="frc-header__about is-here"
+             aria-current="page"
+             aria-label="Articles - the page you are on">
+            ARTICLES
+          </a>
+          <span class="frc-header__sep" aria-hidden="true">/</span>
           <a href="https://formarosacreative.com/guides/"
              class="frc-header__about"
-             aria-label="Free guides">
-            GUIDES
+             aria-label="Free workflows">
+            WORKFLOWS
           </a>
+          <span class="frc-header__sep" aria-hidden="true">/</span>
           <a href="https://formarosacreative.com/case-studies/"
              class="frc-header__about"
              aria-label="Case studies">
             CASE STUDIES
           </a>
-          <a href="https://instagram.com/formarosacreative"
-             class="frc-header__ig"
-             target="_blank"
-             rel="noopener"
-             aria-label="Instagram">
-            IG
-          </a>
+          <span class="frc-header__sep" aria-hidden="true">/</span>
           <a href="https://formarosacreative.com/collab"
              class="frc-header__about"
              aria-label="Collaborate with Forma Rosa Creative">
@@ -504,6 +506,21 @@ html, body {
 .frc-header__about:hover, .frc-header__about:focus-visible {
   color: var(--ink-head);
   outline: none;
+}
+
+/* "/" between menu items; the current page in brand orange */
+.frc-header__sep {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.9vw, 0.85rem);
+  color: var(--ink-mute);
+  pointer-events: none;
+}
+.frc-header__about.is-here {
+  color: #F05300;
+  pointer-events: none;
+}
+@media (max-width: 767px) {
+  .frc-header__sep { display: none; }
 }
 
 /* --- Hamburger button -----------------------------------------

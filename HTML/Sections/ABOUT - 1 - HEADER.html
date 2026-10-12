@@ -69,22 +69,29 @@
         <div class="frc-about-header__meta-links"
              id="frc-about-header-menu"
              data-frc-about-menu-panel>
+          <a href="https://formarosacreative.com"
+             class="frc-about-header__link"
+             aria-label="Articles - the portfolio home page">
+            ARTICLES
+          </a>
+          <span class="frc-about-header__sep" aria-hidden="true">/</span>
           <a href="https://formarosacreative.com/guides/"
              class="frc-about-header__link"
-             aria-label="Free guides">
-            GUIDES
+             aria-label="Free workflows">
+            WORKFLOWS
           </a>
+          <span class="frc-about-header__sep" aria-hidden="true">/</span>
           <a href="https://formarosacreative.com/case-studies/"
              class="frc-about-header__link"
              aria-label="Case studies">
             CASE STUDIES
           </a>
-          <a href="https://instagram.com/formarosacreative"
-             class="frc-about-header__link"
-             target="_blank"
-             rel="noopener"
-             aria-label="Instagram">
-            IG
+          <span class="frc-about-header__sep" aria-hidden="true">/</span>
+          <a href="https://formarosacreative.com/collab"
+             class="frc-about-header__link is-here"
+             aria-current="page"
+             aria-label="Collab - the page you are on">
+            COLLAB
           </a>
         </div>
       </div>
@@ -383,6 +390,20 @@
     transition-duration: 0.001ms !important;
     animation-duration: 0.001ms !important;
   }
+}
+/* "/" between menu items; the current page in brand orange */
+.frc-about-header__sep {
+  font-family: var(--font-mono, "JetBrains Mono", ui-monospace, monospace);
+  font-size: clamp(0.75rem, 0.9vw, 0.85rem);
+  color: #666666;
+  pointer-events: none;
+}
+.frc-about-header__link.is-here {
+  color: #F05300 !important;
+  pointer-events: none;
+}
+@media (max-width: 767px) {
+  .frc-about-header__sep { display: none; }
 }
 </style>
 
