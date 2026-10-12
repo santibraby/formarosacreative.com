@@ -195,6 +195,43 @@
     outline: 1px dotted var(--peach-50);
     outline-offset: 6px;
   }
+  /* hover style from the collab discipline cards: hairline
+     outline that brightens + corner accents, on the poster */
+  .frc-cs__card-frame {
+    position: relative;
+    display: block;
+    border: 1px solid rgba(212, 196, 181, 0.08);
+    transition: border-color 0.4s ease;
+  }
+  .frc-cs__card:hover .frc-cs__card-frame,
+  .frc-cs__card:focus-visible .frc-cs__card-frame {
+    border-color: rgba(212, 196, 181, 0.2);
+  }
+  .frc-cs__card-frame::before,
+  .frc-cs__card-frame::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(212, 196, 181, 0.2);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .frc-cs__card-frame::before {
+    top: -1px;
+    left: -1px;
+    border-right: none;
+    border-bottom: none;
+  }
+  .frc-cs__card-frame::after {
+    bottom: -1px;
+    right: -1px;
+    border-left: none;
+    border-top: none;
+  }
+  .frc-cs__card:hover .frc-cs__card-frame::before,
+  .frc-cs__card:hover .frc-cs__card-frame::after { opacity: 1; }
   .frc-cs__card-img {
     display: block;
     width: 100%;
@@ -819,7 +856,9 @@
         /* type is the title; industry and client stack on small
            lines below it (client is optional - hides if empty) */
         var alt = c.type + (c.type && c.ind ? ' - ' : '') + c.ind;
-        card.innerHTML = '<img class="frc-cs__card-img" src="' + esc(c.img) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">'
+        card.innerHTML = '<span class="frc-cs__card-frame">'
+          + '<img class="frc-cs__card-img" src="' + esc(c.img) + '" alt="' + esc(alt) + '" loading="lazy" decoding="async">'
+          + '</span>'
           + '<span class="frc-cs__card-title">' + esc(c.type) + '</span>'
           + (c.ind ? '<span class="frc-cs__card-ind">' + esc(c.ind) + '</span>' : '')
           + (c.client ? '<span class="frc-cs__card-client">' + esc(c.client) + '</span>' : '')

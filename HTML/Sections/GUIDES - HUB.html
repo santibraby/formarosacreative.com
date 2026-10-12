@@ -158,23 +158,51 @@
     max-width: 960px;
     margin: clamp(44px, 7vh, 72px) auto 0;
   }
+  /* hover style from the collab discipline cards: hairline
+     border that brightens, deeper background, corner accents */
   .frc-ghub__card {
+    position: relative;
     display: block;
     padding: 14px 14px 18px;
-    background: var(--panel);
-    border: 1px solid var(--card-line);
-    border-radius: 6px;
+    background: #111111;
+    border: 1px solid rgba(212, 196, 181, 0.08);
+    border-radius: 0;
     text-decoration: none;
     color: inherit;
     text-align: center;
-    transition: border-color 200ms ease, transform 200ms ease;
+    transition: border-color 0.4s ease, background 0.4s ease;
   }
   .frc-ghub__card:hover,
   .frc-ghub__card:focus-visible {
-    border-color: var(--peach-50);
-    transform: translateY(-3px);
+    border-color: rgba(212, 196, 181, 0.2);
+    background: #161616;
     outline: none;
   }
+  .frc-ghub__card::before,
+  .frc-ghub__card::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 1px solid rgba(212, 196, 181, 0.2);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .frc-ghub__card::before {
+    top: -1px;
+    left: -1px;
+    border-right: none;
+    border-bottom: none;
+  }
+  .frc-ghub__card::after {
+    bottom: -1px;
+    right: -1px;
+    border-left: none;
+    border-top: none;
+  }
+  .frc-ghub__card:hover::before,
+  .frc-ghub__card:hover::after { opacity: 1; }
   .frc-ghub__card-frame {
     display: block;
     width: 100%;
