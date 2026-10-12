@@ -40,6 +40,15 @@
   <p class="frc-covers__empty" data-frc-empty hidden>NO ENTRIES YET</p>
 
   <div class="frc-covers__grid"></div>
+
+  <!-- site footer -->
+  <footer class="frc-covers__sitefoot">
+    <span>forma rosa creative</span>
+    <span>|</span>
+    <a href="mailto:creative@formarosastudio.com">creative@formarosastudio.com</a>
+    <span>|</span>
+    <span>new york</span>
+  </footer>
 </section>
 
 <style>
@@ -252,6 +261,29 @@
       margin-bottom: clamp(10px, 1.2vh, 18px);
     }
   }
+  /* --- site footer: one evenly spaced line -------------------- */
+  .frc-covers__sitefoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 960px;
+    margin: clamp(56px, 9vh, 100px) auto 0;
+    padding: 18px clamp(20px, 4vw, 40px) 40px;
+    border-top: 1px solid rgba(240, 240, 240, 0.12);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ink-dim);
+  }
+  .frc-covers__sitefoot a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .frc-covers__sitefoot a:hover,
+  .frc-covers__sitefoot a:focus-visible { color: #F0A178; outline: none; }
 </style>
 
 <script>

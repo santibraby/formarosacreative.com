@@ -84,6 +84,15 @@
     </div>
   </div>
 
+  <!-- site footer -->
+  <footer class="frc-thanks__sitefoot">
+    <span>forma rosa creative</span>
+    <span>|</span>
+    <a href="mailto:creative@formarosastudio.com">creative@formarosastudio.com</a>
+    <span>|</span>
+    <span>new york</span>
+  </footer>
+
 </section>
 
 <style>
@@ -366,6 +375,29 @@
     .frc-thanks__grid { grid-template-columns: 1fr; gap: 48px; }
     .frc-thanks__title { font-size: clamp(30px, 8.5vw, 38px); }
   }
+  /* --- site footer: one evenly spaced line -------------------- */
+  .frc-thanks__sitefoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 960px;
+    margin: clamp(56px, 9vh, 100px) auto 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(240, 240, 240, 0.12);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ink-dim);
+  }
+  .frc-thanks__sitefoot a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .frc-thanks__sitefoot a:hover,
+  .frc-thanks__sitefoot a:focus-visible { color: #F0A178; outline: none; }
 </style>
 
 <script>

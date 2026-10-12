@@ -30,6 +30,22 @@
   <p class="frc-ghub__note" data-frc-ghub-loading>LOADING GUIDES ...</p>
   <div class="frc-ghub__cards" data-frc-ghub-cards></div>
 
+  <!-- footer bio -->
+  <!-- [EDIT] SLOT: bio line -->
+  <div class="frc-ghub__bio">
+    <img class="frc-ghub__bio-photo" src="https://formarosacreative.com/wp-content/uploads/2026/08/PROFILE-ORANGE-BACKGROUND-01.png" alt="Santiago Braby Brown" loading="lazy" decoding="async">
+    <p class="frc-ghub__bio-text">I'm Santi. I run Forma Rosa Creative, and I've spent the last 15 years working in, while developing, workflows and design systems for the Architecture, Interior Design, and Product Design industries. These guides are what I wish I'd had at the start.</p>
+  </div>
+
+  <!-- site footer -->
+  <footer class="frc-ghub__sitefoot">
+    <span>forma rosa creative</span>
+    <span>|</span>
+    <a href="mailto:creative@formarosastudio.com">creative@formarosastudio.com</a>
+    <span>|</span>
+    <span>new york</span>
+  </footer>
+
 </section>
 
 <style>
@@ -209,6 +225,34 @@
   }
   .frc-ghub__card:hover .frc-ghub__card-cta { color: var(--peach-75); }
 
+  /* --- footer bio -------------------------------------------- */
+  .frc-ghub__bio {
+    max-width: 560px;
+    margin: clamp(56px, 9vh, 100px) auto 0;
+  }
+  /* !important on the sizing + radius: Elementor/theme globals
+     (img { height: auto } etc) otherwise un-square the photo and
+     break the circle crop */
+  .frc-ghub__bio-photo {
+    width: 88px !important;
+    height: 88px !important;
+    max-width: 88px !important;
+    min-width: 0 !important;
+    border-radius: 50% !important;
+    object-fit: cover !important;
+    object-position: 50% 20%;   /* keep the face in frame */
+    display: inline-block;
+    background: #1a1a1a;
+  }
+  .frc-ghub__bio-text {
+    margin: 22px auto 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: clamp(15px, 1.6vw, 18px);
+    line-height: 1.7;
+    color: var(--grey-0);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .frc-ghub * { transition: none !important; }
     .frc-ghub__card:hover { transform: none; }
@@ -217,6 +261,29 @@
     .frc-ghub__title { font-size: clamp(30px, 8.5vw, 38px); }
     .frc-ghub__cards { grid-template-columns: 1fr; max-width: 340px; }
   }
+  /* --- site footer: one evenly spaced line -------------------- */
+  .frc-ghub__sitefoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 960px;
+    margin: clamp(56px, 9vh, 100px) auto 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(240, 240, 240, 0.12);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ink-dim);
+  }
+  .frc-ghub__sitefoot a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .frc-ghub__sitefoot a:hover,
+  .frc-ghub__sitefoot a:focus-visible { color: #F0A178; outline: none; }
 </style>
 
 <script>

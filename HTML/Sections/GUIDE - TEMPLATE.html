@@ -81,6 +81,15 @@
 
   <a class="frc-guide__all" href="https://formarosacreative.com/guides/">SEE ALL FREE GUIDES</a>
 
+  <!-- site footer -->
+  <footer class="frc-guide__sitefoot">
+    <span>forma rosa creative</span>
+    <span>|</span>
+    <a href="mailto:creative@formarosastudio.com">creative@formarosastudio.com</a>
+    <span>|</span>
+    <span>new york</span>
+  </footer>
+
 </section>
 
 <style>
@@ -387,6 +396,29 @@
     }
     .frc-guide__form button { border-radius: 2px; padding: 15px 20px; }
   }
+  /* --- site footer: one evenly spaced line -------------------- */
+  .frc-guide__sitefoot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    max-width: 960px;
+    margin: clamp(56px, 9vh, 100px) auto 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(240, 240, 240, 0.12);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--ink-dim);
+  }
+  .frc-guide__sitefoot a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .frc-guide__sitefoot a:hover,
+  .frc-guide__sitefoot a:focus-visible { color: #F0A178; outline: none; }
 </style>
 
 <script>
