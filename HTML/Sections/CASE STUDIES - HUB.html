@@ -43,6 +43,8 @@
     <button class="frc-cs__lb-arrow is-prev" data-frc-cs-prev type="button" aria-label="Previous page">&lt;</button>
     <button class="frc-cs__lb-arrow is-next" data-frc-cs-next type="button" aria-label="Next page">&gt;</button>
     <span class="frc-cs__lb-count" data-frc-cs-count></span>
+    <p class="frc-cs__lb-hint">scroll to zoom &middot; drag to pan &middot; arrows flip pages</p>
+    <span class="frc-cs__lb-zoom" data-frc-cs-zoom></span>
   </div>
 
 </section>
@@ -234,6 +236,7 @@
     align-items: center;
     justify-content: center;
     padding: 0;
+    overflow: hidden;
   }
   .frc-cs__lb[hidden] { display: none; }
   .frc-cs__lb-close {
@@ -260,13 +263,16 @@
     min-height: 120px;
   }
   .frc-cs__lb-canvas {
-    max-width: calc(100vw - 150px);
-    max-height: calc(100vh - 48px);
-    border-radius: 6px;
-    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+    /* the FRC PDF Reader sheet: 10px corners, hairline outline,
+       the double canvas shadow */
+    border-radius: 10px;
+    border: 1px solid var(--card-line);
+    box-shadow: 0 10px 44px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.4);
     /* dark while empty - the rendered pdf page paints its own
        white, so there is no white flash between pages */
     background: #111111;
+    touch-action: none;
+    cursor: zoom-in;
   }
   /* the white FRC shape logo, rotating, centered over the stage */
   .frc-cs__lb-spin {
@@ -311,23 +317,46 @@
   .frc-cs__lb-arrow.is-prev { left: 18px; }
   .frc-cs__lb-arrow.is-next { right: 18px; }
   .frc-cs__lb-arrow:hover { border-color: var(--peach-50); color: var(--peach-50); }
-  /* small counter pinned to the bottom edge - takes no layout space */
+  /* bottom strip, FRC PDF Reader style: page count left, serif
+     hint center, zoom readout right - takes no layout space */
   .frc-cs__lb-count {
     position: absolute;
     bottom: 14px;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 18px;
     z-index: 2;
     font-family: var(--font-mono);
     font-size: 10px;
     letter-spacing: 0.22em;
     color: var(--ink-dim);
   }
+  .frc-cs__lb-zoom {
+    position: absolute;
+    bottom: 14px;
+    right: 18px;
+    z-index: 2;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--ink-dim);
+  }
+  .frc-cs__lb-hint {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    margin: 0;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 12px;
+    color: var(--ink-dim);
+    pointer-events: none;
+  }
   @media (max-width: 719px) {
-    .frc-cs__lb-stage,
-    .frc-cs__lb-canvas { max-width: calc(100vw - 20px); }
+    .frc-cs__lb-stage { max-width: calc(100vw - 20px); }
     .frc-cs__lb-arrow.is-prev { left: 8px; }
     .frc-cs__lb-arrow.is-next { right: 8px; }
+    .frc-cs__lb-hint { display: none; }
   }
 
   /* --- theme armor: the WP theme paints button hovers with its
@@ -391,6 +420,8 @@
   var lbMsg = widget.querySelector('[data-frc-cs-msg]');
   var lbCount = widget.querySelector('[data-frc-cs-count]');
   var lbSpin = widget.querySelector('[data-frc-cs-spin]');
+  var lbZoom = widget.querySelector('[data-frc-cs-zoom]');
+  var lbStage = widget.querySelector('[data-frc-cs-stage]');
 
   /* count the click - one ping per browser session per page */
   try {
@@ -449,6 +480,16 @@
   var doc = null;
   var pageNum = 1;
   var rendering = false;
+  /* zoom and pan, FRC PDF Reader style: wheel zooms at the
+     cursor (1.2 steps), any drag pans, double click toggles.
+     zoomF 1 = fit; the bitmap re-renders hi-res after a zoom
+     settles so it stays sharp. */
+  var fitScale = 1;
+  var zoomF = 1;
+  var panX = 0;
+  var panY = 0;
+  var renderedZoom = 1;
+  var panning = false;
 
   function setSpin(on) {
     if (!lbSpin) return;
@@ -472,13 +513,54 @@
     setSpin(true);
   }
 
-  function renderPage() {
+  function applyView() {
+    lbCanvas.style.transform = 'translate(' + panX + 'px, ' + panY + 'px) scale(' + zoomF + ')';
+    lbCanvas.style.cursor = zoomF > 1 ? (panning ? 'grabbing' : 'grab') : 'zoom-in';
+    if (lbZoom && doc) lbZoom.textContent = Math.round(fitScale * zoomF * 100) + '%';
+  }
+
+  function resetView() {
+    zoomF = 1;
+    panX = 0;
+    panY = 0;
+    applyView();
+  }
+
+  var rerenderTimer = null;
+  function scheduleRerender() {
+    if (rerenderTimer) clearTimeout(rerenderTimer);
+    rerenderTimer = setTimeout(function () {
+      rerenderTimer = null;
+      if (doc && Math.abs(renderedZoom - zoomF) > 0.01) renderPage(true);
+    }, 260);
+  }
+
+  /* zoom by factor f keeping the point under (cx, cy) fixed -
+     same behavior as the FRC PDF Reader */
+  function zoomAt(f, cx, cy) {
+    if (!doc) return;
+    var nz = Math.min(Math.max(zoomF * f, 1), 8);
+    var r = lbStage.getBoundingClientRect();
+    var vx = cx - (r.left + r.right) / 2;
+    var vy = cy - (r.top + r.bottom) / 2;
+    var k = nz / zoomF;
+    panX = vx - k * (vx - panX);
+    panY = vy - k * (vy - panY);
+    zoomF = nz;
+    if (zoomF === 1) { panX = 0; panY = 0; }
+    applyView();
+    scheduleRerender();
+  }
+
+  function renderPage(quiet) {
     if (!doc || rendering) return;
     rendering = true;
-    /* instant feedback on every flip: blank the canvas to dark
-       and spin the logo until the new page is ready */
-    lbCanvas.width = lbCanvas.width;
-    setSpin(true);
+    if (!quiet) {
+      /* instant feedback on every flip: blank the canvas to dark
+         and show the logo until the new page is ready */
+      lbCanvas.width = lbCanvas.width;
+      setSpin(true);
+    }
     var dpr = window.devicePixelRatio || 1;
     doc.getPage(pageNum).then(function (page) {
       /* as big as fits: equal 24px top/bottom, room for the side
@@ -486,23 +568,33 @@
       var maxW = window.innerWidth - (window.innerWidth < 720 ? 20 : 150);
       var maxH = window.innerHeight - 48;
       var v1 = page.getViewport({ scale: 1 });
-      var scale = Math.min(maxW / v1.width, maxH / v1.height);
-      var vp = page.getViewport({ scale: scale * dpr });
+      fitScale = Math.min(maxW / v1.width, maxH / v1.height);
+      /* the bitmap follows the zoom so it stays sharp when you
+         zoom in, capped so deep zooms cannot allocate an
+         absurd canvas */
+      var rz = zoomF;
+      var sMax = Math.sqrt(24000000 / (v1.width * v1.height));
+      if (fitScale * rz * dpr > sMax) rz = sMax / (fitScale * dpr);
+      if (rz < 1) rz = 1;
+      var vp = page.getViewport({ scale: fitScale * rz * dpr });
       /* double buffer: render offscreen first, then swap - the
-         old page stays visible, so flips never flash */
+         old page stays visible, so re-renders never flash */
       var off = document.createElement('canvas');
       off.width = vp.width;
       off.height = vp.height;
       return page.render({ canvasContext: off.getContext('2d'), viewport: vp }).promise
-        .then(function () { return { off: off, vp: vp }; });
+        .then(function () { return { off: off, vp: vp, v1: v1, rz: rz }; });
     }).then(function (r) {
       lbCanvas.width = r.vp.width;
       lbCanvas.height = r.vp.height;
-      lbCanvas.style.width = Math.floor(r.vp.width / dpr) + 'px';
-      lbCanvas.style.height = Math.floor(r.vp.height / dpr) + 'px';
+      /* the CSS size stays at fit - zoom happens via transform */
+      lbCanvas.style.width = Math.floor(r.v1.width * fitScale) + 'px';
+      lbCanvas.style.height = Math.floor(r.v1.height * fitScale) + 'px';
       lbCanvas.getContext('2d').drawImage(r.off, 0, 0);
+      renderedZoom = r.rz;
       rendering = false;
       lbCount.textContent = 'PAGE ' + pageNum + ' OF ' + doc.numPages;
+      applyView();
       showCanvas();
     }).catch(function (e) {
       rendering = false;
@@ -510,12 +602,72 @@
     });
   }
 
+  /* ---- zoom + pan input: wheel, drag, pinch, double click ---- */
+  var pointers = {};
+  var pinchD = 0;
+  lbCanvas.addEventListener('pointerdown', function (ev) {
+    ev.preventDefault();
+    pointers[ev.pointerId] = { x: ev.clientX, y: ev.clientY };
+    var ids = Object.keys(pointers);
+    if (ids.length === 2) {
+      var a = pointers[ids[0]], b = pointers[ids[1]];
+      pinchD = Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+      panning = false;
+    } else if (zoomF > 1) {
+      panning = true;
+      applyView();
+    }
+    try { lbCanvas.setPointerCapture(ev.pointerId); } catch (e) {}
+  });
+  lbCanvas.addEventListener('pointermove', function (ev) {
+    var p = pointers[ev.pointerId];
+    if (!p) return;
+    var ids = Object.keys(pointers);
+    if (ids.length === 2) {
+      var oid = String(ids[0]) === String(ev.pointerId) ? ids[1] : ids[0];
+      var o = pointers[oid];
+      var d = Math.sqrt((ev.clientX - o.x) * (ev.clientX - o.x) + (ev.clientY - o.y) * (ev.clientY - o.y));
+      if (pinchD > 0 && d > 0) {
+        zoomAt(d / pinchD, (ev.clientX + o.x) / 2, (ev.clientY + o.y) / 2);
+      }
+      pinchD = d;
+    } else if (panning) {
+      panX += ev.clientX - p.x;
+      panY += ev.clientY - p.y;
+      applyView();
+    }
+    p.x = ev.clientX;
+    p.y = ev.clientY;
+  });
+  function endPointer(ev) {
+    delete pointers[ev.pointerId];
+    if (Object.keys(pointers).length < 2) pinchD = 0;
+    if (!Object.keys(pointers).length && panning) {
+      panning = false;
+      applyView();
+    }
+  }
+  lbCanvas.addEventListener('pointerup', endPointer);
+  lbCanvas.addEventListener('pointercancel', endPointer);
+  lbCanvas.addEventListener('contextmenu', function (ev) { ev.preventDefault(); });
+  lbCanvas.addEventListener('dblclick', function (ev) {
+    ev.preventDefault();
+    if (zoomF > 1) { resetView(); scheduleRerender(); }
+    else zoomAt(2.5, ev.clientX, ev.clientY);
+  });
+  lb.addEventListener('wheel', function (ev) {
+    if (lb.hasAttribute('hidden') || !doc) return;
+    ev.preventDefault();
+    zoomAt(ev.deltaY < 0 ? 1.2 : 1 / 1.2, ev.clientX, ev.clientY);
+  }, { passive: false });
+
   function openDeck(bytes) {
     loadPdfJs().then(function (lib) {
       return lib.getDocument({ data: bytes }).promise;
     }).then(function (d) {
       doc = d;
       pageNum = 1;
+      resetView();
       renderPage();
     }).catch(function (e) {
       showMsg('COULD NOT OPEN THE DECK (' + (e && e.message ? e.message : e) + ')');
@@ -547,10 +699,10 @@
 
   widget.querySelector('[data-frc-cs-close]').addEventListener('click', closeLb);
   widget.querySelector('[data-frc-cs-prev]').addEventListener('click', function () {
-    if (doc && pageNum > 1) { pageNum -= 1; renderPage(); }
+    if (doc && pageNum > 1) { pageNum -= 1; resetView(); renderPage(); }
   });
   widget.querySelector('[data-frc-cs-next]').addEventListener('click', function () {
-    if (doc && pageNum < doc.numPages) { pageNum += 1; renderPage(); }
+    if (doc && pageNum < doc.numPages) { pageNum += 1; resetView(); renderPage(); }
   });
   lb.addEventListener('click', function (ev) {
     if (ev.target === lb) closeLb();
@@ -558,11 +710,14 @@
   document.addEventListener('keydown', function (ev) {
     if (lb.hasAttribute('hidden')) return;
     if (ev.key === 'Escape') closeLb();
-    if (ev.key === 'ArrowLeft' && doc && pageNum > 1) { pageNum -= 1; renderPage(); }
-    if (ev.key === 'ArrowRight' && doc && pageNum < doc.numPages) { pageNum += 1; renderPage(); }
+    if (ev.key === 'ArrowLeft' && doc && pageNum > 1) { pageNum -= 1; resetView(); renderPage(); }
+    if (ev.key === 'ArrowRight' && doc && pageNum < doc.numPages) { pageNum += 1; resetView(); renderPage(); }
+    if ((ev.key === '+' || ev.key === '=') && doc) zoomAt(1.2, window.innerWidth / 2, window.innerHeight / 2);
+    if ((ev.key === '-' || ev.key === '_') && doc) zoomAt(1 / 1.2, window.innerWidth / 2, window.innerHeight / 2);
+    if (ev.key === '0' && doc) { resetView(); scheduleRerender(); }
   });
   window.addEventListener('resize', function () {
-    if (!lb.hasAttribute('hidden') && doc) renderPage();
+    if (!lb.hasAttribute('hidden') && doc) { resetView(); renderPage(); }
   });
 
   /* ---- build the grid ---- */
