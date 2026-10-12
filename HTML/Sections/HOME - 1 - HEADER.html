@@ -265,6 +265,15 @@
    .frc-header - scoped styles
    ============================================================ */
 
+/* The page behind everything must be the FRC dark - the header's
+   top band is transparent by design (hero fills through), so a
+   white theme body shows as a white bar at the top. Pin it. */
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: #111111 !important;
+}
+
 .frc-header {
   /* ---- tokens (from FRC brand guide) ---- */
   --bg:          #111111;
