@@ -1,0 +1,43 @@
+{
+  "_readme": "SEO copy for formarosacreative.com. Read by the WordPress snippet (cached 10 min). Keys under pages are URL paths with a trailing slash. Workflow pages and articles are NOT listed here - they use the title, pitch and cover from their index files automatically. Keep titles under ~60 characters and descriptions under ~155. ASCII only.",
+  "site": {
+    "name": "Forma Rosa Creative",
+    "title_suffix": " | Forma Rosa Creative",
+    "workflow_suffix": " | Free Workflow | Forma Rosa Creative",
+    "default_description": "Forma Rosa Creative is the experiential design practice of Santiago Braby Brown in New York - concepts, presentations and fabrication-ready drawing packages.",
+    "default_image": "",
+    "google_verification": "",
+    "person": {
+      "name": "Santiago Braby Brown",
+      "job_title": "Experiential Designer",
+      "image": "https://formarosacreative.com/wp-content/uploads/2026/07/SANTI-BLONDE-3.png",
+      "same_as": [
+        "https://www.linkedin.com/in/santiagobrabybrown/",
+        "https://www.instagram.com/formarosacreative/",
+        "https://formarosastudio.com/"
+      ]
+    }
+  },
+  "pages": {
+    "/": {
+      "title": "Forma Rosa Creative | Experiential Design, New York",
+      "description": "Santiago Braby Brown designs experiential spaces and turns concepts into fabrication-ready drawing packages for agencies, brands and galleries."
+    },
+    "/guides/": {
+      "title": "Free Workflows for Designers | Forma Rosa Creative",
+      "description": "Free right-click tools for designers - texture maps, PDF to DXF, seamless tiles, frames to video and more. Install once and skip the busywork."
+    },
+    "/case-studies/": {
+      "title": "Case Studies | Forma Rosa Creative",
+      "description": "Experiential design case studies - creative direction, design development and visualization, from the first concept to fabrication."
+    },
+    "/collab/": {
+      "title": "Collaborate | Forma Rosa Creative",
+      "description": "Work with Forma Rosa Creative on experiential design, design development and fabrication drawing packages for agencies, brands and galleries."
+    },
+    "/thank-you/": {
+      "title": "Thank You | Forma Rosa Creative",
+      "noindex": true
+    }
+  }
+}
