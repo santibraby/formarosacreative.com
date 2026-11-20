@@ -1,0 +1,35 @@
+{
+  "current": "pdf-to-dxf",
+  "footers": {
+    "texture-maps": {
+      "title": "Right-Click an Image to Generate Texture Maps",
+      "link": "https://formarosacreative.com/guides/generate-texture-maps/?src=li-post_texture-maps",
+      "text": "Here's a free tool for those 3d artists out there:\n\nWith a simple right click and selecting \"generate texture maps\" it will turn any image into a folder with :\n\n- Normal\n- Bump\n- Height / Roughness\n- Metallic\n- Ambient Occlusion\n- Albedo\n\nWorks for both windows and mac\n\nDownload the tool for free here: https://formarosacreative.com/guides/generate-texture-maps/?src=li-post_texture-maps"
+    },
+    "pdf-to-dxf": {
+      "title": "Right-Click a PDF Convert to DXF",
+      "link": "https://formarosacreative.com/guides/pdf-to-dxf/?src=li-post_pdf-to-dxf",
+      "text": "---\n\nFree workflow for teams handing designs off to fabrication:\n\nRight-click any vector PDF (Rhino Layout or other) and convert it to a DXF - text, layers and line weights intact, at true 1:1 scale.\n\nYour fabricator gets files they can actually work with, not just a deck.\n\nWorks on Windows and Mac.\n\nDownload it free: https://formarosacreative.com/guides/pdf-to-dxf/?src=li-post_pdf-to-dxf"
+    },
+    "seamless-tile": {
+      "title": "Right-Click a Photo to Create a Seamless Tile",
+      "link": "https://formarosacreative.com/guides/seamless-tile/?src=li-post_seamless-tile",
+      "text": "---\n\nFree workflow for designers who render with real materials:\n\nRight-click a photo of a wall, floor or fabric and get a tile that repeats without a visible seam - lighting evened out, edges joined, saved right next to the photo.\n\nNo Photoshop, no clone stamp.\n\nWorks on Windows and Mac.\n\nDownload it free: https://formarosacreative.com/guides/seamless-tile/?src=li-post_seamless-tile"
+    },
+    "frames-to-video": {
+      "title": "Right-Click Your Frames to Create a Video",
+      "link": "https://formarosacreative.com/guides/frames-to-video/?src=li-post_frames-to-video",
+      "text": "---\n\nFree workflow for turning rendered frames into something you can share:\n\nRight-click a folder of frames and get an MP4, a GIF or a transparent WebM - saved right next to the folder.\n\nNo After Effects, no command line.\n\nWorks on Windows and Mac.\n\nDownload it free: https://formarosacreative.com/guides/frames-to-video/?src=li-post_frames-to-video"
+    },
+    "pdf-tools": {
+      "title": "Right-Click a PDF to Compress, Split or Convert",
+      "link": "https://formarosacreative.com/guides/pdf-tools/?src=li-post_pdf-tools",
+      "text": "---\n\nFree workflow for anyone sending drawing sets around:\n\nThree right-click PDF tools in one download - compress a PDF under a size limit, split it into single pages with the layers intact, or render every page to JPG.\n\nNo Acrobat needed.\n\nWorks on Windows and Mac.\n\nDownload it free: https://formarosacreative.com/guides/pdf-tools/?src=li-post_pdf-tools"
+    },
+    "image-tools": {
+      "title": "Right-Click Any Image to Convert, Resize or Combine",
+      "link": "https://formarosacreative.com/guides/image-tools/?src=li-post_image-tools",
+      "text": "---\n\nFree workflow for everyday image work:\n\nThree right-click image tools in one download - HEIC to JPG at full quality, lighter copies for the web, and any set of images combined into one PDF.\n\nEverything is saved next to the originals.\n\nWorks on Windows and Mac.\n\nDownload it free: https://formarosacreative.com/guides/image-tools/?src=li-post_image-tools"
+    }
+  }
+}
